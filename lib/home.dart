@@ -17,14 +17,55 @@ class HomePage extends StatelessWidget {
           },
         ),
         title: const Text("Habit"),
-      ),
-      body: GridView.count(
-        crossAxisCount: 1,
-        childAspectRatio: 5/1.8,
-        mainAxisSpacing: 10,
-        children: const [
-          HabitCard(name: "Liegestütz", description: "1x pro Tag", streak: 8),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              Icons.settings,
+              semanticLabel: "settings",
+            ),
+            onPressed: () {
+              print("Settings");
+            },
+          )
         ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            // [BASIC ACTIONS BAR]
+            Container(
+              color: Colors.grey[200],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      icon: const Icon(
+                        Icons.add,
+                        semanticLabel: "add habit",
+                      ),
+                      onPressed: () {
+                        print("Add Habit Button");
+                      },
+                    )
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            // [HABITS OVERVIEW]
+            GridView.count(
+              crossAxisCount: 1,
+              childAspectRatio: 5/1.8,
+              mainAxisSpacing: 10,
+              shrinkWrap: true,
+              children: const [
+                HabitCard(name: "Liegestütz", description: "1x pro Tag", streak: 8),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -72,14 +113,39 @@ class HabitCard extends StatelessWidget {
               ),
               Container(
                 padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                color: Colors.black87,
                 child: Text(
                   streak.toString(),
                   semanticsLabel: "streak",
-                  style: TextStyle(color: Colors.white, fontSize: 30.0)
+                  style: TextStyle(fontSize: 30.0)
                 )
               )
             ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                  icon: const Icon(
+                    Icons.more_horiz,
+                    semanticLabel: "more",
+                  ),
+                  onPressed: () {
+                    print("More Button");
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.check,
+                    semanticLabel: "check",
+                  ),
+                  onPressed:() {
+                    print("Check Button");
+                  },
+                ),
+              ],
+            ),
           )
         ],
       )
