@@ -99,24 +99,24 @@ class HabitCard extends StatelessWidget {
                       Text(
                         name,
                         semanticsLabel: "name",
-                        style: TextStyle(fontSize: 16.0)
+                        style: const TextStyle(fontSize: 16.0)
                       ),
                       const SizedBox(height: 8.0),
                       Text(
                         description,
                         semanticsLabel: "description",
-                        style: TextStyle(fontStyle: FontStyle.italic)
+                        style: const TextStyle(fontStyle: FontStyle.italic)
                       ),
                     ],
                   ),
                 )
               ),
               Container(
-                padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                 child: Text(
                   streak.toString(),
                   semanticsLabel: "streak",
-                  style: TextStyle(fontSize: 30.0)
+                  style: const TextStyle(fontSize: 30.0)
                 )
               )
             ],
