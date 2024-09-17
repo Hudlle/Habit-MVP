@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -13,7 +15,7 @@ class HomePage extends StatelessWidget {
             semanticLabel: "menu",
           ),
           onPressed: () {
-            print("Menu Button");
+            log("Menu Button");
           },
         ),
         title: const Text("Habit"),
@@ -24,7 +26,7 @@ class HomePage extends StatelessWidget {
               semanticLabel: "settings",
             ),
             onPressed: () {
-              print("Settings");
+              log("Settings");
             },
           )
         ],
@@ -46,7 +48,7 @@ class HomePage extends StatelessWidget {
                         semanticLabel: "add habit",
                       ),
                       onPressed: () {
-                        print("Add Habit Button");
+                        log("Add Habit Button");
                       },
                     )
                   ],
@@ -99,7 +101,7 @@ class HabitCard extends StatelessWidget {
                       Text(
                         name,
                         semanticsLabel: "name",
-                        style: const TextStyle(fontSize: 16.0)
+                        style: Theme.of(context).textTheme.titleMedium,
                       ),
                       const SizedBox(height: 8.0),
                       Text(
@@ -132,7 +134,7 @@ class HabitCard extends StatelessWidget {
                     semanticLabel: "more",
                   ),
                   onPressed: () {
-                    print("More Button");
+                    log("More Button");
                   },
                 ),
                 IconButton(
@@ -141,7 +143,7 @@ class HabitCard extends StatelessWidget {
                     semanticLabel: "check",
                   ),
                   onPressed:() {
-                    print("Check Button");
+                    log("Check Button");
                   },
                 ),
               ],
