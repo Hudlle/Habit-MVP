@@ -2,8 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class Home extends StatelessWidget { // Reference for renaming Home Widget to just Home
+  const Home({super.key});
 
   @override
   Widget build(BuildContext context) {
