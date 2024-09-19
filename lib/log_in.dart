@@ -3,20 +3,20 @@ import 'dart:developer';
 
 import 'default_data.dart';
 
-class SignUp extends StatelessWidget {
-  const SignUp({super.key});
+class LogIn extends StatelessWidget {
+  const LogIn({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var signUpDisplay = Text(
-      signUpDisplayT,
-      semanticsLabel: signUpDisplayT,
+    var logInDisplay = Text(
+      logInDisplayT,
+      semanticsLabel: logInDisplayT,
       style: Theme.of(context).textTheme.displayMedium,
     );
 
-    var signUpTitle = Text(
-      signUpTitleT,
-      semanticsLabel: signUpTitleT,
+    var logInTitle = Text(
+      logInTitleT,
+      semanticsLabel: logInTitleT,
       style: Theme.of(context).textTheme.titleMedium,
     );
 
@@ -34,29 +34,27 @@ class SignUp extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              signUpDisplay,
+              logInDisplay,
               const SizedBox(height: 10),
-              signUpTitle,
+              logInTitle,
               const SizedBox(height: 30),
-              const SignUpTextField(isPassword: false, label: usernameT),
-              const SignUpTextField(isPassword: false, label: emailT),
-              const SignUpTextField(isPassword: true, label: passwordT),
-              const SignUpTextField(isPassword: true, label: repeatPasswordT),
-              const SignUpSubmitEB(label: signUpSubmitT),
+              const LogInTextField(isPassword: false, label: usernameEmailT),
+              const LogInTextField(isPassword: true, label: passwordT),
+              const LogInSubmitEB(label: logInSubmitT),
               const SizedBox(height: 30,),
               Center(child: chooseOptionBodyText),
               const SizedBox(height: 30,),
-              const SignUpGoogleOB(label: signUpGoogleT),
+              const LogInGoogleOB(label: logInGoogleT),
               const Expanded(
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       SignUpToLogInRoutingText(
-                        route: logInRoute,
-                        label1: signUpToLogInT1, 
-                        label2: signUpToLogInT2
-                      ),
+                        route: signUpRoute,
+                        label1: logInToSignUpT1,
+                        label2: logInToSignUpT2,
+                      )
                     ],
                   ),
                 ),
@@ -69,8 +67,8 @@ class SignUp extends StatelessWidget {
   }
 }
 
-class SignUpGoogleOB extends StatelessWidget {
-  const SignUpGoogleOB({
+class LogInGoogleOB extends StatelessWidget {
+  const LogInGoogleOB({
     super.key,
     required this.label,
   });
@@ -95,8 +93,8 @@ class SignUpGoogleOB extends StatelessWidget {
   }
 }
 
-class SignUpSubmitEB extends StatelessWidget {
-  const SignUpSubmitEB({
+class LogInSubmitEB extends StatelessWidget {
+  const LogInSubmitEB({
     super.key,
     required this.label,
   });
@@ -121,8 +119,8 @@ class SignUpSubmitEB extends StatelessWidget {
   }
 }
 
-class SignUpTextField extends StatelessWidget {
-  const SignUpTextField({
+class LogInTextField extends StatelessWidget {
+  const LogInTextField({
     super.key,
     required this.isPassword,
     required this.label,
@@ -140,7 +138,7 @@ class SignUpTextField extends StatelessWidget {
           decoration: InputDecoration(
             border: const OutlineInputBorder(),
             focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: textFieldFocus),
+              borderSide: BorderSide(color: Colors.black)
             ),
             labelText: label,
           ),
