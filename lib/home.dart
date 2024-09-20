@@ -1,155 +1,150 @@
+import 'package:flutter/material.dart';
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
+import 'default_data.dart';
 
-class Home extends StatelessWidget { // Reference for renaming Home Widget to just Home
+class Home extends StatelessWidget {
   const Home({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(
-            Icons.menu,
-            semanticLabel: "menu",
-          ),
-          onPressed: () {
-            log("Menu Button");
-          },
-        ),
-        title: const Text("Habit"),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(
-              Icons.settings,
-              semanticLabel: "settings",
-            ),
+            icon: const Icon(Icons.settings),
             onPressed: () {
               log("Settings");
             },
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // [BASIC ACTIONS BAR]
-            Container(
-              color: Colors.grey[200],
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    IconButton(
-                      icon: const Icon(
-                        Icons.add,
-                        semanticLabel: "add habit",
-                      ),
-                      onPressed: () {
-                        log("Add Habit Button");
-                      },
-                    )
-                  ],
+      body: Container(
+        color: Theme.of(context).colorScheme.surface,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(pagePadding[0], pagePadding[1], pagePadding[2], pagePadding[3]),
+          child: Center(
+            child: Column(
+              children: [
+                FittedBox(
+                  child: Text(
+                    daystreak.toString(),
+                    semanticsLabel: daystreak.toString(),
+                    style: const TextStyle(
+                      fontSize: 200, //TODO Change to different font family
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            const SizedBox(height: 8),
-            // [HABITS OVERVIEW]
-            GridView.count(
-              crossAxisCount: 1,
-              childAspectRatio: 5/1.8,
-              mainAxisSpacing: 10,
-              shrinkWrap: true,
-              children: const [
-                HabitCard(name: "Liegestütz", description: "1x pro Tag", streak: 8),
+                Text(
+                  daystreakT,
+                  semanticsLabel: daystreakT,
+                  style: Theme.of(context).textTheme.headlineSmall
+                ),
+                const SizedBox(height: 30),
+                Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: habitCount + 1,
+                    itemBuilder: (context, index) {
+                      if(index == habitCount) {
+                        return Material(
+                          child: Center(
+                            child: Ink(
+                              decoration: ShapeDecoration(
+                                color: primary,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                              ),
+                              child: IconButton(
+                                icon: const Icon(
+                                  Icons.add,
+                                  color: onPrimary,
+                                ),
+                                onPressed:() {
+                                  log("Neues Habit du Schwein!");
+                                },
+                              ),
+                            ),
+                          ),
+                        );
+                      } else {
+                        return HabitCard(index: index);
+                      }
+                    },
+                  ),
+                ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
 
-class HabitCard extends StatelessWidget {
+class HabitCard extends StatefulWidget {
   const HabitCard({
     super.key,
-    required this.name,
-    required this.description,
-    required this.streak,
+    required this.index,
   });
 
-  final String name;
-  final String description;
-  final int streak;
+  final int index;
 
+  @override
+  State<HabitCard> createState() => _HabitCardState();
+}
+
+class _HabitCardState extends State<HabitCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Column(
-        children: <Widget>[
-          Row(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        name,
-                        semanticsLabel: "name",
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      const SizedBox(height: 8.0),
-                      Text(
-                        description,
-                        semanticsLabel: "description",
-                        style: const TextStyle(fontStyle: FontStyle.italic)
-                      ),
-                    ],
-                  ),
-                )
-              ),
-              Container(
-                padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                child: Text(
-                  streak.toString(),
-                  semanticsLabel: "streak",
-                  style: const TextStyle(fontSize: 30.0)
-                )
-              )
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+      margin: const EdgeInsets.only(bottom: 10),
+      child: Container(
+        padding: const EdgeInsets.all(15),
+        child: Row(
+          children: [
+            Column( 
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                IconButton(
-                  icon: const Icon(
-                    Icons.more_horiz,
-                    semanticLabel: "more",
-                  ),
-                  onPressed: () {
-                    log("More Button");
-                  },
+                Text(
+                  habitNames[widget.index],
+                  semanticsLabel: habitNames[widget.index],
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
-                IconButton(
-                  icon: const Icon(
-                    Icons.check,
-                    semanticLabel: "check",
-                  ),
-                  onPressed:() {
-                    log("Check Button");
-                  },
+                Text(
+                  habitDescriptions[widget.index],
+                  semanticsLabel: habitDescriptions[widget.index],
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
             ),
-          )
-        ],
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    "🔥${habitStreaks[widget.index]}",
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                  const SizedBox(width: 10),
+                  FilledButton(
+                    onPressed:() {
+                      log("Habit done");
+                    },
+                    style: FilledButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      fixedSize: const Size(checkButtonSize, checkButtonSize),
+                    ),
+                    child: const Icon(Icons.check)
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       )
     );
   }

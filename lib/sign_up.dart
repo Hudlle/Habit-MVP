@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'dart:developer';
 
 import 'default_data.dart';
+import 'default_widgets.dart';
 
 class SignUp extends StatelessWidget {
   const SignUp({super.key});
@@ -27,10 +27,11 @@ class SignUp extends StatelessWidget {
     );
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         color: Theme.of(context).colorScheme.surface,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(50, 100, 50, 50),
+          padding: EdgeInsets.fromLTRB(pagePadding[0], pagePadding[1], pagePadding[2], pagePadding[3]),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -38,15 +39,23 @@ class SignUp extends StatelessWidget {
               const SizedBox(height: 10),
               signUpTitle,
               const SizedBox(height: 30),
-              const SignUpTextField(isPassword: false, label: usernameT),
-              const SignUpTextField(isPassword: false, label: emailT),
-              const SignUpTextField(isPassword: true, label: passwordT),
-              const SignUpTextField(isPassword: true, label: repeatPasswordT),
-              const SignUpSubmitEB(label: signUpSubmitT),
+              const AccountDataTextField(isPassword: false, label: usernameT),
+              const AccountDataTextField(isPassword: false, label: emailT),
+              const AccountDataTextField(isPassword: true, label: passwordT),
+              const AccountDataTextField(isPassword: true, label: repeatPasswordT),
+              const DataSubmitEB(
+                origin: signUpRoute,
+                route: homeRoute,
+                label: signUpSubmitT,
+              ),
               const SizedBox(height: 30,),
               Center(child: chooseOptionBodyText),
               const SizedBox(height: 30,),
-              const SignUpGoogleOB(label: signUpGoogleT),
+              const DataSubmitOB(
+                origin: signUpRoute,
+                route: homeRoute,
+                label: signUpGoogleT,
+              ),
               const Expanded(
                 child: Center(
                   child: Column(
@@ -65,88 +74,6 @@ class SignUp extends StatelessWidget {
           )
         ),
       ),
-    );
-  }
-}
-
-class SignUpGoogleOB extends StatelessWidget {
-  const SignUpGoogleOB({
-    super.key,
-    required this.label,
-  });
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: SizedBox(
-            height: submitButtonHeight,
-            child: OutlinedButton(
-              onPressed:() {log(label);},
-              child: Text(label)
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class SignUpSubmitEB extends StatelessWidget {
-  const SignUpSubmitEB({
-    super.key,
-    required this.label,
-  });
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: SizedBox(
-            height: submitButtonHeight,
-            child: ElevatedButton(
-              onPressed: () {log(label);},
-              child: Text(label)
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class SignUpTextField extends StatelessWidget {
-  const SignUpTextField({
-    super.key,
-    required this.isPassword,
-    required this.label,
-  });
-
-  final bool isPassword;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-          obscureText: isPassword,
-          decoration: InputDecoration(
-            border: const OutlineInputBorder(),
-            focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: textFieldFocus),
-            ),
-            labelText: label,
-          ),
-        ),
-        const SizedBox(height: 10)
-      ],
     );
   }
 }

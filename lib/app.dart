@@ -13,16 +13,17 @@ class HabitApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Habit",
-      initialRoute: "/log_in",
+      debugShowCheckedModeBanner: false,
+      initialRoute: homeRoute,
       routes: {
-        "/home" : (BuildContext context) => const Home(), 
-        "/sign_up" : (BuildContext context) => const SignUp(),
-        "/log_in" : (BuildContext context) => const LogIn(),
+        homeRoute : (BuildContext context) => const Home(), 
+        signUpRoute : (BuildContext context) => const SignUp(),
+        logInRoute : (BuildContext context) => const LogIn(),
       },
       theme: ThemeData(
         useMaterial3: true,
 
-        colorScheme: const ColorScheme.light(), // TODO: Change primary text color,
+        colorScheme: const ColorScheme.light(), 
         
         textTheme: TextTheme(
           displayMedium: GoogleFonts.abrilFatface(),
@@ -48,6 +49,13 @@ class HabitApp extends StatelessWidget {
             foregroundColor: primary,
           ),
         ),
+
+        filledButtonTheme: FilledButtonThemeData(
+          style: FilledButton.styleFrom(
+            backgroundColor: primary,
+            foregroundColor: onPrimary,
+          )
+        )
       ),
     );
   }

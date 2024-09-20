@@ -5,7 +5,7 @@ const Color primary = Color(0xff1DD1A1);
 const Color onPrimary = Color(0xffffffff);
 const Color textFieldFocus = Colors.black;
 
-//* Texts
+//* German texts
 // Data
 const String usernameT = "Nutzername";
 const String emailT = "Email";
@@ -30,52 +30,23 @@ const String logInGoogleT = "Mit Google einloggen";
 const String logInToSignUpT1 = "Du hast noch kein Konto?";
 const String logInToSignUpT2 = "Erstelle eins.";
 
+// Home
+const String daystreakT = "Tagesstreak";
+
 //* Data and Routes
-// Data
+// Front End Data
 const double submitButtonHeight = 56;
+const pagePadding = <double>[50, 50, 50, 50];
+const double checkButtonSize = 75;
+
+// Back End / User Data
+const int daystreak = 42;
+const int habitCount = 4;
+const habitNames = <String>["Lesen", "Tschechisch", "Schreiben", "Liegestütz"];
+const habitDescriptions = <String>["6 Seiten pro Tag", "5 Lektionen pro Tag", "350 Wörter pro Tag", "12 pro Tag"];
+const habitStreaks = <int>[36, 37, 42, 42];  
 
 // Routes
-const String homeRoute = "/home";
+const String homeRoute = "/";
 const String signUpRoute = "/sign_up";
 const String logInRoute = "/log_in";
-
-//* Outsourced Widgets
-// Routing text used on log in and sign up screen to navigate between each other
-class SignUpToLogInRoutingText extends StatelessWidget {
-  const SignUpToLogInRoutingText({
-    super.key,
-    required this.route,
-    required this.label1,
-    required this.label2,
-  });
-
-  final String route;
-  final String label1;
-  final String label2;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, route);
-      },
-      child: RichText(
-        textAlign: TextAlign.center,
-        text: TextSpan(
-          style: Theme.of(context).textTheme.bodyMedium,
-          children: [
-            TextSpan(
-              text: "$label1\n",
-            ),
-            TextSpan(
-              text: label2,
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                color: primary,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
