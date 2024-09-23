@@ -23,10 +23,8 @@ class HabitApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
 
-        colorScheme: const ColorScheme.light(), 
-        
-        textTheme: TextTheme(
-          displayMedium: GoogleFonts.abrilFatface(),
+        textTheme: GoogleFonts.notoSerifTextTheme(
+          Theme.of(context).textTheme,
         ),
 
         inputDecorationTheme: const InputDecorationTheme(

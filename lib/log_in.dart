@@ -31,7 +31,7 @@ class LogIn extends StatelessWidget {
       body: Container(
         color: Theme.of(context).colorScheme.surface,
         child: Padding(
-          padding: EdgeInsets.fromLTRB(pagePadding[0], pagePadding[1], pagePadding[2], pagePadding[3]),
+          padding: EdgeInsets.fromLTRB(dataSubmitPagesPadding[0], dataSubmitPagesPadding[1], dataSubmitPagesPadding[2], dataSubmitPagesPadding[3]),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

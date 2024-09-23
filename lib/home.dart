@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'dart:developer';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'default_data.dart';
+import 'user_data.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
 
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,6 +21,7 @@ class Home extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
+              Navigator.pushNamed(context, logInRoute);
               log("Settings");
             },
           )
@@ -22,7 +30,7 @@ class Home extends StatelessWidget {
       body: Container(
         color: Theme.of(context).colorScheme.surface,
         child: Padding(
-          padding: EdgeInsets.fromLTRB(pagePadding[0], pagePadding[1], pagePadding[2], pagePadding[3]),
+          padding: EdgeInsets.fromLTRB(homePagePadding[0], homePagePadding[1], homePagePadding[2], homePagePadding[3]),
           child: Center(
             child: Column(
               children: [
@@ -30,46 +38,39 @@ class Home extends StatelessWidget {
                   child: Text(
                     daystreak.toString(),
                     semanticsLabel: daystreak.toString(),
-                    style: const TextStyle(
-                      fontSize: 200, //TODO Change to different font family
+                    style: GoogleFonts.notoSerif(
+                      textStyle: const TextStyle(
+                        fontSize: 200,
+                      ),
                     ),
                   ),
                 ),
                 Text(
                   daystreakT,
                   semanticsLabel: daystreakT,
-                  style: Theme.of(context).textTheme.headlineSmall
+                  style: GoogleFonts.notoSerif(
+                    textStyle: Theme.of(context).textTheme.headlineSmall,
+                  ),
                 ),
                 const SizedBox(height: 30),
                 Expanded(
                   child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: habitCount + 1,
+                    itemCount: userHabits.length + 1,
                     itemBuilder: (context, index) {
-                      if(index == habitCount) {
-                        return Material(
-                          child: Center(
-                            child: Ink(
-                              decoration: ShapeDecoration(
-                                color: primary,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                              ),
-                              child: IconButton(
-                                icon: const Icon(
-                                  Icons.add,
-                                  color: onPrimary,
-                                ),
-                                onPressed:() {
-                                  log("Neues Habit du Schwein!");
-                                },
-                              ),
-                            ),
-                          ),
-                        );
+                      if(index == userHabits.length) {
+                        return const AddHabitIB();
                       } else {
-                        return HabitCard(index: index);
+                        final sortedHabits = userHabits.where((habit) => !habit.checked).toList() +
+                          userHabits.where((habit) => habit.checked).toList();
+                        return HabitCard(
+                          habit: sortedHabits[index],
+                          handleCheck: (habit) {
+                            setState(() {
+                              habit.checked = !habit.checked;
+                            });
+                          },
+                        );
                       }
                     },
                   ),
@@ -86,19 +87,24 @@ class Home extends StatelessWidget {
 class HabitCard extends StatefulWidget {
   const HabitCard({
     super.key,
-    required this.index,
+    required this.habit,
+    required this.handleCheck,
   });
 
-  final int index;
+  final Habit habit;
+  final Function(Habit) handleCheck;
 
   @override
   State<HabitCard> createState() => _HabitCardState();
 }
 
 class _HabitCardState extends State<HabitCard> {
+
   @override
   Widget build(BuildContext context) {
+
     return Card(
+      color: widget.habit.checked ? primary : onPrimary,
       margin: const EdgeInsets.only(bottom: 10),
       child: Container(
         padding: const EdgeInsets.all(15),
@@ -108,14 +114,18 @@ class _HabitCardState extends State<HabitCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  habitNames[widget.index],
-                  semanticsLabel: habitNames[widget.index],
-                  style: Theme.of(context).textTheme.titleMedium,
+                  widget.habit.name,
+                  semanticsLabel: widget.habit.name,
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    color: widget.habit.checked ? onPrimary : Colors.black,
+                  ),
                 ),
                 Text(
-                  habitDescriptions[widget.index],
-                  semanticsLabel: habitDescriptions[widget.index],
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  widget.habit.description,
+                  semanticsLabel: widget.habit.description,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: widget.habit.checked ? onPrimary : Colors.black,
+                  ),
                 ),
               ],
             ),
@@ -124,15 +134,21 @@ class _HabitCardState extends State<HabitCard> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    "🔥${habitStreaks[widget.index]}",
-                    style: const TextStyle(fontSize: 20),
+                    "🔥${widget.habit.streak}",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: widget.habit.checked ? onPrimary : Colors.black,
+                    ),
                   ),
                   const SizedBox(width: 10),
                   FilledButton(
                     onPressed:() {
-                      log("Habit done");
+                      widget.handleCheck(widget.habit);
+                      log("Habit button pressed");
                     },
                     style: FilledButton.styleFrom(
+                      backgroundColor: widget.habit.checked ? onPrimary : primary,
+                      iconColor: widget.habit.checked ? primary : onPrimary,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
@@ -142,10 +158,41 @@ class _HabitCardState extends State<HabitCard> {
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       )
+    );
+  }
+}
+
+class AddHabitIB extends StatelessWidget {
+  const AddHabitIB({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: Center(
+        child: Ink(
+          decoration: ShapeDecoration(
+            color: primary,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+          ),
+          child: IconButton(
+            icon: const Icon(
+              Icons.add,
+              color: onPrimary,
+            ),
+            onPressed:() {
+              log("Neues Habit du Schwein!");
+            },
+          ),
+        ),
+      ),
     );
   }
 }

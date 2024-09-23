@@ -36,15 +36,9 @@ const String daystreakT = "Tagesstreak";
 //* Data and Routes
 // Front End Data
 const double submitButtonHeight = 56;
-const pagePadding = <double>[50, 50, 50, 50];
+const dataSubmitPagesPadding = <double>[50, 100, 50, 100];
+const homePagePadding = <double>[50, 50, 50, 50];
 const double checkButtonSize = 75;
-
-// Back End / User Data
-const int daystreak = 42;
-const int habitCount = 4;
-const habitNames = <String>["Lesen", "Tschechisch", "Schreiben", "Liegestütz"];
-const habitDescriptions = <String>["6 Seiten pro Tag", "5 Lektionen pro Tag", "350 Wörter pro Tag", "12 pro Tag"];
-const habitStreaks = <int>[36, 37, 42, 42];  
 
 // Routes
 const String homeRoute = "/";
