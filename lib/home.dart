@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
-              Navigator.pushNamed(context, logInRoute);
+              Navigator.pushNamed(context, settingsRoute);
               log("Settings");
             },
           )
@@ -144,7 +144,6 @@ class _HabitCardState extends State<HabitCard> {
                   FilledButton(
                     onPressed:() {
                       widget.handleCheck(widget.habit);
-                      log("Habit button pressed");
                     },
                     style: FilledButton.styleFrom(
                       backgroundColor: widget.habit.checked ? onPrimary : primary,

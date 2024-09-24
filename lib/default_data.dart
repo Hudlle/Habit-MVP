@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 //* Colors
 const Color primary = Color(0xff1DD1A1);
 const Color onPrimary = Color(0xffffffff);
-const Color textFieldFocus = Colors.black;
+const Color focusedBorderOutline = Colors.black;
+const Color borderOutline = Color(0xff636e72);
 
 //* German texts
 // Data
@@ -33,14 +34,42 @@ const String logInToSignUpT2 = "Erstelle eins.";
 // Home
 const String daystreakT = "Tagesstreak";
 
+// Settings
+const String settingsDisplayT = "Einstellungen";
+const String accountSettingsT = "Konto";
+const String notificationSettingsT = "Benachrichtigungen";
+const String logOutSettingsT = "Abmelden";
+const String saveT = "Speichern";
+
+// Account Settings
+const String accountSettingsDisplayT = "Konto Einstellungen";
+const String emailPasswordTitleT = "Email und Passwort";
+const String dangerZoneTitleT = "Gefahrenzone";
+const String deleteAccountT = "Konto löschen";
+
+// Password Settings
+const String newPasswordT = "Neues Passwort";
+const String repeatNewPasswordT = "Neues Passwort wiederholen";
+const String oldPasswordT = "Altes Passwort";
+
 //* Data and Routes
 // Front End Data
-const double submitButtonHeight = 56;
-const dataSubmitPagesPadding = <double>[50, 100, 50, 100];
-const homePagePadding = <double>[50, 50, 50, 50];
+const double textFieldHeight = 60;
+const double textFieldBorderRadius = 10;
+const double cardHeight = 60;
+const double cardBorderRadius = 10;
+const double submitButtonHeight = 60;
+const double submitButtonBorderRadius = 50;
 const double checkButtonSize = 75;
+const double smallSpacing = 10;
+const double largeSpacing = 30;
+const defaultPagePadding = <double>[50, 25, 50, 50];
+const homePagePadding = <double>[50, 50, 50, 50];
 
 // Routes
 const String homeRoute = "/";
 const String signUpRoute = "/sign_up";
 const String logInRoute = "/log_in";
+const String settingsRoute = "/settings";
+const String accountSettingsRoute = "/account_settings";
+const String passwordSettingsRoute = "/password_settings";

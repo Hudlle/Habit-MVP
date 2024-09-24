@@ -1,3 +1,8 @@
+// Account
+const String usernameD = "Paul";
+const String emailD = "faustmann.paul@gmail.com";
+
+// Habits
 const int daystreak = 42;
 
 class Habit {

@@ -28,27 +28,30 @@ class LogIn extends StatelessWidget {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: AppBar(),
       body: Container(
         color: Theme.of(context).colorScheme.surface,
         child: Padding(
-          padding: EdgeInsets.fromLTRB(dataSubmitPagesPadding[0], dataSubmitPagesPadding[1], dataSubmitPagesPadding[2], dataSubmitPagesPadding[3]),
+          padding: EdgeInsets.fromLTRB(defaultPagePadding[0], defaultPagePadding[1], defaultPagePadding[2], defaultPagePadding[3]),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               logInDisplay,
-              const SizedBox(height: 10),
+              const SizedBox(height: smallSpacing),
               logInTitle,
-              const SizedBox(height: 30),
-              const AccountDataTextField(isPassword: false, label: usernameEmailT),
-              const AccountDataTextField(isPassword: true, label: passwordT),
+              const SizedBox(height: largeSpacing),
+              const ControlledTextField(isPassword: false, label: usernameEmailT, initValue: ""),
+              const SizedBox(height: smallSpacing),
+              const ControlledTextField(isPassword: true, label: passwordT, initValue: ""),
+              const SizedBox(height: smallSpacing),
               const DataSubmitEB(
                 origin: logInRoute,
                 route: homeRoute,
                 label: logInSubmitT,
               ),
-              const SizedBox(height: 30,),
+              const SizedBox(height: largeSpacing,),
               Center(child: chooseOptionBodyText),
-              const SizedBox(height: 30,),
+              const SizedBox(height: largeSpacing,),
               const DataSubmitOB(
                 origin: logInRoute,
                 route: homeRoute,

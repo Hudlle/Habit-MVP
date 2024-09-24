@@ -103,7 +103,7 @@ class DataSubmitOB extends StatelessWidget {
                 Navigator.pushReplacementNamed(context, homeRoute);
                 log(label);
               },
-              child: Text(label)
+              child: Text(label),
             ),
           ),
         ),
@@ -112,34 +112,97 @@ class DataSubmitOB extends StatelessWidget {
   }
 }
 
-// Text fields used for first user input for account creation on sign up or log in page,
-// later possibly used more broadly
-class AccountDataTextField extends StatelessWidget {
-  const AccountDataTextField({
+// Powerful TextFields for getting input data from sign up, log in and settings
+class ControlledTextField extends StatefulWidget {
+  const ControlledTextField({
     super.key,
-    required this.isPassword,
     required this.label,
+    required this.initValue,
+    required this.isPassword,
   });
 
-  final bool isPassword;
   final String label;
+  final String initValue;
+  final bool isPassword;
+
+  @override
+  State<ControlledTextField> createState() => _ControlledTextFieldState();
+}
+
+class _ControlledTextFieldState extends State<ControlledTextField> {
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(
+      text: widget.initValue,
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-          obscureText: isPassword,
-          decoration: InputDecoration(
-            border: const OutlineInputBorder(),
-            focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: textFieldFocus),
-            ),
-            labelText: label,
+    return SizedBox(
+      height: textFieldHeight,
+      child: TextField(
+        controller: _controller,
+        obscureText: widget.isPassword,
+        decoration: InputDecoration(
+          border:  OutlineInputBorder(
+            borderSide: const BorderSide(color: borderOutline),
+            borderRadius: BorderRadius.circular(textFieldBorderRadius),
           ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: focusedBorderOutline),
+            borderRadius: BorderRadius.circular(textFieldBorderRadius),
+          ),
+          labelText: widget.label,
         ),
-        const SizedBox(height: 10)
-      ],
+      ),
+    );
+  }
+}
+
+// A card used for routing in the settings section of the app
+class SettingsCard extends StatelessWidget {
+  const SettingsCard({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.route,
+  });
+
+  final Icon icon;
+  final String title;
+  final String route;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap:() {
+        Navigator.pushNamed(context, route);
+      },
+      child: Card.outlined(
+        shape: RoundedRectangleBorder(
+          side: const BorderSide(color: borderOutline),
+          borderRadius: BorderRadius.circular(cardBorderRadius),
+        ),
+        child: Column(
+          children: [
+            ListTile(
+              leading: icon,
+              title: Text(title),
+              trailing: const Icon(Icons.navigate_next)
+            ),
+          ],
+        )
+      ),
     );
   }
 }

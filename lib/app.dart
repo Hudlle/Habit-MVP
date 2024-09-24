@@ -5,6 +5,9 @@ import 'default_data.dart';
 import 'home.dart';
 import 'sign_up.dart';
 import 'log_in.dart';
+import 'settings.dart';
+import 'account_settings.dart';
+import 'password_settings.dart';
 
 class HabitApp extends StatelessWidget {
   const HabitApp({super.key});
@@ -19,6 +22,9 @@ class HabitApp extends StatelessWidget {
         homeRoute : (BuildContext context) => const Home(), 
         signUpRoute : (BuildContext context) => const SignUp(),
         logInRoute : (BuildContext context) => const LogIn(),
+        settingsRoute: (BuildContext context) => const Settings(),
+        accountSettingsRoute : (BuildContext context) => const AccountSettings(),
+        passwordSettingsRoute : (BuildContext context) => const PasswordSettings(),
       },
       theme: ThemeData(
         useMaterial3: true,
@@ -28,7 +34,7 @@ class HabitApp extends StatelessWidget {
         ),
 
         inputDecorationTheme: const InputDecorationTheme(
-          floatingLabelStyle: TextStyle(color: textFieldFocus)
+          floatingLabelStyle: TextStyle(color: focusedBorderOutline)
         ),
 
         textSelectionTheme: const TextSelectionThemeData(
