@@ -4,6 +4,24 @@ import 'dart:developer';
 import 'default_data.dart';
 
 //* Outsourced Widgets
+class SmallSpacer extends StatelessWidget {
+  const SmallSpacer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(height: smallSpacing);
+  }
+}
+
+class LargeSpacer extends StatelessWidget {
+  const LargeSpacer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(height: largeSpacing);
+  }
+}
+
 // Routing text used on log in and sign up screen to navigate between each other
 class SignUpToLogInRoutingText extends StatelessWidget {
   const SignUpToLogInRoutingText({
@@ -163,6 +181,108 @@ class _ControlledTextFieldState extends State<ControlledTextField> {
             borderRadius: BorderRadius.circular(textFieldBorderRadius),
           ),
           labelText: widget.label,
+        ),
+      ),
+    );
+  }
+}
+
+// Big TextField (TextFormField) used for creating a new habit
+class BigTextField extends StatefulWidget {
+  const BigTextField({
+    super.key,
+    required this.emptyErrorT,
+    this.hintT,
+    required this.route,
+  });
+
+  final String emptyErrorT;
+  final String? hintT;
+  final String route;
+
+  @override
+  State<BigTextField> createState() => _BigTextfieldState();
+}
+
+class _BigTextfieldState extends State<BigTextField> {
+  final _formKey = GlobalKey<FormState>();
+  final FocusNode _focusNode = FocusNode();
+  late TextEditingController _controller;
+  Color _borderCursorColor = primary;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _submitForm() {
+    if(_formKey.currentState!.validate()){
+      Navigator.pushNamed(
+        context, 
+        widget.route, 
+      );
+    } else {
+      setState(() {
+        _borderCursorColor = error;
+        _focusNode.requestFocus();
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: TextFormField(
+        controller: _controller,
+        focusNode: _focusNode,
+        autofocus: true,
+        validator: (value) {
+          if (value == null || value.trim().isEmpty) {
+            return widget.emptyErrorT;
+          }
+          return null;
+        },
+        onChanged: (value) {
+          setState(() {
+            _borderCursorColor = primary;
+          });
+        },
+        onFieldSubmitted: (value) {
+          _submitForm();
+        },
+        minLines: 1,
+        maxLines: null,
+        keyboardType: TextInputType.text,
+        textInputAction: TextInputAction.done,
+        style: TextStyle(
+          color: _borderCursorColor,
+          fontSize: 36,
+        ),
+        cursorColor: _borderCursorColor,
+        cursorErrorColor: _borderCursorColor,
+        decoration: InputDecoration(
+          hintText: widget.hintT,
+          // hintStyle: TextStyle(color: Colors.grey[700]),
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: _borderCursorColor),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: _borderCursorColor)
+          ),
+          errorBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: _borderCursorColor)
+          ),
+          focusedErrorBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: _borderCursorColor)
+          ),
         ),
       ),
     );

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 //* Colors
 const Color primary = Color(0xff1DD1A1);
 const Color onPrimary = Color(0xffffffff);
+const Color error = Colors.red;
+Color? hint = Colors.grey[700];
 const Color focusedBorderOutline = Colors.black;
 const Color borderOutline = Color(0xff636e72);
 
@@ -34,6 +36,22 @@ const String logInToSignUpT2 = "Erstelle eins.";
 // Home
 const String daystreakT = "Tagesstreak";
 
+// New Habit Name
+const String newHabitNameDisplayT = "Wie heißt die neue Gewohnheit?";
+const String newHabitNameHintT = "z.B. Lesen";
+const String newHabitNameEmptyErrorT = "Gib deiner Gewohnheit einen Namen";
+
+// New Habit Detail
+const String newHabitDetailDisplayT = "Definiere Dein Ziel";
+const String howToGoalT = "Wie setze ich mir ein gutes Ziel?";
+const String newHabitDetailHintT = "z.B. 5 Seiten";
+const String newHabitDetailEmptyErrorT = "Beschreibe Dein tägliches Ziel";
+const String checkIntervalT = "pro Tag";
+
+// How To Goal
+const String howToGoalDisplayT= howToGoalT;
+const String howToGoalPT = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.";
+
 // Settings
 const String settingsDisplayT = "Einstellungen";
 const String accountSettingsT = "Konto";
@@ -48,6 +66,8 @@ const String dangerZoneTitleT = "Gefahrenzone";
 const String deleteAccountT = "Konto löschen";
 
 // Password Settings
+const String passwordSettingsDisplayT = "Passwort Einstellungen";
+const String createNewPasswordT = "Neues Passwort erstellen";
 const String newPasswordT = "Neues Passwort";
 const String repeatNewPasswordT = "Neues Passwort wiederholen";
 const String oldPasswordT = "Altes Passwort";
@@ -68,6 +88,10 @@ const homePagePadding = <double>[50, 50, 50, 50];
 
 // Routes
 const String homeRoute = "/";
+const String habitDetailsRoute = "/habit_details";
+const String newHabitNameRoute = "/new_habit_name";
+const String newHabitDetailRoute = "/new_habit_detail";
+const String howToGoalRoute = "/how_to_goal";
 const String signUpRoute = "/sign_up";
 const String logInRoute = "/log_in";
 const String settingsRoute = "/settings";

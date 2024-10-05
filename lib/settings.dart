@@ -24,16 +24,17 @@ class Settings extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               settingsDisplay,
-              const SizedBox(height: largeSpacing),
+              const LargeSpacer(),
               const SettingsCard(
                 icon: Icon(Icons.person),
                 title: accountSettingsT,
                 route: accountSettingsRoute,
               ),
-              const SizedBox(height: largeSpacing),
+              const LargeSpacer(),
               GestureDetector(
                 onTap:() {
-                  Navigator.pushNamed(context, logInRoute);
+                  Navigator.pop(context);
+                  Navigator.pushReplacementNamed(context, logInRoute);
                 },
                 child: Card.outlined(
                   shape: OutlineInputBorder(

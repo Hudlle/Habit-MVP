@@ -37,13 +37,13 @@ class LogIn extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               logInDisplay,
-              const SizedBox(height: smallSpacing),
+              const SmallSpacer(),
               logInTitle,
-              const SizedBox(height: largeSpacing),
+              const LargeSpacer(),
               const ControlledTextField(isPassword: false, label: usernameEmailT, initValue: ""),
-              const SizedBox(height: smallSpacing),
+              const SmallSpacer(),
               const ControlledTextField(isPassword: true, label: passwordT, initValue: ""),
-              const SizedBox(height: smallSpacing),
+              const SmallSpacer(),
               const DataSubmitEB(
                 origin: logInRoute,
                 route: homeRoute,

@@ -36,6 +36,7 @@ class AccountSettings extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(),
+      resizeToAvoidBottomInset: false,
       body: Container(
         color: Theme.of(context).colorScheme.surface,
         child: Padding(
@@ -44,31 +45,37 @@ class AccountSettings extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               accountSettingsDisplay,
-              const SizedBox(height: largeSpacing),
+              const LargeSpacer(),
               userNameTitle,
-              const SizedBox(height: smallSpacing),
+              const SmallSpacer(),
               const ControlledTextField(
                 label: "",
                 initValue: usernameD,
                 isPassword: false,
               ),
-              const SizedBox(height: largeSpacing,),
+              const LargeSpacer(),
               emailPasswordTitle,
-              const SizedBox(height: smallSpacing),
+              const SmallSpacer(),
               const ControlledTextField(
                 label: "",
                 initValue: emailD,
                 isPassword: false,
               ),
-              const SizedBox(height: smallSpacing),
+              const SmallSpacer(),
               const SettingsCard(
                 icon: Icon(Icons.password), 
                 title: passwordT, 
                 route: passwordSettingsRoute
               ),
-              const SizedBox(height: largeSpacing,),
+              const SmallSpacer(),
+              const DataSubmitEB(
+                origin: accountSettingsRoute, 
+                route: "", 
+                label: saveT
+              ),
+              const LargeSpacer(),
               dangerZoneTitle,
-              const SizedBox(height: smallSpacing),
+              const SmallSpacer(),
               GestureDetector(
                 onTap: () {
                   log("Konto löschen, aber sofort!");

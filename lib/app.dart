@@ -3,6 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'default_data.dart';
 import 'home.dart';
+import 'habit_details.dart';
+import 'new_habit_name.dart';
+import 'new_habit_detail.dart';
+import 'how_to_goal.dart';
 import 'sign_up.dart';
 import 'log_in.dart';
 import 'settings.dart';
@@ -19,9 +23,15 @@ class HabitApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: homeRoute,
       routes: {
-        homeRoute : (BuildContext context) => const Home(), 
         signUpRoute : (BuildContext context) => const SignUp(),
         logInRoute : (BuildContext context) => const LogIn(),
+
+        homeRoute : (BuildContext context) => const Home(), 
+        habitDetailsRoute : (BuildContext context) => const HabitDetails(),
+        newHabitNameRoute : (BuildContext context) => const NewHabitName(),
+        newHabitDetailRoute : (BuildContext context) => const NewHabitDetail(),
+        howToGoalRoute : (BuildContext context) => const HowToGoal(),
+
         settingsRoute: (BuildContext context) => const Settings(),
         accountSettingsRoute : (BuildContext context) => const AccountSettings(),
         passwordSettingsRoute : (BuildContext context) => const PasswordSettings(),

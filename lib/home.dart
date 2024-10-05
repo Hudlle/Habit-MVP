@@ -63,13 +63,18 @@ class _HomeState extends State<Home> {
                       } else {
                         final sortedHabits = userHabits.where((habit) => !habit.checked).toList() +
                           userHabits.where((habit) => habit.checked).toList();
-                        return HabitCard(
-                          habit: sortedHabits[index],
-                          handleCheck: (habit) {
-                            setState(() {
-                              habit.checked = !habit.checked;
-                            });
+                        return GestureDetector(
+                          onTap:() {
+                            Navigator.pushNamed(context, habitDetailsRoute);
                           },
+                          child: HabitCard(
+                            habit: sortedHabits[index],
+                            handleCheck: (habit) {
+                              setState(() {
+                                habit.checked = !habit.checked;
+                              });
+                            },
+                          ),
                         );
                       }
                     },
@@ -188,6 +193,7 @@ class AddHabitIB extends StatelessWidget {
             ),
             onPressed:() {
               log("Neues Habit du Schwein!");
+              Navigator.pushNamed(context, newHabitNameRoute);
             },
           ),
         ),
