@@ -10,11 +10,16 @@ dependencies:
   flutter:
     sdk: flutter
   google_fonts: ^6.2.1
+  objectbox: ^4.0.2
+  objectbox_flutter_libs: any
+  rxdart: ^0.28.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
+  build_runner: ^2.4.13
+  objectbox_generator: any
 
 flutter:
   uses-material-design: true

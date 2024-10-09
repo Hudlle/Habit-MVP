@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:developer';
 
-import 'default_data.dart';
-import 'default_widgets.dart';
-import 'user_data.dart';
+import '../default_data.dart';
+import '../default_widgets.dart';
+import '../user_data.dart';
 
 class AccountSettings extends StatelessWidget {
   const AccountSettings({super.key});

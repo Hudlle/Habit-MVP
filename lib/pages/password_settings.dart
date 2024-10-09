@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'default_data.dart';
-import 'default_widgets.dart';
+import '../default_data.dart';
+import '../default_widgets.dart';
 
 class PasswordSettings extends StatelessWidget {
   const PasswordSettings({super.key});

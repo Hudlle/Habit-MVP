@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 
-import 'default_data.dart';
-import 'default_widgets.dart';
+import '../default_data.dart';
+import '../default_widgets.dart';
 
-class LogIn extends StatelessWidget {
-  const LogIn({super.key});
+class SignUp extends StatelessWidget {
+  const SignUp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var logInDisplay = Text(
-      logInDisplayT,
-      semanticsLabel: logInDisplayT,
+    var signUpDisplay = Text(
+      signUpDisplayT,
+      semanticsLabel: signUpDisplayT,
       style: Theme.of(context).textTheme.displayMedium,
     );
 
-    var logInTitle = Text(
-      logInTitleT,
-      semanticsLabel: logInTitleT,
+    var signUpTitle = Text(
+      signUpTitleT,
+      semanticsLabel: signUpTitleT,
       style: Theme.of(context).textTheme.titleMedium,
     );
 
@@ -27,8 +27,8 @@ class LogIn extends StatelessWidget {
     );
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(),
+      resizeToAvoidBottomInset: false,
       body: Container(
         color: Theme.of(context).colorScheme.surface,
         child: Padding(
@@ -36,26 +36,30 @@ class LogIn extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              logInDisplay,
+              signUpDisplay,
               const SmallSpacer(),
-              logInTitle,
+              signUpTitle,
               const LargeSpacer(),
-              const ControlledTextField(isPassword: false, label: usernameEmailT, initValue: ""),
+              const ControlledTextField(isPassword: false, label: usernameT, initValue: ""),
+              const SmallSpacer(),
+              const ControlledTextField(isPassword: false, label: emailT, initValue: ""),
               const SmallSpacer(),
               const ControlledTextField(isPassword: true, label: passwordT, initValue: ""),
               const SmallSpacer(),
+              const ControlledTextField(isPassword: true, label: repeatPasswordT, initValue: ""),
+              const SmallSpacer(),
               const DataSubmitEB(
-                origin: logInRoute,
+                origin: signUpRoute,
                 route: homeRoute,
-                label: logInSubmitT,
+                label: signUpSubmitT,
               ),
               const SizedBox(height: largeSpacing,),
               Center(child: chooseOptionBodyText),
               const SizedBox(height: largeSpacing,),
               const DataSubmitOB(
-                origin: logInRoute,
+                origin: signUpRoute,
                 route: homeRoute,
-                label: logInGoogleT,
+                label: signUpGoogleT,
               ),
               const Expanded(
                 child: Center(
@@ -63,10 +67,10 @@ class LogIn extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       SignUpToLogInRoutingText(
-                        route: signUpRoute,
-                        label1: logInToSignUpT1,
-                        label2: logInToSignUpT2,
-                      )
+                        route: logInRoute,
+                        label1: signUpToLogInT1, 
+                        label2: signUpToLogInT2
+                      ),
                     ],
                   ),
                 ),

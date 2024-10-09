@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:habit_mvp/default_widgets.dart';
 
-import 'default_data.dart';
-import 'user_data.dart';
+import '../main.dart';
+import '../model.dart';
+import '../default_data.dart';
+import '../user_data.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -52,32 +55,39 @@ class _HomeState extends State<Home> {
                     textStyle: Theme.of(context).textTheme.headlineSmall,
                   ),
                 ),
-                const SizedBox(height: 30),
+                const LargeSpacer(),
                 Expanded(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: userHabits.length + 1,
-                    itemBuilder: (context, index) {
-                      if(index == userHabits.length) {
-                        return const AddHabitIB();
-                      } else {
-                        final sortedHabits = userHabits.where((habit) => !habit.checked).toList() +
-                          userHabits.where((habit) => habit.checked).toList();
-                        return GestureDetector(
-                          onTap:() {
-                            Navigator.pushNamed(context, habitDetailsRoute);
-                          },
-                          child: HabitCard(
-                            habit: sortedHabits[index],
-                            handleCheck: (habit) {
-                              setState(() {
-                                habit.checked = !habit.checked;
-                              });
-                            },
-                          ),
+                  child: StreamBuilder<List<Habit>>(
+                    stream: db.getHabits(),
+                    builder: (context, snapshot) {
+                      if (snapshot.data?.isNotEmpty ?? false) {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: snapshot.hasData ? snapshot.data!.length + 1 : 1,
+                          itemBuilder: (context, index) {
+                            if (index == snapshot.data?.length) {
+                              return Column(
+                                children: [
+                                  LargeSpacer(),
+                                  AddHabitIB()
+                                ],
+                              );
+                            } else {
+                              return GestureDetector(
+                                onTap: () {
+                                  
+                                },
+                                child: HabitCard(
+                                  habit: snapshot.data![index],
+                                )
+                              );
+                            }
+                          }
                         );
+                      } else {
+                        return const AddHabitIB();
                       }
-                    },
+                    }
                   ),
                 ),
               ],
@@ -93,23 +103,37 @@ class HabitCard extends StatefulWidget {
   const HabitCard({
     super.key,
     required this.habit,
-    required this.handleCheck,
   });
 
   final Habit habit;
-  final Function(Habit) handleCheck;
 
   @override
   State<HabitCard> createState() => _HabitCardState();
 }
 
 class _HabitCardState extends State<HabitCard> {
+  late bool checkedStatus;
+
+  @override
+  void initState() {
+    checkedStatus = widget.habit.checked;
+    super.initState();
+  }
+
+  void toggleCheckButton() {
+    bool newCheckedStatus = widget.habit.toggleCheck();
+    db.habitBox.put(widget.habit);
+
+    setState(() {
+      checkedStatus = newCheckedStatus;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
 
     return Card(
-      color: widget.habit.checked ? primary : onPrimary,
+      color: checkedStatus ? primary : onPrimary,
       margin: const EdgeInsets.only(bottom: 10),
       child: Container(
         padding: const EdgeInsets.all(15),
@@ -122,14 +146,14 @@ class _HabitCardState extends State<HabitCard> {
                   widget.habit.name,
                   semanticsLabel: widget.habit.name,
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    color: widget.habit.checked ? onPrimary : Colors.black,
+                    color: checkedStatus ? onPrimary : Colors.black,
                   ),
                 ),
                 Text(
                   widget.habit.description,
                   semanticsLabel: widget.habit.description,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: widget.habit.checked ? onPrimary : Colors.black,
+                    color: checkedStatus ? onPrimary : Colors.black,
                   ),
                 ),
               ],
@@ -142,23 +166,26 @@ class _HabitCardState extends State<HabitCard> {
                     "🔥${widget.habit.streak}",
                     style: TextStyle(
                       fontSize: 20,
-                      color: widget.habit.checked ? onPrimary : Colors.black,
+                      color: checkedStatus ? onPrimary : Colors.black,
                     ),
                   ),
                   const SizedBox(width: 10),
                   FilledButton(
                     onPressed:() {
-                      widget.handleCheck(widget.habit);
+                      toggleCheckButton();
                     },
                     style: FilledButton.styleFrom(
-                      backgroundColor: widget.habit.checked ? onPrimary : primary,
-                      iconColor: widget.habit.checked ? primary : onPrimary,
+                      backgroundColor: checkedStatus ? onPrimary : primary,
+                      iconColor: checkedStatus ? primary : onPrimary,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
                       fixedSize: const Size(checkButtonSize, checkButtonSize),
                     ),
-                    child: const Icon(Icons.check)
+                    child: Transform.scale(
+                      scale: 1.3,
+                      child: const Icon(Icons.check)
+                    )
                   ),
                 ],
               ),

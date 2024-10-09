@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'default_data.dart';
-import 'default_widgets.dart';
+import '../main.dart';
+import '../default_data.dart';
+import '../default_widgets.dart';
 
 class NewHabitDetail extends StatelessWidget {
   const NewHabitDetail({super.key});
@@ -51,10 +52,9 @@ class NewHabitDetail extends StatelessWidget {
                 ),
               ),
               const LargeSpacer(),
-              const BigTextFieldHabitInterval(
+              const NewHabitDetailTextField(
                 emptyErrorT: newHabitDetailEmptyErrorT,
                 hintT: newHabitDetailHintT,
-                route: homeRoute,
               ),
             ],
           )
@@ -64,23 +64,21 @@ class NewHabitDetail extends StatelessWidget {
   }
 }
 
-class BigTextFieldHabitInterval extends StatefulWidget {
-  const BigTextFieldHabitInterval({
+class NewHabitDetailTextField extends StatefulWidget {
+  const NewHabitDetailTextField({
     super.key,
     required this.emptyErrorT,
     this.hintT,
-    required this.route,
   });
 
   final String emptyErrorT;
   final String? hintT;
-  final String route;
 
   @override
-  State<BigTextFieldHabitInterval> createState() => _BigTextFieldHabitIntervalState();
+  State<NewHabitDetailTextField> createState() => _NewHabitDetailTextFieldState();
 }
 
-class _BigTextFieldHabitIntervalState extends State<BigTextFieldHabitInterval> {
+class _NewHabitDetailTextFieldState extends State<NewHabitDetailTextField> {
   final _formKey = GlobalKey<FormState>();
   final FocusNode _focusNode = FocusNode();
   late TextEditingController _controller;
@@ -99,11 +97,13 @@ class _BigTextFieldHabitIntervalState extends State<BigTextFieldHabitInterval> {
     super.dispose();
   }
 
-  void _submitForm() {
+  void _submitForm(String newHabitName) {
     if(_formKey.currentState!.validate()){
+      String newhabitDescription = "${_controller.text} pro Tag";
+      db.addHabit(newHabitName, newhabitDescription);
       Navigator.pushNamed(
         context, 
-        widget.route, 
+        homeRoute
       );
     } else {
       setState(() {
@@ -126,6 +126,7 @@ class _BigTextFieldHabitIntervalState extends State<BigTextFieldHabitInterval> {
 
   @override
   Widget build(BuildContext context) {
+    final newHabitName = ModalRoute.of(context)!.settings.arguments as String;
     return Form(
       key: _formKey,
       child: Column(
@@ -145,7 +146,7 @@ class _BigTextFieldHabitIntervalState extends State<BigTextFieldHabitInterval> {
               _onChanged();
             },
             onFieldSubmitted: (value) {
-              _submitForm();
+              _submitForm(newHabitName);
             },
             minLines: 1,
             maxLines: null,

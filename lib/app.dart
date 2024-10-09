@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'default_data.dart';
-import 'home.dart';
-import 'habit_details.dart';
-import 'new_habit_name.dart';
-import 'new_habit_detail.dart';
-import 'how_to_goal.dart';
-import 'sign_up.dart';
-import 'log_in.dart';
-import 'settings.dart';
-import 'account_settings.dart';
-import 'password_settings.dart';
+import 'pages/home.dart';
+import 'pages/habit_details.dart';
+import 'pages/new_habit_name.dart';
+import 'pages/new_habit_detail.dart';
+import 'pages/how_to_goal.dart';
+import 'pages/sign_up.dart';
+import 'pages/log_in.dart';
+import 'pages/settings.dart';
+import 'pages/account_settings.dart';
+import 'pages/password_settings.dart';
 
 class HabitApp extends StatelessWidget {
   const HabitApp({super.key});

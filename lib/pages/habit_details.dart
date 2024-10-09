@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'default_data.dart';
+import '../default_data.dart';
 
 class HabitDetails extends StatelessWidget {
   const HabitDetails({super.key});

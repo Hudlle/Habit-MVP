@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
+import 'objectbox.dart';
+
 import 'app.dart';
 
-void main() {
+late ObjectBox db;
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  db = await ObjectBox.create();
+
   runApp(const HabitApp());
 }
