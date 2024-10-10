@@ -39,7 +39,7 @@ class SignUpToLogInRoutingText extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, route);
+        Navigator.pushReplacementNamed(context, route);
       },
       child: RichText(
         textAlign: TextAlign.center,
@@ -84,7 +84,11 @@ class DataSubmitEB extends StatelessWidget {
             height: submitButtonHeight,
             child: ElevatedButton(
               onPressed: () {
-                Navigator.pushReplacementNamed(context, homeRoute);
+                Navigator.pushNamedAndRemoveUntil(
+                  context, 
+                  route,
+                  (Route<dynamic> route) => false,
+                );
                 log(label);
               },
               child: Text(label)
@@ -118,7 +122,11 @@ class DataSubmitOB extends StatelessWidget {
             height: submitButtonHeight,
             child: OutlinedButton(
               onPressed:() {
-                Navigator.pushReplacementNamed(context, homeRoute);
+                Navigator.pushNamedAndRemoveUntil(
+                  context, 
+                  route,
+                  (Route<dynamic> route) => false,
+                );
                 log(label);
               },
               child: Text(label),

@@ -36,6 +36,10 @@ const String logInToSignUpT2 = "Erstelle eins.";
 // Home
 const String daystreakT = "Tagesstreak";
 
+// Habit Close Look
+const String yourGoalTitleT = "Dein Ziel";
+const String deleteHabitT = "Gewohnheit löschen";
+
 // New Habit Name
 const String newHabitNameDisplayT = "Wie heißt die neue Gewohnheit?";
 const String newHabitNameHintT = "z.B. Lesen";
@@ -83,12 +87,12 @@ const double submitButtonBorderRadius = 50;
 const double checkButtonSize = 75;
 const double smallSpacing = 10;
 const double largeSpacing = 30;
-const defaultPagePadding = <double>[50, 25, 50, 50];
-const homePagePadding = <double>[50, 50, 50, 50];
+const defaultPagePadding = <double>[25,25,25,25];
+const homePagePadding = <double>[25,25,25,25];
 
 // Routes
 const String homeRoute = "/";
-const String habitDetailsRoute = "/habit_details";
+const String habitCloseLookRoute = "/habit_close_look";
 const String newHabitNameRoute = "/new_habit_name";
 const String newHabitDetailRoute = "/new_habit_detail";
 const String howToGoalRoute = "/how_to_goal";

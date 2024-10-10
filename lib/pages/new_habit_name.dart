@@ -11,7 +11,7 @@ class NewHabitName extends StatelessWidget {
     var newHabitNameDisplay = Text(
       newHabitNameDisplayT,
       semanticsLabel: newHabitNameDisplayT,
-      style: Theme.of(context).textTheme.displayMedium
+      style: Theme.of(context).textTheme.headlineMedium
     );
 
     return Scaffold(
@@ -115,7 +115,7 @@ class _NewHabitNameTextFieldState extends State<NewHabitNameTextField> {
         textInputAction: TextInputAction.done,
         style: TextStyle(
           color: _borderCursorColor,
-          fontSize: 36,
+          fontSize: 16,
         ),
         cursorColor: _borderCursorColor,
         cursorErrorColor: _borderCursorColor,

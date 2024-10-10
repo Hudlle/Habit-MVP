@@ -49,7 +49,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 Text(
-                  daystreakT,
+                  daystreakT, 
                   semanticsLabel: daystreakT,
                   style: GoogleFonts.notoSerif(
                     textStyle: Theme.of(context).textTheme.headlineSmall,
@@ -75,9 +75,14 @@ class _HomeState extends State<Home> {
                             } else {
                               return GestureDetector(
                                 onTap: () {
-                                  
+                                  Navigator.pushNamed(
+                                    context,
+                                    arguments: snapshot.data![index],
+                                    habitCloseLookRoute,
+                                  );
                                 },
                                 child: HabitCard(
+                                  key: ValueKey(snapshot.data?[index].id),
                                   habit: snapshot.data![index],
                                 )
                               );
@@ -131,7 +136,6 @@ class _HabitCardState extends State<HabitCard> {
 
   @override
   Widget build(BuildContext context) {
-
     return Card(
       color: checkedStatus ? primary : onPrimary,
       margin: const EdgeInsets.only(bottom: 10),
@@ -149,11 +153,15 @@ class _HabitCardState extends State<HabitCard> {
                     color: checkedStatus ? onPrimary : Colors.black,
                   ),
                 ),
-                Text(
-                  widget.habit.description,
-                  semanticsLabel: widget.habit.description,
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: checkedStatus ? onPrimary : Colors.black,
+                SizedBox(
+                  width: 150,
+                  child: Text(
+                    widget.habit.description,
+                    semanticsLabel: widget.habit.description,
+                    softWrap: true,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: checkedStatus ? onPrimary : Colors.black,
+                    ),
                   ),
                 ),
               ],
@@ -184,7 +192,9 @@ class _HabitCardState extends State<HabitCard> {
                     ),
                     child: Transform.scale(
                       scale: 1.3,
-                      child: const Icon(Icons.check)
+                      child: Icon(
+                        checkedStatus ? Icons.undo : Icons.check,
+                      )
                     )
                   ),
                 ],

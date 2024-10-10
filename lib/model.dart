@@ -22,6 +22,11 @@ class Habit{
 
   bool toggleCheck() {
     checked = !checked;
+    if (checked) {
+      streak ++;
+    } else {
+      streak --;
+    }
     return checked;
   }
 }

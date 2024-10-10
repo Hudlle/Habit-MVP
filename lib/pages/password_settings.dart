@@ -55,7 +55,7 @@ class PasswordSettings extends StatelessWidget {
               const DataSubmitEB(
                 label: saveT,
                 origin: passwordSettingsRoute,
-                route: "",
+                route: homeRoute,
               )    
             ],
           ),

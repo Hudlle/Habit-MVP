@@ -33,8 +33,11 @@ class Settings extends StatelessWidget {
               const LargeSpacer(),
               GestureDetector(
                 onTap:() {
-                  Navigator.pop(context);
-                  Navigator.pushReplacementNamed(context, logInRoute);
+                  Navigator.pushNamedAndRemoveUntil(
+                    context, 
+                    logInRoute, 
+                    (Route<dynamic> route) => false,
+                  );
                 },
                 child: Card.outlined(
                   shape: OutlineInputBorder(

@@ -70,7 +70,7 @@ class AccountSettings extends StatelessWidget {
               const SmallSpacer(),
               const DataSubmitEB(
                 origin: accountSettingsRoute, 
-                route: "", 
+                route: homeRoute, 
                 label: saveT
               ),
               const LargeSpacer(),

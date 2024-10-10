@@ -17,7 +17,7 @@ class ObjectBox {
     return ObjectBox._create(await openStore());
   }
 
-  void addHabit(String habitName, habitDescription) {
+  void addHabit(String habitName, String habitDescription) {
     Habit newHabit = Habit(habitName, habitDescription);
     habitBox.put(newHabit);
     

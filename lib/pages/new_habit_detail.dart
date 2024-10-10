@@ -13,7 +13,7 @@ class NewHabitDetail extends StatelessWidget {
     var newHabitDetailDisplay = Text(
       newHabitDetailDisplayT,
       semanticsLabel: newHabitDetailDisplayT,
-      style: Theme.of(context).textTheme.displayMedium,
+      style: Theme.of(context).textTheme.headlineMedium,
     );
 
     var newHabitDetailHowToGoalBody = Text(
@@ -101,9 +101,10 @@ class _NewHabitDetailTextFieldState extends State<NewHabitDetailTextField> {
     if(_formKey.currentState!.validate()){
       String newhabitDescription = "${_controller.text} pro Tag";
       db.addHabit(newHabitName, newhabitDescription);
-      Navigator.pushNamed(
+      Navigator.pushNamedAndRemoveUntil(
         context, 
-        homeRoute
+        homeRoute,
+        (Route<dynamic> route) => false,
       );
     } else {
       setState(() {
@@ -154,7 +155,7 @@ class _NewHabitDetailTextFieldState extends State<NewHabitDetailTextField> {
             textInputAction: TextInputAction.done,
             style: TextStyle(
               color: _borderCursorColor,
-              fontSize: 36,
+              fontSize: 16,
             ),
             cursorColor: _borderCursorColor,
             cursorErrorColor: _borderCursorColor,
@@ -175,11 +176,11 @@ class _NewHabitDetailTextFieldState extends State<NewHabitDetailTextField> {
               ),
             ),
           ),
-          const LargeSpacer(),
+          const SmallSpacer(),
           Text(
             checkIntervalT,
             semanticsLabel: checkIntervalT,
-            style: Theme.of(context).textTheme.displaySmall!.copyWith(
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
               color: _habitIntervalColor,
             )
           )

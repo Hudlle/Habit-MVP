@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'model.dart';
+
 import 'default_data.dart';
 import 'pages/home.dart';
-import 'pages/habit_details.dart';
+import 'pages/habit_close_look.dart';
 import 'pages/new_habit_name.dart';
 import 'pages/new_habit_detail.dart';
 import 'pages/how_to_goal.dart';
@@ -27,7 +29,10 @@ class HabitApp extends StatelessWidget {
         logInRoute : (BuildContext context) => const LogIn(),
 
         homeRoute : (BuildContext context) => const Home(), 
-        habitDetailsRoute : (BuildContext context) => const HabitDetails(),
+        habitCloseLookRoute : (BuildContext context) {
+          final habit = ModalRoute.of(context)!.settings.arguments as Habit;
+          return HabitCloseLook(habit: habit);
+        },
         newHabitNameRoute : (BuildContext context) => const NewHabitName(),
         newHabitDetailRoute : (BuildContext context) => const NewHabitDetail(),
         howToGoalRoute : (BuildContext context) => const HowToGoal(),
