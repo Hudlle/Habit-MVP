@@ -9,21 +9,6 @@ class NewHabitDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    var newHabitDetailDisplay = Text(
-      newHabitDetailDisplayT,
-      semanticsLabel: newHabitDetailDisplayT,
-      style: Theme.of(context).textTheme.headlineMedium,
-    );
-
-    var newHabitDetailHowToGoalBody = Text(
-      howToGoalT,
-      semanticsLabel: howToGoalT,
-      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-        color: primary,
-      ),
-    );
-
     return Scaffold(
       appBar: AppBar(),
       resizeToAvoidBottomInset: false,
@@ -34,7 +19,10 @@ class NewHabitDetail extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              newHabitDetailDisplay,
+              CustomText(
+                text: newHabitDetailHeadlineT,
+                textType: TextType.headline,
+              ),
               const LargeSpacer(),
               GestureDetector(
                 onTap:() {
@@ -47,7 +35,11 @@ class NewHabitDetail extends StatelessWidget {
                       color: primary,
                     ),
                     const SizedBox(width: smallSpacing),
-                    newHabitDetailHowToGoalBody,
+                    CustomText(
+                      text: howToGoalT,
+                      textType: TextType.body,
+                      specialColor: primary,
+                    ),
                   ],
                 ),
               ),

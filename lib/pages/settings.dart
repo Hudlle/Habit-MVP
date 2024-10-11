@@ -8,12 +8,6 @@ class Settings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var settingsDisplay = Text(
-      settingsDisplayT,
-      semanticsLabel: settingsDisplayT,
-      style: Theme.of(context).textTheme.displayMedium,
-    );
-
     return Scaffold(
       appBar: AppBar(),
       body: Container(
@@ -23,7 +17,10 @@ class Settings extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              settingsDisplay,
+              CustomText(
+                text: settingsHeadlineT,
+                textType: TextType.headline,
+              ),
               const LargeSpacer(),
               const SettingsCard(
                 icon: Icon(Icons.person),

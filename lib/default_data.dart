@@ -17,7 +17,7 @@ const String passwordT = "Passwort";
 const String repeatPasswordT = "Passwort wiederholen";
 
 // Sign Up
-const String signUpDisplayT = "Hi 🖖";
+const String signUpHeadlineT = "Hi 🖖";
 const String signUpTitleT = "Erstelle ein Konto, dann legen wir los!";
 const String signUpSubmitT = "Ran an den Speck!";
 const String chooseOptionBodyT = "Oder";
@@ -26,7 +26,7 @@ const String signUpToLogInT1 = "Du hast schon ein Konto?";
 const String signUpToLogInT2 = "Logg Dich ein.";
 
 // Log In
-const String logInDisplayT = "Willkommen zurück ✌️";
+const String logInHeadlineT = "Willkommen zurück ✌️";
 const String logInTitleT = "Logg Dich ein, dann machen wir weiter!";
 const String logInSubmitT = "Here we go again.";
 const String logInGoogleT = "Mit Google einloggen";
@@ -41,36 +41,36 @@ const String yourGoalTitleT = "Dein Ziel";
 const String deleteHabitT = "Gewohnheit löschen";
 
 // New Habit Name
-const String newHabitNameDisplayT = "Wie heißt die neue Gewohnheit?";
+const String newHabitNameHeadlineT = "Wie heißt die neue Gewohnheit?";
 const String newHabitNameHintT = "z.B. Lesen";
 const String newHabitNameEmptyErrorT = "Gib deiner Gewohnheit einen Namen";
 
 // New Habit Detail
-const String newHabitDetailDisplayT = "Definiere Dein Ziel";
+const String newHabitDetailHeadlineT = "Definiere Dein Ziel";
 const String howToGoalT = "Wie setze ich mir ein gutes Ziel?";
 const String newHabitDetailHintT = "z.B. 5 Seiten";
 const String newHabitDetailEmptyErrorT = "Beschreibe Dein tägliches Ziel";
 const String checkIntervalT = "pro Tag";
 
 // How To Goal
-const String howToGoalDisplayT= howToGoalT;
+const String howToGoalHeadlineT= howToGoalT;
 const String howToGoalPT = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.";
 
 // Settings
-const String settingsDisplayT = "Einstellungen";
+const String settingsHeadlineT = "Einstellungen";
 const String accountSettingsT = "Konto";
 const String notificationSettingsT = "Benachrichtigungen";
 const String logOutSettingsT = "Abmelden";
 const String saveT = "Speichern";
 
 // Account Settings
-const String accountSettingsDisplayT = "Konto Einstellungen";
+const String accountSettingsHeadlineT = "Konto Einstellungen";
 const String emailPasswordTitleT = "Email und Passwort";
 const String dangerZoneTitleT = "Gefahrenzone";
 const String deleteAccountT = "Konto löschen";
 
 // Password Settings
-const String passwordSettingsDisplayT = "Passwort Einstellungen";
+const String passwordSettingsHeadlineT = "Passwort Einstellungen";
 const String createNewPasswordT = "Neues Passwort erstellen";
 const String newPasswordT = "Neues Passwort";
 const String repeatNewPasswordT = "Neues Passwort wiederholen";

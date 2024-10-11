@@ -8,12 +8,6 @@ class NewHabitName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var newHabitNameDisplay = Text(
-      newHabitNameDisplayT,
-      semanticsLabel: newHabitNameDisplayT,
-      style: Theme.of(context).textTheme.headlineMedium
-    );
-
     return Scaffold(
       appBar: AppBar(),
       body: Container(
@@ -23,7 +17,10 @@ class NewHabitName extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              newHabitNameDisplay,
+              CustomText(
+                text: newHabitDetailHeadlineT,
+                textType: TextType.headline,
+              ),
               const LargeSpacer(),
               const NewHabitNameTextField(
                 emptyErrorT: newHabitNameEmptyErrorT,

@@ -143,28 +143,25 @@ class _HabitCardState extends State<HabitCard> {
         padding: const EdgeInsets.all(15),
         child: Row(
           children: [
-            Column( 
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.habit.name,
-                  semanticsLabel: widget.habit.name,
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    color: checkedStatus ? onPrimary : Colors.black,
+            SizedBox(
+              width: 175,
+              child: Column( 
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomText(
+                    text: widget.habit.name,
+                    textType: TextType.title,
+                    softWrapToggle: true,
+                    specialColor: checkedStatus ? onPrimary : Colors.black,
                   ),
-                ),
-                SizedBox(
-                  width: 150,
-                  child: Text(
-                    widget.habit.description,
-                    semanticsLabel: widget.habit.description,
-                    softWrap: true,
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: checkedStatus ? onPrimary : Colors.black,
-                    ),
+                  CustomText(
+                    text: widget.habit.description,
+                    textType: TextType.body,
+                    softWrapToggle: true,
+                    specialColor: checkedStatus ? onPrimary : Colors.black,
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             Expanded(
               child: Row(

@@ -21,6 +21,38 @@ class LargeSpacer extends StatelessWidget {
     return const SizedBox(height: largeSpacing);
   }
 }
+enum TextType{headline, title, body}
+
+class CustomText extends StatelessWidget {
+  const CustomText({
+    super.key,
+    required this.textType,
+    required this.text,
+    this.specialColor,
+    this.softWrapToggle,
+  });
+
+  final TextType textType;
+  final String text;
+  final Color? specialColor;
+  final bool? softWrapToggle;
+
+  @override
+  Widget build(BuildContext context) {
+    final textStyle = switch (textType) {
+      TextType.headline => Theme.of(context).textTheme.headlineMedium!.copyWith(color: specialColor),
+      TextType.title => Theme.of(context).textTheme.titleMedium!.copyWith(color: specialColor),
+      TextType.body => Theme.of(context).textTheme.bodyMedium!.copyWith(color: specialColor),
+    };
+
+    return Text(
+      text, 
+      semanticsLabel: text,
+      softWrap: softWrapToggle,
+      style: textStyle
+    );
+  }
+}
 
 // Routing text used on log in and sign up screen to navigate between each other
 class SignUpToLogInRoutingText extends StatelessWidget {

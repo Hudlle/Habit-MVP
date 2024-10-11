@@ -8,17 +8,6 @@ class HowToGoal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var howToGoalDisplay = Text(
-      howToGoalDisplayT,
-      semanticsLabel: howToGoalDisplayT,
-      style: Theme.of(context).textTheme.displayMedium,
-    );
-
-    var howToGoalP = Text(
-      howToGoalPT,
-      style: Theme.of(context).textTheme.bodyMedium,
-    );
-
     return Scaffold(
       appBar: AppBar(),
       body: Container(
@@ -27,9 +16,15 @@ class HowToGoal extends StatelessWidget {
           padding: EdgeInsets.fromLTRB(defaultPagePadding[0], defaultPagePadding[1], defaultPagePadding[2], defaultPagePadding[3]),
           child: Column(
             children: [
-              howToGoalDisplay,
+              CustomText(
+                text: howToGoalHeadlineT,
+                textType: TextType.headline,
+              ),
               const LargeSpacer(),
-              howToGoalP,
+              CustomText(
+                text: howToGoalPT,
+                textType: TextType.body,
+              ),
             ],
           )
         )

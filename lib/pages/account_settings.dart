@@ -10,30 +10,6 @@ class AccountSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var accountSettingsDisplay = Text(
-      accountSettingsDisplayT,
-      semanticsLabel: accountSettingsDisplayT,
-      style: Theme.of(context).textTheme.displayMedium,
-    );
-
-    var userNameTitle = Text(
-      usernameT,
-      semanticsLabel: usernameT,
-      style: Theme.of(context).textTheme.titleMedium
-    );
-
-    var emailPasswordTitle = Text(
-      emailPasswordTitleT,
-      semanticsLabel: emailPasswordTitleT,
-      style: Theme.of(context).textTheme.titleMedium,
-    );
-
-    var dangerZoneTitle = Text(
-      dangerZoneTitleT,
-      semanticsLabel: dangerZoneTitleT,
-      style: Theme.of(context).textTheme.titleMedium
-    );
-
     return Scaffold(
       appBar: AppBar(),
       resizeToAvoidBottomInset: false,
@@ -44,9 +20,15 @@ class AccountSettings extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              accountSettingsDisplay,
+              CustomText(
+                text: accountSettingsHeadlineT,
+                textType: TextType.headline
+              ),
               const LargeSpacer(),
-              userNameTitle,
+              CustomText(
+                text: usernameT,
+                textType: TextType.title,
+              ),
               const SmallSpacer(),
               const ControlledTextField(
                 label: "",
@@ -54,7 +36,10 @@ class AccountSettings extends StatelessWidget {
                 isPassword: false,
               ),
               const LargeSpacer(),
-              emailPasswordTitle,
+              CustomText(
+                text: emailPasswordTitleT,
+                textType: TextType.title
+              ),
               const SmallSpacer(),
               const ControlledTextField(
                 label: "",
@@ -74,7 +59,10 @@ class AccountSettings extends StatelessWidget {
                 label: saveT
               ),
               const LargeSpacer(),
-              dangerZoneTitle,
+              CustomText(
+                text: dangerZoneTitleT,
+                textType: TextType.title,
+              ),
               const SmallSpacer(),
               GestureDetector(
                 onTap: () {

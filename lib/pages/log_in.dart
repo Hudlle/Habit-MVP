@@ -8,24 +8,6 @@ class LogIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var logInDisplay = Text(
-      logInDisplayT,
-      semanticsLabel: logInDisplayT,
-      style: Theme.of(context).textTheme.displayMedium,
-    );
-
-    var logInTitle = Text(
-      logInTitleT,
-      semanticsLabel: logInTitleT,
-      style: Theme.of(context).textTheme.titleMedium,
-    );
-
-    var chooseOptionBodyText = Text(
-      chooseOptionBodyT,
-      semanticsLabel: chooseOptionBodyT,
-      style: Theme.of(context).textTheme.bodyMedium,
-    );
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(),
@@ -36,9 +18,15 @@ class LogIn extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              logInDisplay,
+              CustomText(
+                text: logInHeadlineT,
+                textType: TextType.headline
+              ),
               const SmallSpacer(),
-              logInTitle,
+              CustomText(
+                text: logInTitleT,
+                textType: TextType.title
+              ),
               const LargeSpacer(),
               const ControlledTextField(isPassword: false, label: usernameEmailT, initValue: ""),
               const SmallSpacer(),
@@ -50,7 +38,12 @@ class LogIn extends StatelessWidget {
                 label: logInSubmitT,
               ),
               const SizedBox(height: largeSpacing,),
-              Center(child: chooseOptionBodyText),
+              Center(
+                child: CustomText(
+                  text: chooseOptionBodyT,
+                  textType: TextType.body,
+                )
+              ),
               const SizedBox(height: largeSpacing,),
               const DataSubmitOB(
                 origin: logInRoute,

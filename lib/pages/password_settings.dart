@@ -8,18 +8,6 @@ class PasswordSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var passwordSettingsDisplay = Text(
-      passwordSettingsDisplayT,
-      semanticsLabel: passwordSettingsDisplayT,
-      style: Theme.of(context).textTheme.displayMedium,
-    );
-
-    var newPasswordTitle = Text(
-      createNewPasswordT,
-      semanticsLabel: createNewPasswordT,
-      style: Theme.of(context).textTheme.titleMedium
-    );
-
     return Scaffold(
       appBar: AppBar(),
       resizeToAvoidBottomInset: false,
@@ -30,9 +18,15 @@ class PasswordSettings extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              passwordSettingsDisplay,
+              CustomText(
+                text: passwordSettingsHeadlineT,
+                textType: TextType.headline,
+              ),
               const LargeSpacer(),
-              newPasswordTitle,
+              CustomText(
+                text: createNewPasswordT,
+                textType: TextType.headline,
+              ),
               const SmallSpacer(),
               const ControlledTextField(
                 label: newPasswordT,

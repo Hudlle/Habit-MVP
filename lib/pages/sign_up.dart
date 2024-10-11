@@ -8,24 +8,6 @@ class SignUp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var signUpDisplay = Text(
-      signUpDisplayT,
-      semanticsLabel: signUpDisplayT,
-      style: Theme.of(context).textTheme.displayMedium,
-    );
-
-    var signUpTitle = Text(
-      signUpTitleT,
-      semanticsLabel: signUpTitleT,
-      style: Theme.of(context).textTheme.titleMedium,
-    );
-
-    var chooseOptionBodyText = Text(
-      chooseOptionBodyT,
-      semanticsLabel: chooseOptionBodyT,
-      style: Theme.of(context).textTheme.bodyMedium,
-    );
-
     return Scaffold(
       appBar: AppBar(),
       resizeToAvoidBottomInset: false,
@@ -36,9 +18,15 @@ class SignUp extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              signUpDisplay,
+              CustomText(
+                text: signUpHeadlineT,
+                textType: TextType.headline,
+              ),
               const SmallSpacer(),
-              signUpTitle,
+              CustomText(
+                text: signUpTitleT,
+                textType: TextType.title,
+              ),
               const LargeSpacer(),
               const ControlledTextField(isPassword: false, label: usernameT, initValue: ""),
               const SmallSpacer(),
@@ -54,7 +42,12 @@ class SignUp extends StatelessWidget {
                 label: signUpSubmitT,
               ),
               const SizedBox(height: largeSpacing,),
-              Center(child: chooseOptionBodyText),
+              Center(
+                child: CustomText(
+                  text: chooseOptionBodyT,
+                  textType: TextType.body,
+                )
+              ),
               const SizedBox(height: largeSpacing,),
               const DataSubmitOB(
                 origin: signUpRoute,
