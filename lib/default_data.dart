@@ -34,11 +34,15 @@ const String logInToSignUpT1 = "Du hast noch kein Konto?";
 const String logInToSignUpT2 = "Erstelle eins.";
 
 // Home
+const String welcomHeadlineT = "Was hast du heute gemacht?";
 const String daystreakT = "Tagesstreak";
 
 // Habit Close Look
 const String yourGoalTitleT = "Dein Ziel";
 const String deleteHabitT = "Gewohnheit löschen";
+
+// Habit Edit
+const String habitEditNameTitleT = "Name";
 
 // New Habit Name
 const String newHabitNameHeadlineT = "Wie heißt die neue Gewohnheit?";
@@ -93,6 +97,7 @@ const homePagePadding = <double>[25,25,25,25];
 // Routes
 const String homeRoute = "/";
 const String habitCloseLookRoute = "/habit_close_look";
+const String habitEditRoute = "/habit_edit";
 const String newHabitNameRoute = "/new_habit_name";
 const String newHabitDetailRoute = "/new_habit_detail";
 const String howToGoalRoute = "/how_to_goal";

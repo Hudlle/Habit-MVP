@@ -35,6 +35,15 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
       checkedStatus = newCheckedStatus;
     });
   }
+
+  void onEdit() {
+    Navigator.pushNamed(
+      context,
+      arguments: widget.habit,
+      habitEditRoute,
+    );
+  }
+
   void deleteHabit(BuildContext context, Habit habit) {
     db.habitBox.remove(habit.id);
     log("${habit.name} löschen, aber sofort!");
@@ -43,26 +52,6 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
 
   @override
   Widget build(BuildContext context) {
-    var habitDisplay = Text(
-      widget.habit.name,
-      semanticsLabel: widget.habit.name,
-      style: Theme.of(context).textTheme.displayMedium!.copyWith(
-        color: checkedStatus ? primary : Colors.black,
-      ),
-    );
-
-    var yourGoalTitle = Text(
-      yourGoalTitleT,
-      semanticsLabel: yourGoalTitleT,
-      style: Theme.of(context).textTheme.titleMedium,
-    );
-
-    var dangerZoneTitle = Text(
-      dangerZoneTitleT,
-      semanticsLabel: dangerZoneTitleT,
-      style: Theme.of(context).textTheme.titleMedium
-    );
-
     return Scaffold(
       appBar: AppBar(),
       body: Container(
@@ -84,26 +73,50 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
                   ),
                 ),
               ),
-              habitDisplay,
+              CustomText(
+                text: widget.habit.name,
+                textType: TextType.headline,
+                specialColor: checkedStatus ? primary : Colors.black,
+              ),
               LargeSpacer(),
               Row(
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      yourGoalTitle,
+                      CustomText(
+                        text: yourGoalTitleT,
+                        textType: TextType.title,
+                      ),
                       SizedBox( 
                         width: 225,
-                        child: Text(
-                          widget.habit.description,
-                          semanticsLabel: widget.habit.description,
-                          softWrap: true,
-                          style: Theme.of(context).textTheme.bodyMedium,
+                        child: CustomText(
+                          text: widget.habit.description,
+                          textType: TextType.body,
+                          softWrapToggle: true,
                         ),
                       ),
                     ],
                   ),
                   Spacer(),
+                  Material(
+                    child: Center(
+                      child: Transform.scale(
+                        scale: 0.925,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: IconButton(
+                            icon: Icon(Icons.edit),
+                            onPressed: () => onEdit(),
+                          )
+                        ),
+                      )
+                    ),
+                  ),
+                  SizedBox(width: 10,),
                   Material(
                     child: Center(
                       child: Ink(
@@ -128,7 +141,10 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
                 ],
               ),
               Expanded(child: Container()),
-              dangerZoneTitle,
+              CustomText(
+                text: dangerZoneTitleT,
+                textType: TextType.title,
+              ),
               SmallSpacer(),
               GestureDetector(
                 onTap: () {

@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:5124398390309505016",
-      "lastPropertyId": "5:3087926695973412499",
+      "lastPropertyId": "7:239594852941344809",
       "name": "Habit",
       "properties": [
         {
@@ -33,6 +33,16 @@
           "id": "5:3087926695973412499",
           "name": "checked",
           "type": 1
+        },
+        {
+          "id": "6:629970220138052795",
+          "name": "canBeChecked",
+          "type": 1
+        },
+        {
+          "id": "7:239594852941344809",
+          "name": "lastChecked",
+          "type": 10
         }
       ],
       "relations": []

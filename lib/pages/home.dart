@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:habit_mvp/default_widgets.dart';
 
-import '../main.dart';
-import '../model.dart';
-import '../default_data.dart';
-import '../user_data.dart';
+import 'package:habit_mvp/main.dart';
+import 'package:habit_mvp/model.dart';
+import 'package:habit_mvp/default_data.dart';
+import 'package:habit_mvp/default_widgets.dart';
+import 'package:habit_mvp/user_data.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -16,6 +16,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  @override
+  void initState() {
+    db.checkHabitsStatus();
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,13 +44,18 @@ class _HomeState extends State<Home> {
           child: Center(
             child: Column(
               children: [
+                CustomText(
+                  text: welcomHeadlineT,
+                  textType: TextType.headline,
+                  centerAlignToggle: true,
+                ),
                 FittedBox(
                   child: Text(
                     daystreak.toString(),
                     semanticsLabel: daystreak.toString(),
                     style: GoogleFonts.notoSerif(
                       textStyle: const TextStyle(
-                        fontSize: 200,
+                        fontSize: 175,
                       ),
                     ),
                   ),
@@ -52,7 +64,7 @@ class _HomeState extends State<Home> {
                   daystreakT, 
                   semanticsLabel: daystreakT,
                   style: GoogleFonts.notoSerif(
-                    textStyle: Theme.of(context).textTheme.headlineSmall,
+                    textStyle: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
                 const LargeSpacer(),

@@ -30,12 +30,14 @@ class CustomText extends StatelessWidget {
     required this.text,
     this.specialColor,
     this.softWrapToggle,
+    this.centerAlignToggle,
   });
 
   final TextType textType;
   final String text;
   final Color? specialColor;
   final bool? softWrapToggle;
+  final bool? centerAlignToggle;
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +47,19 @@ class CustomText extends StatelessWidget {
       TextType.body => Theme.of(context).textTheme.bodyMedium!.copyWith(color: specialColor),
     };
 
+    final TextAlign textAlign;
+    if (centerAlignToggle == null) {
+      textAlign = TextAlign.left;
+    } else {
+      textAlign = TextAlign.center;
+    }
+
     return Text(
       text, 
       semanticsLabel: text,
       softWrap: softWrapToggle,
-      style: textStyle
+      style: textStyle,
+      textAlign: textAlign,
     );
   }
 }

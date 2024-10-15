@@ -22,7 +22,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(1, 5124398390309505016),
       name: 'Habit',
-      lastPropertyId: const obx_int.IdUid(5, 3087926695973412499),
+      lastPropertyId: const obx_int.IdUid(7, 239594852941344809),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -49,6 +49,16 @@ final _entities = <obx_int.ModelEntity>[
             id: const obx_int.IdUid(5, 3087926695973412499),
             name: 'checked',
             type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(6, 629970220138052795),
+            name: 'canBeChecked',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(7, 239594852941344809),
+            name: 'lastChecked',
+            type: 10,
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
@@ -114,12 +124,14 @@ obx_int.ModelDefinition getObjectBoxModel() {
         objectToFB: (Habit object, fb.Builder fbb) {
           final nameOffset = fbb.writeString(object.name);
           final descriptionOffset = fbb.writeString(object.description);
-          fbb.startTable(6);
+          fbb.startTable(8);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, nameOffset);
           fbb.addOffset(2, descriptionOffset);
           fbb.addInt64(3, object.streak);
           fbb.addBool(4, object.checked);
+          fbb.addBool(5, object.canBeChecked);
+          fbb.addInt64(6, object.lastChecked.millisecondsSinceEpoch);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -131,14 +143,21 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final descriptionParam =
               const fb.StringReader(asciiOptimization: true)
                   .vTableGet(buffer, rootOffset, 8, '');
+          final lastCheckedParam = DateTime.fromMillisecondsSinceEpoch(
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0));
           final idParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
           final streakParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0);
           final checkedParam =
               const fb.BoolReader().vTableGet(buffer, rootOffset, 12, false);
-          final object = Habit(nameParam, descriptionParam,
-              id: idParam, streak: streakParam, checked: checkedParam);
+          final canBeCheckedParam =
+              const fb.BoolReader().vTableGet(buffer, rootOffset, 14, false);
+          final object = Habit(nameParam, descriptionParam, lastCheckedParam,
+              id: idParam,
+              streak: streakParam,
+              checked: checkedParam,
+              canBeChecked: canBeCheckedParam);
 
           return object;
         })
@@ -167,4 +186,12 @@ class Habit_ {
   /// See [Habit.checked].
   static final checked =
       obx.QueryBooleanProperty<Habit>(_entities[0].properties[4]);
+
+  /// See [Habit.canBeChecked].
+  static final canBeChecked =
+      obx.QueryBooleanProperty<Habit>(_entities[0].properties[5]);
+
+  /// See [Habit.lastChecked].
+  static final lastChecked =
+      obx.QueryDateProperty<Habit>(_entities[0].properties[6]);
 }

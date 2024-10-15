@@ -17,8 +17,17 @@ class ObjectBox {
     return ObjectBox._create(await openStore());
   }
 
+  void checkHabitsStatus() {
+    final habits = habitBox.getAll();
+    for (var habit in habits) {
+      habit.checkDailyReset();
+      habitBox.put(habit);
+    }
+  }
+
   void addHabit(String habitName, String habitDescription) {
-    Habit newHabit = Habit(habitName, habitDescription);
+    DateTime initalDateTime = DateTime.now();
+    Habit newHabit = Habit(habitName, habitDescription, initalDateTime);
     habitBox.put(newHabit);
     
     log("Added Habit ${newHabit.name}");

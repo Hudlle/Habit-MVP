@@ -9,6 +9,7 @@ late ObjectBox db;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   db = await ObjectBox.create();
+  db.checkHabitsStatus();
 
   runApp(const HabitApp());
 }

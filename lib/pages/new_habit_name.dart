@@ -14,11 +14,11 @@ class NewHabitName extends StatelessWidget {
         color: Theme.of(context).colorScheme.surface,
         child: Padding(
           padding: EdgeInsets.fromLTRB(defaultPagePadding[0], defaultPagePadding[1], defaultPagePadding[2], defaultPagePadding[3]),
-          child: Column(
+          child: Column( 
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomText(
-                text: newHabitDetailHeadlineT,
+                text: newHabitNameHeadlineT,
                 textType: TextType.headline,
               ),
               const LargeSpacer(),
