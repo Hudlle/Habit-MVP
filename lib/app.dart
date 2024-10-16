@@ -29,7 +29,7 @@ class HabitApp extends StatelessWidget {
         signUpRoute : (BuildContext context) => const SignUp(),
         logInRoute : (BuildContext context) => const LogIn(),
 
-        homeRoute : (BuildContext context) => const Home(), 
+        homeRoute : (BuildContext context) => const Home(),
         habitCloseLookRoute : (BuildContext context) {
           final habit = ModalRoute.of(context)!.settings.arguments as Habit;
           return HabitCloseLook(habit: habit);

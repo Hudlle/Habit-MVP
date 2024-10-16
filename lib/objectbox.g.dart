@@ -22,7 +22,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(1, 5124398390309505016),
       name: 'Habit',
-      lastPropertyId: const obx_int.IdUid(7, 239594852941344809),
+      lastPropertyId: const obx_int.IdUid(8, 6949370414103273680),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -51,18 +51,52 @@ final _entities = <obx_int.ModelEntity>[
             type: 1,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(6, 629970220138052795),
-            name: 'canBeChecked',
+            id: const obx_int.IdUid(7, 239594852941344809),
+            name: 'lastChecked',
+            type: 10,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(8, 6949370414103273680),
+            name: 'dayStreakCounterId',
+            type: 11,
+            flags: 520,
+            indexId: const obx_int.IdUid(1, 8292585228963820127),
+            relationTarget: 'DayStreakCounter')
+      ],
+      relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(3, 5087108227991498369),
+      name: 'DayStreakCounter',
+      lastPropertyId: const obx_int.IdUid(5, 5398120625478593145),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 2028968676938064357),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 7247327071934980800),
+            name: 'count',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 5170222834347141701),
+            name: 'updated',
             type: 1,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(7, 239594852941344809),
-            name: 'lastChecked',
+            id: const obx_int.IdUid(5, 5398120625478593145),
+            name: 'lastUpdated',
             type: 10,
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
-      backlinks: <obx_int.ModelBacklink>[])
+      backlinks: <obx_int.ModelBacklink>[
+        obx_int.ModelBacklink(
+            name: 'habits', srcEntity: 'Habit', srcField: 'dayStreakCounter')
+      ])
 ];
 
 /// Shortcut for [obx.Store.new] that passes [getObjectBoxModel] and for Flutter
@@ -100,13 +134,18 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(1, 5124398390309505016),
-      lastIndexId: const obx_int.IdUid(0, 0),
+      lastEntityId: const obx_int.IdUid(3, 5087108227991498369),
+      lastIndexId: const obx_int.IdUid(1, 8292585228963820127),
       lastRelationId: const obx_int.IdUid(0, 0),
       lastSequenceId: const obx_int.IdUid(0, 0),
-      retiredEntityUids: const [],
+      retiredEntityUids: const [2792962975620706389],
       retiredIndexUids: const [],
-      retiredPropertyUids: const [],
+      retiredPropertyUids: const [
+        2736417746403495448,
+        128407861724487823,
+        4175324024939664385,
+        629970220138052795
+      ],
       retiredRelationUids: const [],
       modelVersion: 5,
       modelVersionParserMinimum: 5,
@@ -115,7 +154,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
   final bindings = <Type, obx_int.EntityDefinition>{
     Habit: obx_int.EntityDefinition<Habit>(
         model: _entities[0],
-        toOneRelations: (Habit object) => [],
+        toOneRelations: (Habit object) => [object.dayStreakCounter],
         toManyRelations: (Habit object) => {},
         getId: (Habit object) => object.id,
         setId: (Habit object, int id) {
@@ -124,14 +163,14 @@ obx_int.ModelDefinition getObjectBoxModel() {
         objectToFB: (Habit object, fb.Builder fbb) {
           final nameOffset = fbb.writeString(object.name);
           final descriptionOffset = fbb.writeString(object.description);
-          fbb.startTable(8);
+          fbb.startTable(9);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, nameOffset);
           fbb.addOffset(2, descriptionOffset);
           fbb.addInt64(3, object.streak);
           fbb.addBool(4, object.checked);
-          fbb.addBool(5, object.canBeChecked);
           fbb.addInt64(6, object.lastChecked.millisecondsSinceEpoch);
+          fbb.addInt64(7, object.dayStreakCounter.targetId);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -151,14 +190,52 @@ obx_int.ModelDefinition getObjectBoxModel() {
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0);
           final checkedParam =
               const fb.BoolReader().vTableGet(buffer, rootOffset, 12, false);
-          final canBeCheckedParam =
-              const fb.BoolReader().vTableGet(buffer, rootOffset, 14, false);
           final object = Habit(nameParam, descriptionParam, lastCheckedParam,
-              id: idParam,
-              streak: streakParam,
-              checked: checkedParam,
-              canBeChecked: canBeCheckedParam);
-
+              id: idParam, streak: streakParam, checked: checkedParam);
+          object.dayStreakCounter.targetId =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 18, 0);
+          object.dayStreakCounter.attach(store);
+          return object;
+        }),
+    DayStreakCounter: obx_int.EntityDefinition<DayStreakCounter>(
+        model: _entities[1],
+        toOneRelations: (DayStreakCounter object) => [],
+        toManyRelations: (DayStreakCounter object) => {
+              obx_int.RelInfo<Habit>.toOneBacklink(8, object.id,
+                      (Habit srcObject) => srcObject.dayStreakCounter):
+                  object.habits
+            },
+        getId: (DayStreakCounter object) => object.id,
+        setId: (DayStreakCounter object, int id) {
+          object.id = id;
+        },
+        objectToFB: (DayStreakCounter object, fb.Builder fbb) {
+          fbb.startTable(6);
+          fbb.addInt64(0, object.id);
+          fbb.addInt64(1, object.count);
+          fbb.addBool(2, object.updated);
+          fbb.addInt64(4, object.lastUpdated.millisecondsSinceEpoch);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final lastUpdatedParam = DateTime.fromMillisecondsSinceEpoch(
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0));
+          final idParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final countParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0);
+          final updatedParam =
+              const fb.BoolReader().vTableGet(buffer, rootOffset, 8, false);
+          final object = DayStreakCounter(lastUpdatedParam,
+              id: idParam, count: countParam, updated: updatedParam);
+          obx_int.InternalToManyAccess.setRelInfo<DayStreakCounter>(
+              object.habits,
+              store,
+              obx_int.RelInfo<Habit>.toOneBacklink(8, object.id,
+                  (Habit srcObject) => srcObject.dayStreakCounter));
           return object;
         })
   };
@@ -187,11 +264,35 @@ class Habit_ {
   static final checked =
       obx.QueryBooleanProperty<Habit>(_entities[0].properties[4]);
 
-  /// See [Habit.canBeChecked].
-  static final canBeChecked =
-      obx.QueryBooleanProperty<Habit>(_entities[0].properties[5]);
-
   /// See [Habit.lastChecked].
   static final lastChecked =
-      obx.QueryDateProperty<Habit>(_entities[0].properties[6]);
+      obx.QueryDateProperty<Habit>(_entities[0].properties[5]);
+
+  /// See [Habit.dayStreakCounter].
+  static final dayStreakCounter =
+      obx.QueryRelationToOne<Habit, DayStreakCounter>(
+          _entities[0].properties[6]);
+}
+
+/// [DayStreakCounter] entity fields to define ObjectBox queries.
+class DayStreakCounter_ {
+  /// See [DayStreakCounter.id].
+  static final id =
+      obx.QueryIntegerProperty<DayStreakCounter>(_entities[1].properties[0]);
+
+  /// See [DayStreakCounter.count].
+  static final count =
+      obx.QueryIntegerProperty<DayStreakCounter>(_entities[1].properties[1]);
+
+  /// See [DayStreakCounter.updated].
+  static final updated =
+      obx.QueryBooleanProperty<DayStreakCounter>(_entities[1].properties[2]);
+
+  /// See [DayStreakCounter.lastUpdated].
+  static final lastUpdated =
+      obx.QueryDateProperty<DayStreakCounter>(_entities[1].properties[3]);
+
+  /// see [DayStreakCounter.habits]
+  static final habits =
+      obx.QueryBacklinkToMany<Habit, DayStreakCounter>(Habit_.dayStreakCounter);
 }

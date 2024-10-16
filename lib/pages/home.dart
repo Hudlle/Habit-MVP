@@ -6,21 +6,33 @@ import 'package:habit_mvp/main.dart';
 import 'package:habit_mvp/model.dart';
 import 'package:habit_mvp/default_data.dart';
 import 'package:habit_mvp/default_widgets.dart';
-import 'package:habit_mvp/user_data.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  const Home({
+    super.key,
+  });
 
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+  late int dayStreakCount;
 
   @override
   void initState() {
-    db.checkHabitsStatus();
+    db.updateHabitsStatus();
+    DayStreakCounter dayStreakCounter = db.getDayStreakCounter();
+    dayStreakCounter.checkDailyReset();
+    dayStreakCount = dayStreakCounter.count;
     super.initState();
+  }
+
+  void updateDayStreakCount() {
+    DayStreakCounter dayStreakCounter = db.getDayStreakCounter();
+    setState(() {
+      dayStreakCount = dayStreakCounter.count;
+    });
   }
   
   @override
@@ -51,8 +63,7 @@ class _HomeState extends State<Home> {
                 ),
                 FittedBox(
                   child: Text(
-                    daystreak.toString(),
-                    semanticsLabel: daystreak.toString(),
+                    dayStreakCount.toString(),
                     style: GoogleFonts.notoSerif(
                       textStyle: const TextStyle(
                         fontSize: 175,
@@ -96,6 +107,7 @@ class _HomeState extends State<Home> {
                                 child: HabitCard(
                                   key: ValueKey(snapshot.data?[index].id),
                                   habit: snapshot.data![index],
+                                  onHabitUpdate: updateDayStreakCount,
                                 )
                               );
                             }
@@ -120,9 +132,11 @@ class HabitCard extends StatefulWidget {
   const HabitCard({
     super.key,
     required this.habit,
+    required this.onHabitUpdate,
   });
 
   final Habit habit;
+  final VoidCallback onHabitUpdate;
 
   @override
   State<HabitCard> createState() => _HabitCardState();
@@ -140,10 +154,14 @@ class _HabitCardState extends State<HabitCard> {
   void toggleCheckButton() {
     bool newCheckedStatus = widget.habit.toggleCheck();
     db.habitBox.put(widget.habit);
+    DayStreakCounter dayStreakCounter = db.getDayStreakCounter();
+    dayStreakCounter.update();
+    db.dayStreakCounterBox.put(dayStreakCounter);
 
     setState(() {
       checkedStatus = newCheckedStatus;
     });
+    widget.onHabitUpdate();
   }
 
   @override
