@@ -63,7 +63,7 @@ class _HomeState extends State<Home> {
         child: Container(
           color: Theme.of(context).colorScheme.surface,
           child: Padding(
-            padding: EdgeInsets.fromLTRB(homePagePadding[0], homePagePadding[1], homePagePadding[2], homePagePadding[3]),
+            padding: EdgeInsets.fromLTRB(defaultPagePadding[0], defaultPagePadding[1], defaultPagePadding[2], defaultPagePadding[3]),
             child: Center(
               child: Column(
                 children: [

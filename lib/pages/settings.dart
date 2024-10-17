@@ -22,35 +22,6 @@ class Settings extends StatelessWidget {
                 textType: TextType.headline,
               ),
               const LargeSpacer(),
-              const SettingsCard(
-                icon: Icon(Icons.person),
-                title: accountSettingsT,
-                route: accountSettingsRoute,
-              ),
-              const LargeSpacer(),
-              GestureDetector(
-                onTap:() {
-                  Navigator.pushNamedAndRemoveUntil(
-                    context, 
-                    logInRoute, 
-                    (Route<dynamic> route) => false,
-                  );
-                },
-                child: Card.outlined(
-                  shape: OutlineInputBorder(
-                    borderSide: const BorderSide(color:borderOutline),
-                    borderRadius: BorderRadius.circular(cardBorderRadius),
-                  ),
-                  child: const Column(
-                    children: [
-                      ListTile(
-                        leading: Icon(Icons.logout),
-                        title: Text(logOutSettingsT),
-                      )
-                    ],
-                  )
-                ),
-              ),
             ],
           )
         )

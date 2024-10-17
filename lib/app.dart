@@ -10,11 +10,7 @@ import 'pages/habit_edit.dart';
 import 'pages/new_habit_name.dart';
 import 'pages/new_habit_detail.dart';
 import 'pages/how_to_goal.dart';
-import 'pages/sign_up.dart';
-import 'pages/log_in.dart';
 import 'pages/settings.dart';
-import 'pages/account_settings.dart';
-import 'pages/password_settings.dart';
 
 class HabitApp extends StatelessWidget {
   const HabitApp({super.key});
@@ -26,9 +22,6 @@ class HabitApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: homeRoute,
       routes: {
-        signUpRoute : (BuildContext context) => const SignUp(),
-        logInRoute : (BuildContext context) => const LogIn(),
-
         homeRoute : (BuildContext context) => const Home(),
         habitCloseLookRoute : (BuildContext context) {
           final habit = ModalRoute.of(context)!.settings.arguments as Habit;
@@ -43,8 +36,6 @@ class HabitApp extends StatelessWidget {
         howToGoalRoute : (BuildContext context) => const HowToGoal(),
 
         settingsRoute: (BuildContext context) => const Settings(),
-        accountSettingsRoute : (BuildContext context) => const AccountSettings(),
-        passwordSettingsRoute : (BuildContext context) => const PasswordSettings(),
       },
       theme: ThemeData(
         useMaterial3: true,
