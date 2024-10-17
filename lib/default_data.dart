@@ -35,7 +35,7 @@ const String logInToSignUpT2 = "Erstelle eins.";
 
 // Home
 const String welcomHeadlineT = "Was hast du heute gemacht?";
-const String daystreakT = "Tagesstreak";
+const String daystreakT = "Tagesserie";
 
 // Habit Close Look
 const String yourGoalTitleT = "Dein Ziel";
