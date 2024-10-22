@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../main.dart';
 import '../default_data.dart';
@@ -20,7 +21,7 @@ class NewHabitDetail extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomText(
-                text: newHabitDetailHeadlineT,
+                text: AppLocalizations.of(context)!.newHabitDetailWelcome,
                 textType: TextType.headline,
               ),
               const LargeSpacer(),
@@ -36,7 +37,7 @@ class NewHabitDetail extends StatelessWidget {
                     ),
                     const SizedBox(width: smallSpacing),
                     CustomText(
-                      text: howToGoalT,
+                      text: AppLocalizations.of(context)!.howToGoal,
                       textType: TextType.body,
                       specialColor: primary,
                     ),
@@ -44,9 +45,9 @@ class NewHabitDetail extends StatelessWidget {
                 ),
               ),
               const LargeSpacer(),
-              const NewHabitDetailTextField(
-                emptyErrorT: newHabitDetailEmptyErrorT,
-                hintT: newHabitDetailHintT,
+              NewHabitDetailTextField(
+                emptyErrorT: AppLocalizations.of(context)!.newHabitDetailEmptyError,
+                hintT: AppLocalizations.of(context)!.newHabitDetailHint,
               ),
             ],
           )
@@ -170,8 +171,8 @@ class _NewHabitDetailTextFieldState extends State<NewHabitDetailTextField> {
           ),
           const SmallSpacer(),
           Text(
-            checkIntervalT,
-            semanticsLabel: checkIntervalT,
+            AppLocalizations.of(context)!.checkInterval,
+            semanticsLabel: AppLocalizations.of(context)!.checkInterval,
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
               color: _habitIntervalColor,
             )

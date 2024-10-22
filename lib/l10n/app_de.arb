@@ -1,0 +1,28 @@
+{
+    "@@locale": "de",
+    
+    "homeWelcome": "Was hast du heute gemacht?",
+    "daystreak": "Tagesserie",
+    
+    "newHabitNameWelcome": "Wie heißt die neue Gewohnheit?",
+    "newHabitNameHint": "z.B. Lesen",
+    "newHabitNameEmptyError": "Gib deiner Gewohnheit einen Namen",
+    
+    "newHabitDetailWelcome": "Definiere Dein Ziel",
+    "newHabitDetailHint": "z.B. 5 Seiten",
+    "newHabitDetailEmptyError": "Beschreibe Dein tägliches Ziel",
+    "checkInterval": "pro Tag",
+    
+    "yourGoal": "Dein Ziel",
+    "howToGoal": "Wie setze ich mir ein gutes Ziel?",
+    "howToGoalP": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+    
+    "settingsWelcome": "Einstellungen",
+    "notificationSettings": "Benachrichtigungen",
+    
+    "name": "Name",
+    "dangerZone": "Gefahrenzone",
+    "save": "Speichern",
+    "deleteHabit": "Gewohnheit löschen"
+  }
+  

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:habit_mvp/main.dart';
 import 'package:habit_mvp/model.dart';
@@ -35,13 +36,13 @@ class _HabitEditState extends State<HabitEdit> {
               ),
               LargeSpacer(),
               CustomText(
-                text: habitEditNameTitleT,
+                text: AppLocalizations.of(context)!.name,
                 textType: TextType.title,
               ),
               HabitEditNameTextField(habit: widget.habit),
               LargeSpacer(),
               CustomText(
-                text: yourGoalTitleT,
+                text: AppLocalizations.of(context)!.yourGoal,
                 textType: TextType.title,
               ),
               HabitEditDescriptionTextField(habit: widget.habit)

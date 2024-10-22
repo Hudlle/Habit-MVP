@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../default_data.dart';
 import '../default_widgets.dart';
@@ -17,12 +18,12 @@ class HowToGoal extends StatelessWidget {
           child: Column(
             children: [
               CustomText(
-                text: howToGoalHeadlineT,
+                text: AppLocalizations.of(context)!.howToGoal,
                 textType: TextType.headline,
               ),
               const LargeSpacer(),
               CustomText(
-                text: howToGoalPT,
+                text: AppLocalizations.of(context)!.howToGoalP,
                 textType: TextType.body,
               ),
             ],

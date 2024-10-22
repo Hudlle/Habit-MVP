@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../default_data.dart';
 import '../default_widgets.dart';
@@ -18,13 +19,13 @@ class NewHabitName extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomText(
-                text: newHabitNameHeadlineT,
+                text: AppLocalizations.of(context)!.newHabitNameWelcome,
                 textType: TextType.headline,
               ),
               const LargeSpacer(),
-              const NewHabitNameTextField(
-                emptyErrorT: newHabitNameEmptyErrorT,
-                hintT: newHabitNameHintT,
+              NewHabitNameTextField(
+                emptyErrorT: AppLocalizations.of(context)!.newHabitNameEmptyError,
+                hintT: AppLocalizations.of(context)!.newHabitNameHint,
                 route: newHabitDetailRoute,
               ),
             ],

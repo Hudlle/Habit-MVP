@@ -8,42 +8,7 @@ Color? hint = Colors.grey[700];
 const Color focusedBorderOutline = Colors.black;
 const Color borderOutline = Color(0xff636e72);
 
-//* German texts
-// Home
-const String welcomHeadlineT = "Was hast du heute gemacht?";
-const String daystreakT = "Tagesserie";
-
-// Habit Close Look
-const String yourGoalTitleT = "Dein Ziel";
-const String dangerZoneTitleT = "Gefahrenzone";
-const String deleteHabitT = "Gewohnheit löschen";
-
-// Habit Edit
-const String habitEditNameTitleT = "Name";
-
-// New Habit Name
-const String newHabitNameHeadlineT = "Wie heißt die neue Gewohnheit?";
-const String newHabitNameHintT = "z.B. Lesen";
-const String newHabitNameEmptyErrorT = "Gib deiner Gewohnheit einen Namen";
-
-// New Habit Detail
-const String newHabitDetailHeadlineT = "Definiere Dein Ziel";
-const String howToGoalT = "Wie setze ich mir ein gutes Ziel?";
-const String newHabitDetailHintT = "z.B. 5 Seiten";
-const String newHabitDetailEmptyErrorT = "Beschreibe Dein tägliches Ziel";
-const String checkIntervalT = "pro Tag";
-
-// How To Goal
-const String howToGoalHeadlineT= howToGoalT;
-const String howToGoalPT = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.";
-
-// Settings
-const String settingsHeadlineT = "Einstellungen";
-const String notificationSettingsT = "Benachrichtigungen";
-const String saveT = "Speichern";
-
-//* Data and Routes
-// Front End Data
+//* Front End Data
 const double cardBorderRadius = 10;
 const double submitButtonHeight = 60;
 const double checkButtonSize = 75;
@@ -51,7 +16,7 @@ const double smallSpacing = 10;
 const double largeSpacing = 30;
 const defaultPagePadding = <double>[25,25,25,25];
 
-// Routes
+//* Routes
 const String homeRoute = "/";
 const String habitCloseLookRoute = "/habit_close_look";
 const String habitEditRoute = "/habit_edit";

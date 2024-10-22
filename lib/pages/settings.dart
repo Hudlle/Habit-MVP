@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../default_data.dart';
 import '../default_widgets.dart';
@@ -18,7 +19,7 @@ class Settings extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomText(
-                text: settingsHeadlineT,
+                text: AppLocalizations.of(context)!.settingsWelcome,
                 textType: TextType.headline,
               ),
               const LargeSpacer(),

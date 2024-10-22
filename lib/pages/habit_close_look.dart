@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:habit_mvp/default_data.dart';
 import 'package:habit_mvp/default_widgets.dart';
@@ -85,7 +86,7 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomText(
-                        text: yourGoalTitleT,
+                        text: AppLocalizations.of(context)!.yourGoal,
                         textType: TextType.title,
                       ),
                       SizedBox( 
@@ -142,7 +143,7 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
               ),
               Expanded(child: Container()),
               CustomText(
-                text: dangerZoneTitleT,
+                text: AppLocalizations.of(context)!.dangerZone,
                 textType: TextType.title,
               ),
               SmallSpacer(),
@@ -155,11 +156,11 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
                     borderSide: const BorderSide(color: borderOutline),
                     borderRadius: BorderRadius.circular(cardBorderRadius),
                   ),
-                  child: const Column(
+                  child: Column(
                     children: [
                       ListTile(
                         leading: Icon(Icons.delete),
-                        title: Text(deleteHabitT),
+                        title: Text(AppLocalizations.of(context)!.deleteHabit),
                       )
                     ],
                   )

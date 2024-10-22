@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'default_data.dart';
 import 'pages/home.dart';
@@ -19,7 +20,12 @@ class HabitApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Habit",
+      //* Internationalization / Language Support
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       debugShowCheckedModeBanner: false,
+      locale: Locale("de"), // TODO locale setting hinzufügen
+      //* Routing
       initialRoute: homeRoute,
       routes: {
         homeRoute : (BuildContext context) => const Home(),
@@ -37,6 +43,7 @@ class HabitApp extends StatelessWidget {
 
         settingsRoute: (BuildContext context) => const Settings(),
       },
+      //* Theme Adjustments
       theme: ThemeData(
         useMaterial3: true,
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:habit_mvp/main.dart';
 import 'package:habit_mvp/model.dart';
@@ -68,7 +69,7 @@ class _HomeState extends State<Home> {
               child: Column(
                 children: [
                   CustomText(
-                    text: welcomHeadlineT,
+                    text: AppLocalizations.of(context)!.homeWelcome,
                     textType: TextType.headline,
                     centerAlignToggle: true,
                   ),
@@ -99,11 +100,10 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                         SizedBox(width: 10),
-                        Text(
-                          daystreakT,
-                          semanticsLabel: daystreakT,
-                          style: Theme.of(context).textTheme.titleMedium
-                        )
+                        CustomText(
+                          text: AppLocalizations.of(context)!.daystreak,
+                          textType: TextType.title,
+                        ),
                       ],
                     ),
                   ),
