@@ -198,7 +198,7 @@ class _HabitCardState extends State<HabitCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: checkedStatus ? primary : onPrimary,
+      color: checkedStatus ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onPrimary,
       margin: const EdgeInsets.only(bottom: 10),
       child: Container(
         padding: const EdgeInsets.all(15),
@@ -213,13 +213,13 @@ class _HabitCardState extends State<HabitCard> {
                     text: widget.habit.name,
                     textType: TextType.title,
                     softWrapToggle: true,
-                    specialColor: checkedStatus ? onPrimary : Colors.black,
+                    specialColor: checkedStatus ? Theme.of(context).colorScheme.onPrimary : Colors.black,
                   ),
                   CustomText(
                     text: widget.habit.description,
                     textType: TextType.body,
                     softWrapToggle: true,
-                    specialColor: checkedStatus ? onPrimary : Colors.black,
+                    specialColor: checkedStatus ? Theme.of(context).colorScheme.onPrimary : Colors.black,
                   ),
                 ],
               ),
@@ -232,7 +232,7 @@ class _HabitCardState extends State<HabitCard> {
                     "🔥${widget.habit.streak}",
                     style: TextStyle(
                       fontSize: 20,
-                      color: checkedStatus ? onPrimary : Colors.black,
+                      color: checkedStatus ? Theme.of(context).colorScheme.onPrimary : Colors.black,
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -241,8 +241,8 @@ class _HabitCardState extends State<HabitCard> {
                       toggleCheckButton();
                     },
                     style: FilledButton.styleFrom(
-                      backgroundColor: checkedStatus ? onPrimary : primary,
-                      iconColor: checkedStatus ? primary : onPrimary,
+                      backgroundColor: checkedStatus ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.primary,
+                      iconColor: checkedStatus ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onPrimary,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
@@ -276,15 +276,15 @@ class AddHabitIB extends StatelessWidget {
       child: Center(
         child: Ink(
           decoration: ShapeDecoration(
-            color: primary,
+            color: Theme.of(context).colorScheme.primary,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
           ),
           child: IconButton(
-            icon: const Icon(
+            icon: Icon(
               Icons.add,
-              color: onPrimary,
+              color: Theme.of(context).colorScheme.onPrimary,
             ),
             onPressed:() {
               log("Neues Habit du Schwein!");

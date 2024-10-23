@@ -19,6 +19,8 @@
     
     "settingsWelcome": "Einstellungen",
     "notificationSettings": "Benachrichtigungen",
+    "languageSettings" : "Sprache",
+    "darkMode" : "Dunkles Design",
     
     "name": "Name",
     "dangerZone": "Gefahrenzone",

@@ -78,9 +78,28 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "4:7703370628805739742",
+      "lastPropertyId": "2:1933215418772400176",
+      "name": "UserSettings",
+      "properties": [
+        {
+          "id": "1:5194649802952295894",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1933215418772400176",
+          "name": "isDarkMode",
+          "type": 1
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "3:5087108227991498369",
+  "lastEntityId": "4:7703370628805739742",
   "lastIndexId": "1:8292585228963820127",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

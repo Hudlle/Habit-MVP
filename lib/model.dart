@@ -1,5 +1,23 @@
+import 'package:flutter/material.dart';
 import 'package:objectbox/objectbox.dart';
 import 'dart:developer';
+
+@Entity()
+class UserSettings {
+  @Id()
+  int id;
+
+  bool isDarkMode;
+
+  UserSettings({
+    this.id = 0,
+    this.isDarkMode = false,
+  });
+
+  ThemeMode getThemeMode () {
+    return isDarkMode ? ThemeMode.dark : ThemeMode.light;
+  }
+}
 
 @Entity()
 class DayStreakCounter{

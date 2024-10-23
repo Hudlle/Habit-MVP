@@ -127,15 +127,65 @@ class SettingsCard extends StatelessWidget {
           side: const BorderSide(color: borderOutline),
           borderRadius: BorderRadius.circular(cardBorderRadius),
         ),
-        child: Column(
-          children: [
-            ListTile(
-              leading: icon,
-              title: Text(title),
-              trailing: const Icon(Icons.navigate_next)
-            ),
-          ],
+        child: ListTile(
+          leading: icon,
+          title: Text(title),
+          trailing: const Icon(Icons.navigate_next)
         )
+      ),
+    );
+  }
+}
+
+class SettingsToggle extends StatefulWidget {
+  const SettingsToggle({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.initialValue,
+    required this.onToggle,
+  });
+
+  final Icon icon;
+  final String title;
+  final bool initialValue;
+  final ValueChanged<bool> onToggle;
+
+  @override
+  State<SettingsToggle> createState() => _SettingsToggleState();
+}
+
+class _SettingsToggleState extends State<SettingsToggle> {
+  late bool _isToggled;
+
+  @override
+  void initState() {
+    super.initState();
+    _isToggled = widget.initialValue;
+  }
+
+  void _handleToggle(bool value) {
+    setState(() {
+      _isToggled = value;
+    });
+    widget.onToggle(value);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card.outlined(
+      shape: RoundedRectangleBorder(
+        side: const BorderSide(color: borderOutline),
+        borderRadius: BorderRadius.circular(cardBorderRadius),
+      ),
+      child: ListTile(
+        leading: widget.icon,
+        title: Text(widget.title),
+        trailing: Switch(
+          value: _isToggled,
+          onChanged: _handleToggle,
+          activeColor: primary,
+        ),
       ),
     );
   }
