@@ -1,0 +1,98 @@
+{
+  "@@locale": "en",
+
+  "homeWelcome": "What did you do today?",
+  "@homeWelcome": {
+    "description": "Main greeting on home page"
+  },
+  "daystreak": "Day streak",
+  "@daystreak": {
+    "description": "Label for the day streak counter"
+  },
+
+  "newHabitNameWelcome": "Give your new habit a name",
+  "@newHabitNameWelcome": {
+    "description": "Prompt asking the user to enter the name of a new habit"
+  },
+  "newHabitNameHint": "e.g. Reading",
+  "@newHabitNameHint": {
+    "description": "Hint text in input field for the new habit name"
+  },
+  "newHabitNameEmptyError": "Please give your habit a name",
+  "@newHabitNameEmptyError": {
+    "description": "Error message shown when the habit name is empty"
+  },
+
+  "newHabitDetailWelcome": "Define your goal",
+  "@newHabitDetailWelcome": {
+    "description": "Prompt asking the user to define their goal for the habit"
+  },
+  "newHabitDetailHint": "e.g. 5 pages",
+  "@newHabitDetailHint": {
+    "description": "Hint text in input field for the new habit details"
+  },
+  "newHabitDetailEmptyError": "Describe your daily goal",
+  "@newHabitDetailEmptyError": {
+    "description": "Error message shown when the habit detail is empty"
+  },
+  "checkInterval": "per day",
+  "@checkInterval": {
+    "description": "Frequency label for the habit check interval"
+  },
+
+  "yourGoal": "Your goal",
+  "@yourGoal": {
+    "description": "Label for displaying the user's goal"
+  },
+  "howToGoal": "How to set a good goal?",
+  "@howToGoal": {
+    "description": "Label or button text leading to information on setting goals"
+  },
+  "howToGoalP": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+  "@howToGoalP": {
+    "description": "Paragraph text explaining how to set a good goal"
+  },
+
+  "settingsWelcome": "Settings",
+  "@settingsWelcome": {
+    "description": "Main heading in settings"
+  },
+  "notifications": "Notifications",
+  "@notifications": {
+    "description": "Label for the notification settings section"
+  },
+  "language" : "Language",
+  "@language" : {
+    "description": "Label for the language settings section"
+  },
+  "darkMode" : "Dark mode",
+  "@darkMode" : {
+    "description": "Label for the dark mode settings swtich"
+  },
+
+  "languageSettingsWelcome": "Language settings",
+  "@languageSettingsWelcome" : {
+    "description": "Main heading in language settings"  
+  },
+  "chooseLanguage" : "Choose your language",
+  "@chooseLanguage" : {
+    "description": "Label for the language settings section"
+  },
+
+  "name": "Name",
+  "@name": {
+    "description": "Label for the name of the habit"
+  },
+  "dangerZone": "Danger Zone",
+  "@dangerZone": {
+    "description": "Label for section that warns users of critical actions"
+  },
+  "save": "Save",
+  "@save": {
+    "description": "Button label to save settings"
+  },
+  "deleteHabit": "Delete habit",
+  "@deleteHabit": {
+    "description": "Button label for deleting a habit"
+  }
+}

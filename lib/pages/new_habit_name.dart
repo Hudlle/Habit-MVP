@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../default_data.dart';
 import '../default_widgets.dart';
@@ -18,14 +19,15 @@ class NewHabitName extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomText(
-                text: newHabitNameHeadlineT,
+                text: AppLocalizations.of(context)!.newHabitNameWelcome,
                 textType: TextType.headline,
               ),
               const LargeSpacer(),
-              const NewHabitNameTextField(
-                emptyErrorT: newHabitNameEmptyErrorT,
-                hintT: newHabitNameHintT,
+              NewHabitNameTextField(
+                emptyErrorT: AppLocalizations.of(context)!.newHabitNameEmptyError,
+                hintT: AppLocalizations.of(context)!.newHabitNameHint,
                 route: newHabitDetailRoute,
+                borderCursorColor: Theme.of(context).colorScheme.primary,
               ),
             ],
           )
@@ -41,11 +43,13 @@ class NewHabitNameTextField extends StatefulWidget {
     required this.emptyErrorT,
     this.hintT,
     required this.route,
+    required this.borderCursorColor,
   });
 
   final String emptyErrorT;
   final String? hintT;
   final String route;
+  final Color borderCursorColor;
 
   @override
   State<NewHabitNameTextField> createState() => _NewHabitNameTextFieldState();
@@ -55,12 +59,13 @@ class _NewHabitNameTextFieldState extends State<NewHabitNameTextField> {
   final _formKey = GlobalKey<FormState>();
   final FocusNode _focusNode = FocusNode();
   late TextEditingController _controller;
-  Color _borderCursorColor = primary;
+  late Color _borderCursorColor;
 
   @override
   void initState() {
-    super.initState();
     _controller = TextEditingController();
+    _borderCursorColor = widget.borderCursorColor;
+    super.initState(); 
   }
 
   @override
@@ -78,7 +83,7 @@ class _NewHabitNameTextFieldState extends State<NewHabitNameTextField> {
       );
     } else {
       setState(() {
-        _borderCursorColor = error;
+        _borderCursorColor = Theme.of(context).colorScheme.error;
         _focusNode.requestFocus();
       });
     }
@@ -100,7 +105,7 @@ class _NewHabitNameTextFieldState extends State<NewHabitNameTextField> {
         },
         onChanged: (value) {
           setState(() {
-            _borderCursorColor = primary;
+            _borderCursorColor = Theme.of(context).colorScheme.primary;
           });
         },
         onFieldSubmitted: (value) {
@@ -118,7 +123,6 @@ class _NewHabitNameTextFieldState extends State<NewHabitNameTextField> {
         cursorErrorColor: _borderCursorColor,
         decoration: InputDecoration(
           hintText: widget.hintT,
-          // hintStyle: TextStyle(color: Colors.grey[700]),
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: _borderCursorColor),
           ),

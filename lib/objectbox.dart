@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'model.dart';
@@ -8,27 +10,29 @@ class ObjectBox {
   //* Store
   late final Store store;
 
-  late final Box<DayStreakCounter> dayStreakCounterBox;
   late final Box<Habit> habitBox;
+  late final Box<DayStreakCounter> dayStreakCounterBox;
+  late final Box<UserSettings> userSettingsBox;
 
   ObjectBox._create(this.store) {
     habitBox = Box<Habit>(store);
     dayStreakCounterBox = Box<DayStreakCounter>(store);
+    userSettingsBox = Box<UserSettings>(store);
 
     // Initialize DayStreakCounter
     if (dayStreakCounterBox.isEmpty()) {
       dayStreakCounterBox.put(DayStreakCounter(DateTime.now()));
     }
+
+    // Initialize User Settings
+    if (userSettingsBox.isEmpty()) {
+      Locale userLocale = Locale(Platform.localeName);
+      userSettingsBox.put(UserSettings(userLocale.languageCode));
+    }
   }
 
   static Future<ObjectBox> create() async {
     return ObjectBox._create(await openStore());
-  }
-
-  //* Daystreak Counter
-  DayStreakCounter getDayStreakCounter() {
-    final List<DayStreakCounter> counters = dayStreakCounterBox.getAll();
-    return counters.first;
   }
 
   //* Habits
@@ -71,5 +75,22 @@ class ObjectBox {
       habit.checkDailyReset();
       habitBox.put(habit);
     }
+  }
+
+  //* Daystreak Counter
+  DayStreakCounter getDayStreakCounter() {
+    final List<DayStreakCounter> counters = dayStreakCounterBox.getAll();
+    return counters.first;
+  }
+
+  //* User Settings
+  void clearUserSettings() {
+    userSettingsBox.removeAll();
+    log("User Settings cleared\nCount: ${userSettingsBox.getAll().length}");
+  }
+
+  UserSettings getUserSettings() {
+    final List<UserSettings> allUserSettings = userSettingsBox.getAll();
+    return allUserSettings.first;
   }
 }

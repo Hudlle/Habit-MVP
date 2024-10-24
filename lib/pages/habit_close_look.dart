@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:habit_mvp/default_data.dart';
 import 'package:habit_mvp/default_widgets.dart';
@@ -68,7 +69,7 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
                   style: GoogleFonts.notoSerif(
                     textStyle: TextStyle(
                       fontSize: 200,
-                      color: checkedStatus ? primary : Colors.black,
+                      color: checkedStatus ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                 ),
@@ -76,7 +77,7 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
               CustomText(
                 text: widget.habit.name,
                 textType: TextType.headline,
-                specialColor: checkedStatus ? primary : Colors.black,
+                specialColor: checkedStatus ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
               ),
               LargeSpacer(),
               Row(
@@ -85,7 +86,7 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomText(
-                        text: yourGoalTitleT,
+                        text: AppLocalizations.of(context)!.yourGoal,
                         textType: TextType.title,
                       ),
                       SizedBox( 
@@ -105,7 +106,9 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
                         scale: 0.925,
                         child: Container(
                           decoration: BoxDecoration(
-                            border: Border.all(),
+                            border: Border.all(
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
                             borderRadius: BorderRadius.circular(15),
                           ),
                           child: IconButton(
@@ -121,7 +124,7 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
                     child: Center(
                       child: Ink(
                         decoration: ShapeDecoration(
-                          color: primary,
+                          color: Theme.of(context).colorScheme.primary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
@@ -129,7 +132,7 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
                         child: IconButton(
                           icon: Icon(
                             checkedStatus ? Icons.undo : Icons.check,
-                            color: onPrimary,
+                            color: Theme.of(context).colorScheme.onPrimary,
                           ),
                           onPressed:() {
                             toggleCheckButton();
@@ -142,7 +145,7 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
               ),
               Expanded(child: Container()),
               CustomText(
-                text: dangerZoneTitleT,
+                text: AppLocalizations.of(context)!.dangerZone,
                 textType: TextType.title,
               ),
               SmallSpacer(),
@@ -152,14 +155,14 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
                 },
                 child: Card.outlined(
                   shape: OutlineInputBorder(
-                    borderSide: const BorderSide(color: borderOutline),
+                    borderSide: BorderSide(color: Theme.of(context).colorScheme.onSurface),
                     borderRadius: BorderRadius.circular(cardBorderRadius),
                   ),
-                  child: const Column(
+                  child: Column(
                     children: [
                       ListTile(
                         leading: Icon(Icons.delete),
-                        title: Text(deleteHabitT),
+                        title: Text(AppLocalizations.of(context)!.deleteHabit),
                       )
                     ],
                   )

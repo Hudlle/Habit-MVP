@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:habit_mvp/main.dart';
 import 'package:habit_mvp/model.dart';
@@ -23,13 +24,22 @@ class _HomeState extends State<Home> {
   void initState() {
     db.updateHabitsStatus();
     DayStreakCounter dayStreakCounter = db.getDayStreakCounter();
-    dayStreakCounter.checkDailyReset();
+    dayStreakCounter.update();
     dayStreakCount = dayStreakCounter.count;
     super.initState();
   }
 
   void updateDayStreakCount() {
     DayStreakCounter dayStreakCounter = db.getDayStreakCounter();
+    setState(() {
+      dayStreakCount = dayStreakCounter.count;
+    });
+  }
+
+  Future<void> _handleRefresh() async {
+    db.updateHabitsStatus();
+    DayStreakCounter dayStreakCounter = db.getDayStreakCounter();
+    dayStreakCounter.update();
     setState(() {
       dayStreakCount = dayStreakCounter.count;
     });
@@ -44,82 +54,102 @@ class _HomeState extends State<Home> {
             icon: const Icon(Icons.settings),
             onPressed: () {
               Navigator.pushNamed(context, settingsRoute);
-              log("Settings");
             },
           )
         ],
       ),
-      body: Container(
-        color: Theme.of(context).colorScheme.surface,
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(homePagePadding[0], homePagePadding[1], homePagePadding[2], homePagePadding[3]),
-          child: Center(
-            child: Column(
-              children: [
-                CustomText(
-                  text: welcomHeadlineT,
-                  textType: TextType.headline,
-                  centerAlignToggle: true,
-                ),
-                FittedBox(
-                  child: Text(
-                    dayStreakCount.toString(),
-                    style: GoogleFonts.notoSerif(
-                      textStyle: const TextStyle(
-                        fontSize: 175,
-                      ),
+      body: RefreshIndicator(
+        onRefresh: _handleRefresh,
+        child: Container(
+          color: Theme.of(context).colorScheme.surface,
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(defaultPagePadding[0], defaultPagePadding[1], defaultPagePadding[2], defaultPagePadding[3]),
+            child: Center(
+              child: Column(
+                children: [
+                  CustomText(
+                    text: AppLocalizations.of(context)!.homeWelcome,
+                    textType: TextType.headline,
+                    centerAlignToggle: true,
+                  ),
+                  LargeSpacer(),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surface,
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 8,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          dayStreakCount.toString(),
+                          style: GoogleFonts.notoSerif(
+                            textStyle: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        CustomText(
+                          text: AppLocalizations.of(context)!.daystreak,
+                          textType: TextType.title,
+                        ),
+                      ],
                     ),
                   ),
-                ),
-                Text(
-                  daystreakT, 
-                  semanticsLabel: daystreakT,
-                  style: GoogleFonts.notoSerif(
-                    textStyle: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ),
-                const LargeSpacer(),
-                Expanded(
-                  child: StreamBuilder<List<Habit>>(
-                    stream: db.getHabits(),
-                    builder: (context, snapshot) {
-                      if (snapshot.data?.isNotEmpty ?? false) {
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: snapshot.hasData ? snapshot.data!.length + 1 : 1,
-                          itemBuilder: (context, index) {
-                            if (index == snapshot.data?.length) {
-                              return Column(
-                                children: [
-                                  LargeSpacer(),
-                                  AddHabitIB()
-                                ],
-                              );
-                            } else {
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    arguments: snapshot.data![index],
-                                    habitCloseLookRoute,
-                                  );
-                                },
-                                child: HabitCard(
-                                  key: ValueKey(snapshot.data?[index].id),
-                                  habit: snapshot.data![index],
-                                  onHabitUpdate: updateDayStreakCount,
-                                )
-                              );
+                  const LargeSpacer(),
+                  Expanded(
+                    child: StreamBuilder<List<Habit>>(
+                      stream: db.getHabits(),
+                      builder: (context, snapshot) {
+                        if (snapshot.data?.isNotEmpty ?? false) {
+                          return ListView.builder(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: snapshot.hasData ? snapshot.data!.length + 1 : 1,
+                            itemBuilder: (context, index) {
+                              if (index == snapshot.data?.length) {
+                                return Column(
+                                  children: [
+                                    LargeSpacer(),
+                                    AddHabitIB()
+                                  ],
+                                );
+                              } else {
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      arguments: snapshot.data![index],
+                                      habitCloseLookRoute,
+                                    );
+                                  },
+                                  child: HabitCard(
+                                    key: ValueKey(snapshot.data?[index].id),
+                                    habit: snapshot.data![index],
+                                    onHabitUpdate: updateDayStreakCount,
+                                  )
+                                );
+                              }
                             }
-                          }
-                        );
-                      } else {
-                        return const AddHabitIB();
+                          );
+                        } else {
+                          return const AddHabitIB();
+                        }
                       }
-                    }
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -167,7 +197,7 @@ class _HabitCardState extends State<HabitCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: checkedStatus ? primary : onPrimary,
+      color: checkedStatus ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onPrimary,
       margin: const EdgeInsets.only(bottom: 10),
       child: Container(
         padding: const EdgeInsets.all(15),
@@ -182,13 +212,13 @@ class _HabitCardState extends State<HabitCard> {
                     text: widget.habit.name,
                     textType: TextType.title,
                     softWrapToggle: true,
-                    specialColor: checkedStatus ? onPrimary : Colors.black,
+                    specialColor: checkedStatus ? Theme.of(context).colorScheme.onPrimary : Colors.black,
                   ),
                   CustomText(
                     text: widget.habit.description,
                     textType: TextType.body,
                     softWrapToggle: true,
-                    specialColor: checkedStatus ? onPrimary : Colors.black,
+                    specialColor: checkedStatus ? Theme.of(context).colorScheme.onPrimary : Colors.black,
                   ),
                 ],
               ),
@@ -201,7 +231,7 @@ class _HabitCardState extends State<HabitCard> {
                     "🔥${widget.habit.streak}",
                     style: TextStyle(
                       fontSize: 20,
-                      color: checkedStatus ? onPrimary : Colors.black,
+                      color: checkedStatus ? Theme.of(context).colorScheme.onPrimary : Colors.black,
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -210,8 +240,8 @@ class _HabitCardState extends State<HabitCard> {
                       toggleCheckButton();
                     },
                     style: FilledButton.styleFrom(
-                      backgroundColor: checkedStatus ? onPrimary : primary,
-                      iconColor: checkedStatus ? primary : onPrimary,
+                      backgroundColor: checkedStatus ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.primary,
+                      iconColor: checkedStatus ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onPrimary,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
@@ -245,15 +275,15 @@ class AddHabitIB extends StatelessWidget {
       child: Center(
         child: Ink(
           decoration: ShapeDecoration(
-            color: primary,
+            color: Theme.of(context).colorScheme.primary,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
           ),
           child: IconButton(
-            icon: const Icon(
+            icon: Icon(
               Icons.add,
-              color: onPrimary,
+              color: Theme.of(context).colorScheme.onPrimary,
             ),
             onPressed:() {
               log("Neues Habit du Schwein!");

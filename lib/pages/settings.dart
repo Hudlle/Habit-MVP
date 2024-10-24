@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:habit_mvp/ui_util/theme_locale_provider.dart';
+import 'package:habit_mvp/main.dart';
 
 import '../default_data.dart';
 import '../default_widgets.dart';
@@ -18,43 +22,50 @@ class Settings extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomText(
-                text: settingsHeadlineT,
+                text: AppLocalizations.of(context)!.settingsWelcome,
                 textType: TextType.headline,
               ),
               const LargeSpacer(),
-              const SettingsCard(
-                icon: Icon(Icons.person),
-                title: accountSettingsT,
-                route: accountSettingsRoute,
+              SettingsCard(
+                icon: Icon(Icons.translate),
+                title: AppLocalizations.of(context)!.language,
+                route: languageSettingsRoute,
               ),
-              const LargeSpacer(),
-              GestureDetector(
-                onTap:() {
-                  Navigator.pushNamedAndRemoveUntil(
-                    context, 
-                    logInRoute, 
-                    (Route<dynamic> route) => false,
+              const SmallSpacer(),
+              Consumer<ThemeProvider>(
+                builder: (context, themeProvider, child) {
+                  return SettingsToggle(
+                    icon: Icon(Icons.color_lens),
+                    title: AppLocalizations.of(context)!.darkMode,
+                    initialValue: themeProvider.isDarkMode,
+                    onToggle: (value) {
+                      themeProvider.switchTheme();
+                    },
                   );
                 },
-                child: Card.outlined(
-                  shape: OutlineInputBorder(
-                    borderSide: const BorderSide(color:borderOutline),
-                    borderRadius: BorderRadius.circular(cardBorderRadius),
-                  ),
-                  child: const Column(
-                    children: [
-                      ListTile(
-                        leading: Icon(Icons.logout),
-                        title: Text(logOutSettingsT),
-                      )
-                    ],
-                  )
-                ),
+              ),
+              const SmallSpacer(),
+              SettingsCard(
+                icon: Icon(Icons.notifications),
+                title: AppLocalizations.of(context)!.notifications,
+                route: "",
+              ),
+              const LargeSpacer(),
+              CustomText(
+                text: "Developer Settings",
+                textType: TextType.title,
+              ),
+              const SmallSpacer(),
+              ElevatedButton(
+                onPressed:() {
+                  db.clearUserSettings();
+                },
+                child: Text("Clear User Settings"),
               ),
             ],
-          )
-        )
-      )
+          ),
+        ),
+      ),
     );
   }
 }

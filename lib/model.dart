@@ -1,5 +1,32 @@
+import 'package:flutter/material.dart';
 import 'package:objectbox/objectbox.dart';
 import 'dart:developer';
+
+@Entity()
+class UserSettings {
+  @Id()
+  int id;
+
+  bool isDarkMode;
+  String localeCode;
+
+  UserSettings(
+    this.localeCode,
+  {
+    this.id = 0,
+    this.isDarkMode = false,
+  });
+
+  ThemeMode getThemeMode() {
+    return isDarkMode ? ThemeMode.dark : ThemeMode.light;
+  }
+
+  Locale get locale => Locale(localeCode);
+
+  void changeLocale(Locale newLocale) {
+    localeCode = newLocale.languageCode;
+  }
+}
 
 @Entity()
 class DayStreakCounter{
@@ -33,13 +60,15 @@ class DayStreakCounter{
 
   void checkDailyReset() {
     DateTime now = DateTime.now();
+    bool isSameDay = _isSameTestDay(lastUpdated);
 
-    if (!_isSameTestDay(lastUpdated) && updated) {
-      updated = false;
-    } else if (!_isSameTestDay(lastUpdated) && !updated) {
+    if (!isSameDay && !updated) {
       count = 0;
     }
-    
+    if (!isSameDay) {
+      updated = false;
+    }
+
     lastUpdated = now;
   }
 
@@ -71,9 +100,9 @@ class DayStreakCounter{
     return date1.year == date2.year && date1.month == date2.month && date1.day == date2.day;
   }
 
-  bool _isSameTestDay(DateTime lastChecked) {
+  bool _isSameTestDay(DateTime lastUpdated) {
     DateTime now = DateTime.now();
-    Duration difference = now.difference(lastChecked);
+    Duration difference = now.difference(lastUpdated);
 
     return difference.inSeconds < 5;
   }
@@ -108,24 +137,16 @@ class Habit{
   //* Functions
   void checkDailyReset() {
     DateTime now = DateTime.now();
+    bool isSameDay = _isSameTestDay(lastChecked);
 
-    if (!_isSameTestDay(lastChecked)) {
-      if(checked) {
-        checked = false;
-      }
-      lastChecked = now;
+    if (!isSameDay && !checked) {
+      streak = 0;
+    } 
+    if (!isSameDay) {
+      checked = false;
     }
-  }
 
-  bool _isSameDay(DateTime date1, DateTime date2) {
-    return date1.year == date2.year && date1.month == date2.month && date1.day == date2.day;
-  }
-
-  bool _isSameTestDay(DateTime lastChecked) {
-    DateTime now = DateTime.now();
-    Duration difference = now.difference(lastChecked);
-
-    return difference.inSeconds < 5;
+    lastChecked = now;
   }
 
   bool toggleCheck() {
@@ -147,5 +168,16 @@ class Habit{
 
   void editDescription(String newDescription) {
     description = newDescription;
+  }
+
+  bool _isSameDay(DateTime date1, DateTime date2) {
+    return date1.year == date2.year && date1.month == date2.month && date1.day == date2.day;
+  }
+
+  bool _isSameTestDay(DateTime lastChecked) {
+    DateTime now = DateTime.now();
+    Duration difference = now.difference(lastChecked);
+
+    return difference.inSeconds < 5;
   }
 }

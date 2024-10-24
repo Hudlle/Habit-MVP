@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:habit_mvp/main.dart';
 import 'package:habit_mvp/model.dart';
@@ -30,21 +31,27 @@ class _HabitEditState extends State<HabitEdit> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomText(
-                text: "Einstellungen",
+                text: AppLocalizations.of(context)!.settingsWelcome,
                 textType: TextType.headline,
               ),
               LargeSpacer(),
               CustomText(
-                text: habitEditNameTitleT,
+                text: AppLocalizations.of(context)!.name,
                 textType: TextType.title,
               ),
-              HabitEditNameTextField(habit: widget.habit),
+              HabitEditNameTextField(
+                habit: widget.habit,
+                borderCursorColor: Theme.of(context).colorScheme.primary,
+              ),
               LargeSpacer(),
               CustomText(
-                text: yourGoalTitleT,
+                text: AppLocalizations.of(context)!.yourGoal,
                 textType: TextType.title,
               ),
-              HabitEditDescriptionTextField(habit: widget.habit)
+              HabitEditDescriptionTextField(
+                habit: widget.habit,
+                borderCursorColor: Theme.of(context).colorScheme.primary,
+              )
             ],
           )
         )
@@ -57,9 +64,11 @@ class HabitEditNameTextField extends StatefulWidget {
   const HabitEditNameTextField({
     super.key,
     required this.habit,
+    required this.borderCursorColor,
   });
 
   final Habit habit;
+  final Color borderCursorColor;
 
   @override
   State<HabitEditNameTextField> createState() => _HabitEditNameTextFieldState();
@@ -68,12 +77,13 @@ class HabitEditNameTextField extends StatefulWidget {
 class _HabitEditNameTextFieldState extends State<HabitEditNameTextField> {
   final FocusNode _focusNode = FocusNode();
   late TextEditingController _controller;
-  Color _borderCursorColor = primary;
+  late Color _borderCursorColor;
 
   @override
   void initState() {
-    super.initState();
     _controller = TextEditingController(text: widget.habit.name);
+    _borderCursorColor = widget.borderCursorColor;
+    super.initState();
   }
 
   @override
@@ -97,7 +107,7 @@ class _HabitEditNameTextFieldState extends State<HabitEditNameTextField> {
       db.habitBox.put(widget.habit);
     } else {
       setState(() {
-        _borderCursorColor = error;
+        _borderCursorColor = Theme.of(context).colorScheme.error;
         _focusNode.requestFocus();
       });
     }
@@ -110,7 +120,7 @@ class _HabitEditNameTextFieldState extends State<HabitEditNameTextField> {
       focusNode: _focusNode,
       onChanged: (value) {
         setState(() {
-          _borderCursorColor = primary;
+          _borderCursorColor = Theme.of(context).colorScheme.primary;
         });
       },
       onSubmitted: (value) {
@@ -148,9 +158,11 @@ class HabitEditDescriptionTextField extends StatefulWidget {
   const HabitEditDescriptionTextField({
     super.key,
     required this.habit,
+    required this.borderCursorColor,
   });
 
   final Habit habit;
+  final Color borderCursorColor;
 
   @override
   State<HabitEditDescriptionTextField> createState() => _HabitEditDescriptionTextFieldState();
@@ -159,12 +171,13 @@ class HabitEditDescriptionTextField extends StatefulWidget {
 class _HabitEditDescriptionTextFieldState extends State<HabitEditDescriptionTextField> {
   final FocusNode _focusNode = FocusNode();
   late TextEditingController _controller;
-  Color _borderCursorColor = primary;
+  late Color _borderCursorColor;
 
   @override
   void initState() {
-    super.initState();
     _controller = TextEditingController(text: widget.habit.description);
+    _borderCursorColor = widget.borderCursorColor;
+    super.initState();
   }
 
   @override
@@ -188,7 +201,7 @@ class _HabitEditDescriptionTextFieldState extends State<HabitEditDescriptionText
       db.habitBox.put(widget.habit);
     } else {
       setState(() {
-        _borderCursorColor = error;
+        _borderCursorColor = Theme.of(context).colorScheme.error;
         _focusNode.requestFocus();
       });
     }
@@ -201,7 +214,7 @@ class _HabitEditDescriptionTextFieldState extends State<HabitEditDescriptionText
       focusNode: _focusNode,
       onChanged: (value) {
         setState(() {
-          _borderCursorColor = primary;
+          _borderCursorColor = Theme.of(context).colorScheme.primary;
         });
       },
       onSubmitted: (value) {

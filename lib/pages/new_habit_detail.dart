@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../main.dart';
 import '../default_data.dart';
@@ -20,7 +21,7 @@ class NewHabitDetail extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomText(
-                text: newHabitDetailHeadlineT,
+                text: AppLocalizations.of(context)!.newHabitDetailWelcome,
                 textType: TextType.headline,
               ),
               const LargeSpacer(),
@@ -30,23 +31,24 @@ class NewHabitDetail extends StatelessWidget {
                 },
                 child: Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.info,
-                      color: primary,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                     const SizedBox(width: smallSpacing),
                     CustomText(
-                      text: howToGoalT,
+                      text: AppLocalizations.of(context)!.howToGoal,
                       textType: TextType.body,
-                      specialColor: primary,
+                      specialColor: Theme.of(context).colorScheme.primary,
                     ),
                   ],
                 ),
               ),
               const LargeSpacer(),
-              const NewHabitDetailTextField(
-                emptyErrorT: newHabitDetailEmptyErrorT,
-                hintT: newHabitDetailHintT,
+              NewHabitDetailTextField(
+                emptyErrorT: AppLocalizations.of(context)!.newHabitDetailEmptyError,
+                hintT: AppLocalizations.of(context)!.newHabitDetailHint,
+                borderCursorColor: Theme.of(context).colorScheme.primary,
               ),
             ],
           )
@@ -61,10 +63,12 @@ class NewHabitDetailTextField extends StatefulWidget {
     super.key,
     required this.emptyErrorT,
     this.hintT,
+    required this.borderCursorColor,
   });
 
   final String emptyErrorT;
   final String? hintT;
+  final Color borderCursorColor;
 
   @override
   State<NewHabitDetailTextField> createState() => _NewHabitDetailTextFieldState();
@@ -74,13 +78,14 @@ class _NewHabitDetailTextFieldState extends State<NewHabitDetailTextField> {
   final _formKey = GlobalKey<FormState>();
   final FocusNode _focusNode = FocusNode();
   late TextEditingController _controller;
-  Color _borderCursorColor = primary;
+  late Color _borderCursorColor;
   Color? _habitIntervalColor = hint;
 
   @override
   void initState() {
-    super.initState();
     _controller = TextEditingController();
+    _borderCursorColor = widget.borderCursorColor;
+    super.initState();
   }
 
   @override
@@ -100,7 +105,7 @@ class _NewHabitDetailTextFieldState extends State<NewHabitDetailTextField> {
       );
     } else {
       setState(() {
-        _borderCursorColor = error;
+        _borderCursorColor = Theme.of(context).colorScheme.error;
         _focusNode.requestFocus();
       });
     }
@@ -108,11 +113,11 @@ class _NewHabitDetailTextFieldState extends State<NewHabitDetailTextField> {
 
   void _onChanged() {
     setState(() {
-      _borderCursorColor = primary;
+      _borderCursorColor = Theme.of(context).colorScheme.primary;
       if (_controller.text.trim().isEmpty) {
         _habitIntervalColor = hint;
       } else {
-        _habitIntervalColor = primary;
+        _habitIntervalColor = Theme.of(context).colorScheme.primary;
       }
     });
   }
@@ -170,8 +175,8 @@ class _NewHabitDetailTextFieldState extends State<NewHabitDetailTextField> {
           ),
           const SmallSpacer(),
           Text(
-            checkIntervalT,
-            semanticsLabel: checkIntervalT,
+            AppLocalizations.of(context)!.checkInterval,
+            semanticsLabel: AppLocalizations.of(context)!.checkInterval,
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
               color: _habitIntervalColor,
             )
