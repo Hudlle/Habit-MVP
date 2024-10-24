@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'model.dart';
@@ -24,7 +26,8 @@ class ObjectBox {
 
     // Initialize User Settings
     if (userSettingsBox.isEmpty()) {
-     userSettingsBox.put(UserSettings());
+      Locale userLocale = Locale(Platform.localeName);
+      userSettingsBox.put(UserSettings(userLocale.languageCode));
     }
   }
 
@@ -81,6 +84,11 @@ class ObjectBox {
   }
 
   //* User Settings
+  void clearUserSettings() {
+    userSettingsBox.removeAll();
+    log("User Settings cleared\nCount: ${userSettingsBox.getAll().length}");
+  }
+
   UserSettings getUserSettings() {
     final List<UserSettings> allUserSettings = userSettingsBox.getAll();
     return allUserSettings.first;

@@ -69,7 +69,7 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
                   style: GoogleFonts.notoSerif(
                     textStyle: TextStyle(
                       fontSize: 200,
-                      color: checkedStatus ? primary : Colors.black,
+                      color: checkedStatus ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                 ),
@@ -77,7 +77,7 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
               CustomText(
                 text: widget.habit.name,
                 textType: TextType.headline,
-                specialColor: checkedStatus ? primary : Colors.black,
+                specialColor: checkedStatus ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
               ),
               LargeSpacer(),
               Row(
@@ -106,7 +106,9 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
                         scale: 0.925,
                         child: Container(
                           decoration: BoxDecoration(
-                            border: Border.all(),
+                            border: Border.all(
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
                             borderRadius: BorderRadius.circular(15),
                           ),
                           child: IconButton(
@@ -122,7 +124,7 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
                     child: Center(
                       child: Ink(
                         decoration: ShapeDecoration(
-                          color: primary,
+                          color: Theme.of(context).colorScheme.primary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
@@ -130,7 +132,7 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
                         child: IconButton(
                           icon: Icon(
                             checkedStatus ? Icons.undo : Icons.check,
-                            color: onPrimary,
+                            color: Theme.of(context).colorScheme.onPrimary,
                           ),
                           onPressed:() {
                             toggleCheckButton();
@@ -153,7 +155,7 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
                 },
                 child: Card.outlined(
                   shape: OutlineInputBorder(
-                    borderSide: const BorderSide(color: borderOutline),
+                    borderSide: BorderSide(color: Theme.of(context).colorScheme.onSurface),
                     borderRadius: BorderRadius.circular(cardBorderRadius),
                   ),
                   child: Column(

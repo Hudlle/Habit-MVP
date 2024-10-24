@@ -57,17 +57,26 @@
   "@settingsWelcome": {
     "description": "Main heading in settings"
   },
-  "notificationSettings": "Notifications",
-  "@notificationSettings": {
+  "notifications": "Notifications",
+  "@notifications": {
     "description": "Label for the notification settings section"
   },
-  "languageSettings" : "Language",
-  "@languageSettings" : {
+  "language" : "Language",
+  "@language" : {
     "description": "Label for the language settings section"
   },
   "darkMode" : "Dark mode",
   "@darkMode" : {
     "description": "Label for the dark mode settings swtich"
+  },
+
+  "languageSettingsWelcome": "Language settings",
+  "@languageSettingsWelcome" : {
+    "description": "Main heading in language settings"  
+  },
+  "chooseLanguage" : "Choose your language",
+  "@chooseLanguage" : {
+    "description": "Label for the language settings section"
   },
 
   "name": "Name",

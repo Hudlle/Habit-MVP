@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'ui_util/theme_locale_provider.dart';
 
 import 'objectbox.dart';
 import 'app.dart';
@@ -10,5 +12,10 @@ Future<void> main() async {
   db = await ObjectBox.create();
   db.updateHabitsStatus();
 
-  runApp(const HabitApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: ((context) => LocaleProvider()),
+      child: const HabitApp()
+    )
+  );
 }

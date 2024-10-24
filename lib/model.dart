@@ -8,14 +8,23 @@ class UserSettings {
   int id;
 
   bool isDarkMode;
+  String localeCode;
 
-  UserSettings({
+  UserSettings(
+    this.localeCode,
+  {
     this.id = 0,
     this.isDarkMode = false,
   });
 
-  ThemeMode getThemeMode () {
+  ThemeMode getThemeMode() {
     return isDarkMode ? ThemeMode.dark : ThemeMode.light;
+  }
+
+  Locale get locale => Locale(localeCode);
+
+  void changeLocale(Locale newLocale) {
+    localeCode = newLocale.languageCode;
   }
 }
 

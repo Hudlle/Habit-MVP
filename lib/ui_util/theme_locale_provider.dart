@@ -28,3 +28,27 @@ class ThemeProvider with ChangeNotifier {
     notifyListeners();
   }
 }
+
+class LocaleProvider with ChangeNotifier {
+   late UserSettings userSettings;
+   late Locale _locale;
+
+   LocaleProvider() {
+    _initializeLocale();
+   }
+
+   Locale get locale => _locale;
+
+   void _initializeLocale() {
+    userSettings = db.getUserSettings();
+    _locale = userSettings.locale; //TODO hier ist noch nen error
+   }
+
+   void changeLocale(Locale newLocale) {
+    userSettings = db.getUserSettings();
+    userSettings.changeLocale(newLocale);
+    db.userSettingsBox.put(userSettings);
+    _locale = userSettings.locale;
+    notifyListeners();
+   }
+}

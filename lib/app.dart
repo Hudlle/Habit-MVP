@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:habit_mvp/pages/language_settings.dart';
 import 'package:provider/provider.dart';
 import 'ui_util/color_themes.dart';
 import 'ui_util/text_theme.dart';
 import 'model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'ui_util/theme_provider.dart';
+import 'ui_util/theme_locale_provider.dart';
 import 'default_data.dart';
 import 'pages/home.dart';
 import 'pages/habit_close_look.dart';
@@ -28,38 +29,43 @@ class HabitApp extends StatelessWidget {
       create: (context) => ThemeProvider(),
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {
-          return MaterialApp(
-            title: "Habit",
+          return Consumer<LocaleProvider>(
+            builder: (context, localeProvider, child) {
+              return MaterialApp(
+                title: "Habit",
 
-            //* Theme 
-            theme: theme.light(),
-            darkTheme: theme.dark(),
-            themeMode: themeProvider.themeMode,
+                //* Theme 
+                theme: theme.light(),
+                darkTheme: theme.dark(),
+                themeMode: themeProvider.themeMode,
 
-            //* Internationalization / Language Support
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            debugShowCheckedModeBanner: false,
-            locale: Locale("de"), // TODO locale setting hinzufügen
+                //* Internationalization / Language Support
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                supportedLocales: AppLocalizations.supportedLocales,
+                debugShowCheckedModeBanner: false,
+                locale: localeProvider.locale,
 
-            //* Routing
-            initialRoute: homeRoute,
-            routes: {
-              homeRoute: (BuildContext context) => const Home(),
-              habitCloseLookRoute: (BuildContext context) {
-                final habit = ModalRoute.of(context)!.settings.arguments as Habit;
-                return HabitCloseLook(habit: habit);
-              },
-              habitEditRoute: (BuildContext context) {
-                final habit = ModalRoute.of(context)!.settings.arguments as Habit;
-                return HabitEdit(habit: habit);
-              },
-              newHabitNameRoute: (BuildContext context) => const NewHabitName(),
-              newHabitDetailRoute: (BuildContext context) => const NewHabitDetail(),
-              howToGoalRoute: (BuildContext context) => const HowToGoal(),
+                //* Routing
+                initialRoute: homeRoute,
+                routes: {
+                  homeRoute: (BuildContext context) => const Home(),
+                  habitCloseLookRoute: (BuildContext context) {
+                    final habit = ModalRoute.of(context)!.settings.arguments as Habit;
+                    return HabitCloseLook(habit: habit);
+                  },
+                  habitEditRoute: (BuildContext context) {
+                    final habit = ModalRoute.of(context)!.settings.arguments as Habit;
+                    return HabitEdit(habit: habit);
+                  },
+                  newHabitNameRoute: (BuildContext context) => const NewHabitName(),
+                  newHabitDetailRoute: (BuildContext context) => const NewHabitDetail(),
+                  howToGoalRoute: (BuildContext context) => const HowToGoal(),
 
-              settingsRoute: (BuildContext context) => const Settings(),
-            },
+                  settingsRoute: (BuildContext context) => const Settings(),
+                  languageSettingsRoute: (BuildContext context) => const LanguageSettings(),
+                },
+              );
+            }
           );
         },
       ),

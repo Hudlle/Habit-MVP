@@ -100,7 +100,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(4, 7703370628805739742),
       name: 'UserSettings',
-      lastPropertyId: const obx_int.IdUid(2, 1933215418772400176),
+      lastPropertyId: const obx_int.IdUid(3, 8239271670242573714),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -112,6 +112,11 @@ final _entities = <obx_int.ModelEntity>[
             id: const obx_int.IdUid(2, 1933215418772400176),
             name: 'isDarkMode',
             type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 8239271670242573714),
+            name: 'localeCode',
+            type: 9,
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
@@ -266,20 +271,25 @@ obx_int.ModelDefinition getObjectBoxModel() {
           object.id = id;
         },
         objectToFB: (UserSettings object, fb.Builder fbb) {
-          fbb.startTable(3);
+          final localeCodeOffset = fbb.writeString(object.localeCode);
+          fbb.startTable(4);
           fbb.addInt64(0, object.id);
           fbb.addBool(1, object.isDarkMode);
+          fbb.addOffset(2, localeCodeOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
         objectFromFB: (obx.Store store, ByteData fbData) {
           final buffer = fb.BufferContext(fbData);
           final rootOffset = buffer.derefObject(0);
+          final localeCodeParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 8, '');
           final idParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
           final isDarkModeParam =
               const fb.BoolReader().vTableGet(buffer, rootOffset, 6, false);
-          final object = UserSettings(id: idParam, isDarkMode: isDarkModeParam);
+          final object = UserSettings(localeCodeParam,
+              id: idParam, isDarkMode: isDarkModeParam);
 
           return object;
         })
@@ -351,4 +361,8 @@ class UserSettings_ {
   /// See [UserSettings.isDarkMode].
   static final isDarkMode =
       obx.QueryBooleanProperty<UserSettings>(_entities[2].properties[1]);
+
+  /// See [UserSettings.localeCode].
+  static final localeCode =
+      obx.QueryStringProperty<UserSettings>(_entities[2].properties[2]);
 }

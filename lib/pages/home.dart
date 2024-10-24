@@ -54,7 +54,6 @@ class _HomeState extends State<Home> {
             icon: const Icon(Icons.settings),
             onPressed: () {
               Navigator.pushNamed(context, settingsRoute);
-              log("Settings");
             },
           )
         ],

@@ -24,3 +24,4 @@ const String newHabitNameRoute = "/new_habit_name";
 const String newHabitDetailRoute = "/new_habit_detail";
 const String howToGoalRoute = "/how_to_goal";
 const String settingsRoute = "/settings";
+const String languageSettingsRoute = "/language_settings";
