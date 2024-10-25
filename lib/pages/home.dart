@@ -35,16 +35,7 @@ class _HomeState extends State<Home> {
       dayStreakCount = dayStreakCounter.count;
     });
   }
-
-  Future<void> _handleRefresh() async {
-    db.updateHabitsStatus();
-    DayStreakCounter dayStreakCounter = db.getDayStreakCounter();
-    dayStreakCounter.update();
-    setState(() {
-      dayStreakCount = dayStreakCounter.count;
-    });
-  }
-  
+    
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,98 +49,94 @@ class _HomeState extends State<Home> {
           )
         ],
       ),
-      body: RefreshIndicator(
-        onRefresh: _handleRefresh,
-        child: Container(
-          color: Theme.of(context).colorScheme.surface,
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(defaultPagePadding[0], defaultPagePadding[1], defaultPagePadding[2], defaultPagePadding[3]),
-            child: Center(
-              child: Column(
-                children: [
-                  CustomText(
-                    text: AppLocalizations.of(context)!.homeWelcome,
-                    textType: TextType.headline,
-                    centerAlignToggle: true,
+      body: Container(
+        color: Theme.of(context).colorScheme.surface,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(defaultPagePadding[0], defaultPagePadding[1], defaultPagePadding[2], defaultPagePadding[3]),
+          child: Center(
+            child: Column(
+              children: [
+                CustomText(
+                  text: AppLocalizations.of(context)!.homeWelcome,
+                  textType: TextType.headline,
+                  centerAlignToggle: true,
+                ),
+                LargeSpacer(),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surface,
+                    borderRadius: BorderRadius.circular(30),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 8,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
-                  LargeSpacer(),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surface,
-                      borderRadius: BorderRadius.circular(30),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 8,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          dayStreakCount.toString(),
-                          style: GoogleFonts.notoSerif(
-                            textStyle: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        dayStreakCount.toString(),
+                        style: GoogleFonts.notoSerif(
+                          textStyle: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(width: 10),
-                        CustomText(
-                          text: AppLocalizations.of(context)!.daystreak,
-                          textType: TextType.title,
-                        ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(width: 10),
+                      CustomText(
+                        text: AppLocalizations.of(context)!.daystreak,
+                        textType: TextType.title,
+                      ),
+                    ],
                   ),
-                  const LargeSpacer(),
-                  Expanded(
-                    child: StreamBuilder<List<Habit>>(
-                      stream: db.getHabits(),
-                      builder: (context, snapshot) {
-                        if (snapshot.data?.isNotEmpty ?? false) {
-                          return ListView.builder(
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: snapshot.hasData ? snapshot.data!.length + 1 : 1,
-                            itemBuilder: (context, index) {
-                              if (index == snapshot.data?.length) {
-                                return Column(
-                                  children: [
-                                    LargeSpacer(),
-                                    AddHabitIB()
-                                  ],
-                                );
-                              } else {
-                                return GestureDetector(
-                                  onTap: () {
-                                    Navigator.pushNamed(
-                                      context,
-                                      arguments: snapshot.data![index],
-                                      habitCloseLookRoute,
-                                    );
-                                  },
-                                  child: HabitCard(
-                                    key: ValueKey(snapshot.data?[index].id),
-                                    habit: snapshot.data![index],
-                                    onHabitUpdate: updateDayStreakCount,
-                                  )
-                                );
-                              }
+                ),
+                const LargeSpacer(),
+                Expanded(
+                  child: StreamBuilder<List<Habit>>(
+                    stream: db.getHabits(),
+                    builder: (context, snapshot) {
+                      if (snapshot.data?.isNotEmpty ?? false) {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: snapshot.hasData ? snapshot.data!.length + 1 : 1,
+                          itemBuilder: (context, index) {
+                            if (index == snapshot.data?.length) {
+                              return Column(
+                                children: [
+                                  LargeSpacer(),
+                                  AddHabitIB()
+                                ],
+                              );
+                            } else {
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    arguments: snapshot.data![index],
+                                    habitCloseLookRoute,
+                                  );
+                                },
+                                child: HabitCard(
+                                  key: ValueKey(snapshot.data?[index].id),
+                                  habit: snapshot.data![index],
+                                  onHabitUpdate: updateDayStreakCount,
+                                )
+                              );
                             }
-                          );
-                        } else {
-                          return const AddHabitIB();
-                        }
+                          }
+                        );
+                      } else {
+                        return const AddHabitIB();
                       }
-                    ),
+                    }
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
