@@ -14,7 +14,7 @@ class UserSettings {
     this.localeCode,
   {
     this.id = 0,
-    this.isDarkMode = false,
+    this.isDarkMode = true,
   });
 
   ThemeMode getThemeMode() {

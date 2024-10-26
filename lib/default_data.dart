@@ -1,13 +1,3 @@
-import 'package:flutter/material.dart';
-
-//* Colors
-const Color primary = Color(0xff1DD1A1);
-const Color onPrimary = Color(0xffffffff);
-const Color error = Colors.red;
-Color? hint = Colors.grey[700];
-const Color focusedBorderOutline = Colors.black;
-const Color borderOutline = Color(0xff636e72);
-
 //* Front End Data
 const double cardBorderRadius = 10;
 const double submitButtonHeight = 60;
@@ -17,6 +7,7 @@ const double largeSpacing = 30;
 const defaultPagePadding = <double>[25,25,25,25];
 const double maxLengthHabitName = 30;
 const int shortDescriptionLength = 60;
+const double textFieldFontSize = 16;
 
 //* Routes
 const String homeRoute = "/";

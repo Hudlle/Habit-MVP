@@ -46,9 +46,7 @@ class NewHabitDetail extends StatelessWidget {
               ),
               const LargeSpacer(),
               NewHabitDetailTextField(
-                emptyErrorT: AppLocalizations.of(context)!.newHabitDetailEmptyError,
-                hintT: AppLocalizations.of(context)!.newHabitDetailHint,
-                borderCursorColor: Theme.of(context).colorScheme.primary,
+                context: context
               ),
             ],
           )
@@ -61,14 +59,10 @@ class NewHabitDetail extends StatelessWidget {
 class NewHabitDetailTextField extends StatefulWidget {
   const NewHabitDetailTextField({
     super.key,
-    required this.emptyErrorT,
-    this.hintT,
-    required this.borderCursorColor,
+    required this.context,
   });
 
-  final String emptyErrorT;
-  final String? hintT;
-  final Color borderCursorColor;
+  final BuildContext context;
 
   @override
   State<NewHabitDetailTextField> createState() => _NewHabitDetailTextFieldState();
@@ -79,12 +73,13 @@ class _NewHabitDetailTextFieldState extends State<NewHabitDetailTextField> {
   final FocusNode _focusNode = FocusNode();
   late TextEditingController _controller;
   late Color _borderCursorColor;
-  Color? _habitIntervalColor = hint;
+  late Color _habitIntervalColor;
 
   @override
   void initState() {
     _controller = TextEditingController();
-    _borderCursorColor = widget.borderCursorColor;
+    _borderCursorColor = Theme.of(widget.context).colorScheme.primary;
+    _habitIntervalColor = Theme.of(widget.context).hintColor;
     super.initState();
   }
 
@@ -92,6 +87,18 @@ class _NewHabitDetailTextFieldState extends State<NewHabitDetailTextField> {
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  void _onChanged() {
+    setState(() {
+      _borderCursorColor = Theme.of(context).colorScheme.primary;
+
+      if (_controller.text.trim().isEmpty) {
+        _habitIntervalColor = Theme.of(context).hintColor;
+      } else {
+        _habitIntervalColor = Theme.of(context).colorScheme.primary;
+      }
+    });
   }
 
   void _submitForm(String newHabitName) {
@@ -111,17 +118,6 @@ class _NewHabitDetailTextFieldState extends State<NewHabitDetailTextField> {
     }
   }
 
-  void _onChanged() {
-    setState(() {
-      _borderCursorColor = Theme.of(context).colorScheme.primary;
-      if (_controller.text.trim().isEmpty) {
-        _habitIntervalColor = hint;
-      } else {
-        _habitIntervalColor = Theme.of(context).colorScheme.primary;
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final newHabitName = ModalRoute.of(context)!.settings.arguments as String;
@@ -136,7 +132,7 @@ class _NewHabitDetailTextFieldState extends State<NewHabitDetailTextField> {
             autofocus: true,
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
-                return widget.emptyErrorT;
+                return AppLocalizations.of(context)!.newHabitDetailEmptyError;
               }
               return null;
             },
@@ -152,13 +148,13 @@ class _NewHabitDetailTextFieldState extends State<NewHabitDetailTextField> {
             textInputAction: TextInputAction.done,
             style: TextStyle(
               color: _borderCursorColor,
-              fontSize: 16,
+              fontSize: textFieldFontSize,
             ),
             cursorColor: _borderCursorColor,
             cursorErrorColor: _borderCursorColor,
             decoration: InputDecoration(
-              hintText: widget.hintT,
-              hintStyle: TextStyle(color: _habitIntervalColor),
+              hintText: AppLocalizations.of(context)!.newHabitDetailHint,
+              hintStyle: TextStyle(color: Theme.of(context).hintColor),
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: _borderCursorColor),
               ),
@@ -174,13 +170,11 @@ class _NewHabitDetailTextFieldState extends State<NewHabitDetailTextField> {
             ),
           ),
           const SmallSpacer(),
-          Text(
-            AppLocalizations.of(context)!.checkInterval,
-            semanticsLabel: AppLocalizations.of(context)!.checkInterval,
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              color: _habitIntervalColor,
-            )
-          )
+          CustomText(
+            text: AppLocalizations.of(context)!.checkInterval,
+            textType: TextType.title,
+            specialColor: _habitIntervalColor,
+          ),
         ],
       ),
     );

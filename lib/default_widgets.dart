@@ -124,7 +124,7 @@ class SettingsCard extends StatelessWidget {
       },
       child: Card.outlined(
         shape: RoundedRectangleBorder(
-          side: const BorderSide(color: borderOutline),
+          side: BorderSide(color: Theme.of(context).colorScheme.outline),
           borderRadius: BorderRadius.circular(cardBorderRadius),
         ),
         child: ListTile(
@@ -175,7 +175,7 @@ class _SettingsToggleState extends State<SettingsToggle> {
   Widget build(BuildContext context) {
     return Card.outlined(
       shape: RoundedRectangleBorder(
-        side: const BorderSide(color: borderOutline),
+        side: BorderSide(color: Theme.of(context).colorScheme.outline),
         borderRadius: BorderRadius.circular(cardBorderRadius),
       ),
       child: ListTile(
@@ -184,7 +184,7 @@ class _SettingsToggleState extends State<SettingsToggle> {
         trailing: Switch(
           value: _isToggled,
           onChanged: _handleToggle,
-          activeColor: primary,
+          activeColor: Theme.of(context).colorScheme.primary,
         ),
       ),
     );

@@ -24,10 +24,7 @@ class NewHabitName extends StatelessWidget {
               ),
               const LargeSpacer(),
               NewHabitNameTextField(
-                emptyErrorT: AppLocalizations.of(context)!.newHabitNameEmptyError,
-                hintT: AppLocalizations.of(context)!.newHabitNameHint,
-                route: newHabitDetailRoute,
-                borderCursorColor: Theme.of(context).colorScheme.primary,
+                context: context,
               ),
             ],
           )
@@ -40,16 +37,10 @@ class NewHabitName extends StatelessWidget {
 class NewHabitNameTextField extends StatefulWidget {
   const NewHabitNameTextField({
     super.key,
-    required this.emptyErrorT,
-    this.hintT,
-    required this.route,
-    required this.borderCursorColor,
+    required this.context
   });
 
-  final String emptyErrorT;
-  final String? hintT;
-  final String route;
-  final Color borderCursorColor;
+  final BuildContext context;
 
   @override
   State<NewHabitNameTextField> createState() => _NewHabitNameTextFieldState();
@@ -64,7 +55,7 @@ class _NewHabitNameTextFieldState extends State<NewHabitNameTextField> {
   @override
   void initState() {
     _controller = TextEditingController();
-    _borderCursorColor = widget.borderCursorColor;
+    _borderCursorColor = Theme.of(widget.context).colorScheme.primary;
     super.initState(); 
   }
 
@@ -91,7 +82,7 @@ class _NewHabitNameTextFieldState extends State<NewHabitNameTextField> {
       Navigator.pushNamed(
         context, 
         arguments: _controller.text,
-        widget.route, 
+        newHabitDetailRoute, 
       );
     } else {
       setState(() {
@@ -111,7 +102,7 @@ class _NewHabitNameTextFieldState extends State<NewHabitNameTextField> {
         autofocus: true,
         validator: (value) {
           if (value == null || value.trim().isEmpty) {
-            return widget.emptyErrorT;
+            return AppLocalizations.of(context)!.newHabitNameEmptyError;
           }
           if (value.length > maxLengthHabitName) {
             return AppLocalizations.of(context)!.newHabitNameTooLongError;
@@ -130,23 +121,24 @@ class _NewHabitNameTextFieldState extends State<NewHabitNameTextField> {
         textInputAction: TextInputAction.done,
         style: TextStyle(
           color: _borderCursorColor,
-          fontSize: 16,
+          fontSize: textFieldFontSize,
         ),
         cursorColor: _borderCursorColor,
         cursorErrorColor: _borderCursorColor,
         decoration: InputDecoration(
-          hintText: widget.hintT,
+          hintText: AppLocalizations.of(context)!.newHabitNameHint,
+          hintStyle: TextStyle(color: Theme.of(context).hintColor),
           enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: _borderCursorColor),
+            borderSide: BorderSide(color: Colors.blue),
           ),
           focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: _borderCursorColor)
+            borderSide: BorderSide(color: Colors.purple)
           ),
           errorBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: _borderCursorColor)
+            borderSide: BorderSide(color: Colors.orange)
           ),
           focusedErrorBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: _borderCursorColor)
+            borderSide: BorderSide(color: Colors.yellow)
           ),
         ),
       ),
