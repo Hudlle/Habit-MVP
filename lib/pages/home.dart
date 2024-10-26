@@ -26,9 +26,24 @@ class _HomeState extends State<Home> {
     db.updateHabitsStatus();
     super.initState();
   }
-    
+
   @override
   Widget build(BuildContext context) {
+
+    String getHomeWelcome() {
+      final hour = DateTime.now().hour;
+
+      if (hour >= 5 && hour < 12) {
+        return AppLocalizations.of(context)!.homeWelcomeMorning;
+      } else if (hour >= 12 && hour < 18) {
+        return AppLocalizations.of(context)!.homeWelcomeAfternoon;
+      } else if (hour >= 18 && hour < 22) {
+        return AppLocalizations.of(context)!.homeWelcomeEvening;
+      } else {
+        return AppLocalizations.of(context)!.homeWelcomeNight;
+      }
+    }
+
     return ChangeNotifierProvider(
       create: (context) => DayStreakProvider(),
       child: Scaffold(
@@ -50,7 +65,7 @@ class _HomeState extends State<Home> {
               child: Column(
                 children: [
                   CustomText(
-                    text: AppLocalizations.of(context)!.homeWelcome,
+                    text: getHomeWelcome(),
                     textType: TextType.headline,
                     centerAlignToggle: true,
                   ),

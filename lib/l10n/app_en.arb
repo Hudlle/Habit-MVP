@@ -1,9 +1,21 @@
 {
   "@@locale": "en",
 
-  "homeWelcome": "What did you do today?",
-  "@homeWelcome": {
-    "description": "Main greeting on home page"
+  "homeWelcomeMorning": "What did you do this morning?",
+  "@homeWelcomeMorning": {
+    "description": "Greeting message in the morning on the home page"
+  },
+  "homeWelcomeAfternoon": "What did you do this afternoon?",
+  "@homeWelcomeAfternoon": {
+    "description": "Greeting message in the afternoon on the home page"
+  },
+  "homeWelcomeEvening": "What did you do this evening?",
+  "@homeWelcomeEvening": {
+    "description": "Greeting message in the evening on the home page"
+  },
+  "homeWelcomeNight": "What did you do this night?",
+  "@homeWelcomeNight": {
+    "description": "Greeting message in the night on the home page"
   },
   "daystreak": "Day streak",
   "@daystreak": {

@@ -1,7 +1,10 @@
 {
     "@@locale": "de",
     
-    "homeWelcome": "Was hast du heute gemacht?",
+    "homeWelcomeMorning": "Was hast du heute Morgen gemacht?",
+    "homeWelcomeAfternoon": "Was hast du heute Nachmittag gemacht?",
+    "homeWelcomeEvening": "Was hast du heute Abend gemacht?",
+    "homeWelcomeNight": "Was hast du heute Nacht gemacht?",
     "daystreak": "Tagesserie",
     
     "newHabitNameWelcome": "Wie heißt die neue Gewohnheit?",
