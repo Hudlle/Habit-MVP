@@ -15,6 +15,7 @@ const double checkButtonSize = 75;
 const double smallSpacing = 10;
 const double largeSpacing = 30;
 const defaultPagePadding = <double>[25,25,25,25];
+const double maxLengthHabitName = 30;
 
 //* Routes
 const String homeRoute = "/";

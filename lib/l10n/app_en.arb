@@ -34,6 +34,10 @@
   "@newHabitNameEmptyError": {
     "description": "Error message shown when the habit name is empty"
   },
+  "newHabitNameTooLongError" : "Please shorten your name",
+  "@newHabitNameTooLongError" : {
+    "description": "Error message shwon when the habit name is too long"
+  },
 
   "newHabitDetailWelcome": "Define your goal",
   "@newHabitDetailWelcome": {

@@ -10,6 +10,7 @@
     "newHabitNameWelcome": "Wie heißt die neue Gewohnheit?",
     "newHabitNameHint": "z.B. Lesen",
     "newHabitNameEmptyError": "Gib deiner Gewohnheit einen Namen",
+    "newHabitNameTooLongError" : "Kürze deinen Namen",
     
     "newHabitDetailWelcome": "Definiere Dein Ziel",
     "newHabitDetailHint": "z.B. 5 Seiten",

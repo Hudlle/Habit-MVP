@@ -74,6 +74,18 @@ class _NewHabitNameTextFieldState extends State<NewHabitNameTextField> {
     super.dispose();
   }
 
+  void _onChange() {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        _borderCursorColor = Theme.of(context).colorScheme.primary;
+      });
+    } else {
+      setState(() {
+        _borderCursorColor = Theme.of(context).colorScheme.error;
+      });
+    }
+  }
+
   void _submitForm() {
     if(_formKey.currentState!.validate()){
       Navigator.pushNamed(
@@ -101,12 +113,13 @@ class _NewHabitNameTextFieldState extends State<NewHabitNameTextField> {
           if (value == null || value.trim().isEmpty) {
             return widget.emptyErrorT;
           }
+          if (value.length > maxLengthHabitName) {
+            return AppLocalizations.of(context)!.newHabitNameTooLongError;
+          }
           return null;
         },
         onChanged: (value) {
-          setState(() {
-            _borderCursorColor = Theme.of(context).colorScheme.primary;
-          });
+          _onChange();
         },
         onFieldSubmitted: (value) {
           _submitForm();
