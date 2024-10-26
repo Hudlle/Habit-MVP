@@ -15,6 +15,7 @@ import 'pages/new_habit_name.dart';
 import 'pages/new_habit_detail.dart';
 import 'pages/how_to_goal.dart';
 import 'pages/settings.dart';
+import 'daystreak_provider.dart';
 
 class HabitApp extends StatelessWidget {
   const HabitApp({super.key});
@@ -48,7 +49,12 @@ class HabitApp extends StatelessWidget {
                 //* Routing
                 initialRoute: homeRoute,
                 routes: {
-                  homeRoute: (BuildContext context) => const Home(),
+                  homeRoute: (BuildContext context) {
+                    return ChangeNotifierProvider(
+                      create: (context) => DayStreakProvider(),
+                      child: Home()
+                    );
+                  },
                   habitCloseLookRoute: (BuildContext context) {
                     final arguments  = ModalRoute.of(context)!.settings.arguments as List;
                     return HabitCloseLook(habit: arguments[0], dayStreakProvider: arguments[1]);

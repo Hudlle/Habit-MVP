@@ -19,14 +19,31 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with WidgetsBindingObserver{
 
   @override
   void initState() {
-    db.updateHabitsStatus();
+    WidgetsBinding.instance.addObserver(this);
+    // Provider.of<DayStreakProvider>(context, listen: false).updateHabits();
     super.initState();
   }
 
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    log("state: $state");
+    if (state == AppLifecycleState.resumed) {
+      Provider.of<DayStreakProvider>(context, listen: false).updateDayStreak();
+      db.updateHabitsStatus;
+      log("UPDATED");
+    }
+  }
+    
   @override
   Widget build(BuildContext context) {
 

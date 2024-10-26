@@ -28,4 +28,9 @@ class DayStreakProvider with ChangeNotifier {
     notifyListeners();
     return habit.checked;
   }
+
+  void updateHabits() {
+    db.updateHabitsStatus();
+    notifyListeners();
+  }
 }
