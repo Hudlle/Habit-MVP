@@ -7,6 +7,8 @@ import 'package:habit_mvp/main.dart';
 import 'package:habit_mvp/model.dart';
 import 'package:habit_mvp/default_data.dart';
 import 'package:habit_mvp/default_widgets.dart';
+import 'package:habit_mvp/daystreak_provider.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({
@@ -18,125 +20,126 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  late int dayStreakCount;
 
   @override
   void initState() {
     db.updateHabitsStatus();
-    DayStreakCounter dayStreakCounter = db.getDayStreakCounter();
-    dayStreakCounter.update();
-    dayStreakCount = dayStreakCounter.count;
     super.initState();
-  }
-
-  void updateDayStreakCount() {
-    DayStreakCounter dayStreakCounter = db.getDayStreakCounter();
-    setState(() {
-      dayStreakCount = dayStreakCounter.count;
-    });
   }
     
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              Navigator.pushNamed(context, settingsRoute);
-            },
-          )
-        ],
-      ),
-      body: Container(
-        color: Theme.of(context).colorScheme.surface,
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(defaultPagePadding[0], defaultPagePadding[1], defaultPagePadding[2], defaultPagePadding[3]),
-          child: Center(
-            child: Column(
-              children: [
-                CustomText(
-                  text: AppLocalizations.of(context)!.homeWelcome,
-                  textType: TextType.headline,
-                  centerAlignToggle: true,
-                ),
-                LargeSpacer(),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: BorderRadius.circular(30),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 8,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
+    return ChangeNotifierProvider(
+      create: (context) => DayStreakProvider(),
+      child: Scaffold(
+        appBar: AppBar(
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.settings),
+              onPressed: () {
+                Navigator.pushNamed(context, settingsRoute);
+              },
+            )
+          ],
+        ),
+        body: Container(
+          color: Theme.of(context).colorScheme.surface,
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(defaultPagePadding[0], defaultPagePadding[1], defaultPagePadding[2], defaultPagePadding[3]),
+            child: Center(
+              child: Column(
+                children: [
+                  CustomText(
+                    text: AppLocalizations.of(context)!.homeWelcome,
+                    textType: TextType.headline,
+                    centerAlignToggle: true,
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        dayStreakCount.toString(),
-                        style: GoogleFonts.notoSerif(
-                          textStyle: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
+                  LargeSpacer(),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surface,
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 8,
+                          offset: const Offset(0, 4),
                         ),
-                      ),
-                      SizedBox(width: 10),
-                      CustomText(
-                        text: AppLocalizations.of(context)!.daystreak,
-                        textType: TextType.title,
-                      ),
-                    ],
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        //* DayStreakCounter Count
+                        Consumer<DayStreakProvider>(
+                          builder: (context, dayStreakProvider, child) {
+                            return Text(
+                              dayStreakProvider.dayStreakCount.toString(),
+                              style: GoogleFonts.notoSerif(
+                                textStyle: const TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                        SizedBox(width: 10),
+                        CustomText(
+                          text: AppLocalizations.of(context)!.daystreak,
+                          textType: TextType.title,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const LargeSpacer(),
-                Expanded(
-                  child: StreamBuilder<List<Habit>>(
-                    stream: db.getHabits(),
-                    builder: (context, snapshot) {
-                      if (snapshot.data?.isNotEmpty ?? false) {
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: snapshot.hasData ? snapshot.data!.length + 1 : 1,
-                          itemBuilder: (context, index) {
-                            if (index == snapshot.data?.length) {
-                              return Column(
-                                children: [
-                                  LargeSpacer(),
-                                  AddHabitIB()
-                                ],
-                              );
-                            } else {
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    arguments: snapshot.data![index],
-                                    habitCloseLookRoute,
-                                  );
-                                },
-                                child: HabitCard(
-                                  key: ValueKey(snapshot.data?[index].id),
-                                  habit: snapshot.data![index],
-                                  onHabitUpdate: updateDayStreakCount,
-                                )
-                              );
-                            }
-                          }
-                        );
-                      } else {
-                        return const AddHabitIB();
-                      }
-                    }
+                  const LargeSpacer(),
+                  Expanded(
+                    child: StreamBuilder<List<Habit>>(
+                      stream: db.getSortedHabits(),
+                      builder: (context, snapshot) {
+                        if (snapshot.data?.isNotEmpty ?? false) {
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: snapshot.hasData ? snapshot.data!.length + 1 : 1,
+                            itemBuilder: (context, index) {
+                              if (index == snapshot.data?.length) {
+                                return Column(
+                                  children: [
+                                    LargeSpacer(),
+                                    AddHabitIB()
+                                  ],
+                                );
+                              } else {
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      arguments: snapshot.data![index],
+                                      habitCloseLookRoute,
+                                    );
+                                  },
+                                  child: Consumer<DayStreakProvider>(
+                                    builder: (context, dayStreakProvider, child) {
+                                      return HabitCard(
+                                        key: ValueKey(snapshot.data?[index].id),
+                                        habit: snapshot.data![index],
+                                        dayStreakProvider: dayStreakProvider,
+                                      );
+                                    },
+                                  ),
+                                );
+                              }
+                            },
+                          );
+                        } else {
+                          return const AddHabitIB();
+                        }
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -149,11 +152,11 @@ class HabitCard extends StatefulWidget {
   const HabitCard({
     super.key,
     required this.habit,
-    required this.onHabitUpdate,
+    required this.dayStreakProvider
   });
 
   final Habit habit;
-  final VoidCallback onHabitUpdate;
+  final DayStreakProvider dayStreakProvider;
 
   @override
   State<HabitCard> createState() => _HabitCardState();
@@ -171,14 +174,10 @@ class _HabitCardState extends State<HabitCard> {
   void toggleCheckButton() {
     bool newCheckedStatus = widget.habit.toggleCheck();
     db.habitBox.put(widget.habit);
-    DayStreakCounter dayStreakCounter = db.getDayStreakCounter();
-    dayStreakCounter.update();
-    db.dayStreakCounterBox.put(dayStreakCounter);
-
     setState(() {
       checkedStatus = newCheckedStatus;
     });
-    widget.onHabitUpdate();
+    widget.dayStreakProvider.updateDayStreak();
   }
 
   @override
@@ -199,13 +198,13 @@ class _HabitCardState extends State<HabitCard> {
                     text: widget.habit.name,
                     textType: TextType.title,
                     softWrapToggle: true,
-                    specialColor: checkedStatus ? Theme.of(context).colorScheme.onPrimary : Colors.black,
+                    specialColor: checkedStatus ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSecondaryContainer,
                   ),
                   CustomText(
                     text: widget.habit.description,
                     textType: TextType.body,
                     softWrapToggle: true,
-                    specialColor: checkedStatus ? Theme.of(context).colorScheme.onPrimary : Colors.black,
+                    specialColor: checkedStatus ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSecondaryContainer,
                   ),
                 ],
               ),
@@ -218,7 +217,7 @@ class _HabitCardState extends State<HabitCard> {
                     "🔥${widget.habit.streak}",
                     style: TextStyle(
                       fontSize: 20,
-                      color: checkedStatus ? Theme.of(context).colorScheme.onPrimary : Colors.black,
+                      color: checkedStatus ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSecondaryContainer,
                     ),
                   ),
                   const SizedBox(width: 10),

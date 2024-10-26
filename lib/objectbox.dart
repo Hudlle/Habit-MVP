@@ -47,7 +47,7 @@ class ObjectBox {
     log("Added Habit: ${newHabit.name}");
   }
 
-  Stream<List<Habit>> getHabits() {
+  Stream<List<Habit>> getSortedHabits() {
     final Stream<List<Habit>> notCheckedHabits = habitBox
       .query(Habit_.checked.equals(false))
       .order(Habit_.name, flags: Order.descending)
@@ -67,7 +67,7 @@ class ObjectBox {
         return [...notCheckedHabits,...checkedHabits];
       }
     );
-  } 
+  }
 
   void updateHabitsStatus() {
     final habits = habitBox.getAll();

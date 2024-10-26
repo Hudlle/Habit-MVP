@@ -41,7 +41,7 @@ class LocaleProvider with ChangeNotifier {
 
    void _initializeLocale() {
     userSettings = db.getUserSettings();
-    _locale = userSettings.locale; //TODO hier ist noch nen error
+    _locale = userSettings.locale;
    }
 
    void changeLocale(Locale newLocale) {
