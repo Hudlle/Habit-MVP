@@ -197,6 +197,14 @@ class _HabitCardState extends State<HabitCard> {
 
   @override
   Widget build(BuildContext context) {
+    String getShortDescription(String habitDescription) {
+      if (habitDescription.length > shortDescriptionLength) {
+        String shortDescription = habitDescription.substring(0, shortDescriptionLength);
+        return "$shortDescription...";
+      }
+      return habitDescription;
+    }
+
     return Card(
       color: checkedStatus ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onPrimary,
       margin: const EdgeInsets.only(bottom: 10),
@@ -216,7 +224,7 @@ class _HabitCardState extends State<HabitCard> {
                     specialColor: checkedStatus ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSecondaryContainer,
                   ),
                   CustomText(
-                    text: widget.habit.description,
+                    text: getShortDescription(widget.habit.description),
                     textType: TextType.body,
                     softWrapToggle: true,
                     specialColor: checkedStatus ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSecondaryContainer,

@@ -16,6 +16,7 @@ const double smallSpacing = 10;
 const double largeSpacing = 30;
 const defaultPagePadding = <double>[25,25,25,25];
 const double maxLengthHabitName = 30;
+const int shortDescriptionLength = 60;
 
 //* Routes
 const String homeRoute = "/";
