@@ -186,7 +186,7 @@ class _HabitCardState extends State<HabitCard> {
     super.initState();
   }
 
-  void toggleCheckButton() {
+  void handleCheck() {
     bool newCheckedStatus = widget.habit.toggleCheck();
     db.habitBox.put(widget.habit);
     setState(() {
@@ -251,11 +251,11 @@ class _HabitCardState extends State<HabitCard> {
                     visible: !checkedStatus,
                     child: FilledButton(
                       onPressed:() {
-                        toggleCheckButton();
+                        handleCheck();
                       },
                       style: FilledButton.styleFrom(
-                        backgroundColor: checkedStatus ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.primary,
-                        iconColor: checkedStatus ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onPrimary,
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        iconColor: Theme.of(context).colorScheme.onPrimary,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),
@@ -263,9 +263,7 @@ class _HabitCardState extends State<HabitCard> {
                       ),
                       child: Transform.scale(
                         scale: 1.3,
-                        child: Icon(
-                          checkedStatus ? Icons.undo : Icons.check,
-                        )
+                        child: Icon(Icons.check,)
                       )
                     ),
                   ),
