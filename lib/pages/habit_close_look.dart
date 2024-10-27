@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:habit_mvp/daystreak_provider.dart';
 
 import 'package:habit_mvp/default_data.dart';
 import 'package:habit_mvp/default_widgets.dart';
@@ -11,10 +12,12 @@ import 'package:habit_mvp/main.dart';
 class HabitCloseLook extends StatefulWidget {
   const HabitCloseLook({
     super.key,
-    required this.habit
+    required this.habit,
+    required this.dayStreakProvider
   });
 
   final Habit habit;
+  final DayStreakProvider dayStreakProvider;
 
   @override
   State<HabitCloseLook> createState() => _HabitCloseLookState();
@@ -30,8 +33,7 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
   }
 
   void toggleCheckButton() {
-    bool newCheckedStatus = widget.habit.toggleCheck();
-    db.habitBox.put(widget.habit);
+    bool newCheckedStatus = widget.dayStreakProvider.updateHabitAndDayStreak(widget.habit);
     setState(() {
       checkedStatus = newCheckedStatus;
     });
@@ -89,6 +91,7 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
                         text: AppLocalizations.of(context)!.yourGoal,
                         textType: TextType.title,
                       ),
+                      SmallSpacer(),
                       SizedBox( 
                         width: 225,
                         child: CustomText(
@@ -100,46 +103,51 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
                     ],
                   ),
                   Spacer(),
-                  Material(
-                    child: Center(
-                      child: Transform.scale(
-                        scale: 0.925,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Theme.of(context).colorScheme.onSurface,
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Material(
+                        child: Center(
+                          child: Transform.scale(
+                            scale: 0.925,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Theme.of(context).colorScheme.onSurface,
+                                ),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: IconButton(
+                                icon: Icon(Icons.edit),
+                                onPressed: () => onEdit(),
+                              )
                             ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: IconButton(
-                            icon: Icon(Icons.edit),
-                            onPressed: () => onEdit(),
                           )
                         ),
-                      )
-                    ),
-                  ),
-                  SizedBox(width: 10,),
-                  Material(
-                    child: Center(
-                      child: Ink(
-                        decoration: ShapeDecoration(
-                          color: Theme.of(context).colorScheme.primary,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
+                      ),
+                      SizedBox(width: 15,),
+                      Material(
+                        child: Center(
+                          child: Ink(
+                            decoration: ShapeDecoration(
+                              color: Theme.of(context).colorScheme.primary,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                            ),
+                            child: IconButton(
+                              icon: Icon(
+                                checkedStatus ? Icons.undo : Icons.check,
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
+                              onPressed:() {
+                                toggleCheckButton();
+                              },
+                            ),
                           ),
-                        ),
-                        child: IconButton(
-                          icon: Icon(
-                            checkedStatus ? Icons.undo : Icons.check,
-                            color: Theme.of(context).colorScheme.onPrimary,
-                          ),
-                          onPressed:() {
-                            toggleCheckButton();
-                          },
                         ),
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),

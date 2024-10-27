@@ -126,23 +126,23 @@ class _HomeState extends State<Home> {
                                   ],
                                 );
                               } else {
-                                return GestureDetector(
-                                  onTap: () {
-                                    Navigator.pushNamed(
-                                      context,
-                                      arguments: snapshot.data![index],
-                                      habitCloseLookRoute,
-                                    );
-                                  },
-                                  child: Consumer<DayStreakProvider>(
-                                    builder: (context, dayStreakProvider, child) {
-                                      return HabitCard(
+                                return Consumer<DayStreakProvider>(
+                                  builder: (context, dayStreakProvider, child) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          arguments: [snapshot.data![index], dayStreakProvider],
+                                          habitCloseLookRoute,
+                                        );
+                                      },
+                                      child: HabitCard(
                                         key: ValueKey(snapshot.data?[index].id),
                                         habit: snapshot.data![index],
                                         dayStreakProvider: dayStreakProvider,
-                                      );
-                                    },
-                                  ),
+                                      ),
+                                    );
+                                  }
                                 );
                               }
                             },
@@ -178,21 +178,14 @@ class HabitCard extends StatefulWidget {
 }
 
 class _HabitCardState extends State<HabitCard> {
-  late bool checkedStatus;
 
   @override
   void initState() {
-    checkedStatus = widget.habit.checked;
     super.initState();
   }
 
   void handleCheck() {
-    bool newCheckedStatus = widget.habit.toggleCheck();
-    db.habitBox.put(widget.habit);
-    setState(() {
-      checkedStatus = newCheckedStatus;
-    });
-    widget.dayStreakProvider.updateDayStreak();
+    widget.dayStreakProvider.updateHabitAndDayStreak(widget.habit);
   }
 
   @override
@@ -206,7 +199,7 @@ class _HabitCardState extends State<HabitCard> {
     }
 
     return Card(
-      color: checkedStatus ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onPrimary,
+      color: widget.habit.checked ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onPrimary,
       margin: const EdgeInsets.only(bottom: 10),
       child: Container(
         padding: const EdgeInsets.all(15),
@@ -224,13 +217,13 @@ class _HabitCardState extends State<HabitCard> {
                     text: widget.habit.name,
                     textType: TextType.title,
                     softWrapToggle: true,
-                    specialColor: checkedStatus ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSecondaryContainer,
+                    specialColor: widget.habit.checked ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSecondaryContainer,
                   ),
                   CustomText(
                     text: getShortDescription(widget.habit.description),
                     textType: TextType.body,
                     softWrapToggle: true,
-                    specialColor: checkedStatus ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSecondaryContainer,
+                    specialColor: widget.habit.checked ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSecondaryContainer,
                   ),
                 ],
               ),
@@ -243,12 +236,12 @@ class _HabitCardState extends State<HabitCard> {
                     "🔥${widget.habit.streak}",
                     style: TextStyle(
                       fontSize: 20,
-                      color: checkedStatus ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSecondaryContainer,
+                      color: widget.habit.checked ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSecondaryContainer,
                     ),
                   ),
                   const SizedBox(width: 15),
                   Visibility(
-                    visible: !checkedStatus,
+                    visible: !widget.habit.checked,
                     child: FilledButton(
                       onPressed:() {
                         handleCheck();

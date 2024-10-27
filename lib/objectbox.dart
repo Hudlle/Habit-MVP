@@ -50,13 +50,13 @@ class ObjectBox {
   Stream<List<Habit>> getSortedHabits() {
     final Stream<List<Habit>> notCheckedHabits = habitBox
       .query(Habit_.checked.equals(false))
-      .order(Habit_.name, flags: Order.descending)
+      .order(Habit_.name)
       .watch(triggerImmediately: true)
       .map((query) => query.find());
     
     final Stream<List<Habit>> checkedHabits = habitBox
       .query(Habit_.checked.equals(true))
-      .order(Habit_.name, flags: Order.descending)
+      .order(Habit_.name)
       .watch(triggerImmediately: true)
       .map((query) => query.find());
 

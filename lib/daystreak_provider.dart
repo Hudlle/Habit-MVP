@@ -15,10 +15,17 @@ class DayStreakProvider with ChangeNotifier {
     _dayStreakCounter = db.getDayStreakCounter();
   }
 
-  void updateDayStreak() {
+  void _updateDayStreak() {
     _dayStreakCounter = db.getDayStreakCounter();
     _dayStreakCounter.update();
     db.dayStreakCounterBox.put(_dayStreakCounter);
+  }
+
+  bool updateHabitAndDayStreak(Habit habit) {
+    habit.toggleCheck();
+    db.habitBox.put(habit);
+    _updateDayStreak();
     notifyListeners();
+    return habit.checked;
   }
 }

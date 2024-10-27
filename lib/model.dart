@@ -60,7 +60,7 @@ class DayStreakCounter{
 
   void checkDailyReset() {
     DateTime now = DateTime.now();
-    bool isSameDay = _isSameTestDay(lastUpdated);
+    bool isSameDay = _isSameDay(lastUpdated, now);
 
     if (!isSameDay && !updated) {
       count = 0;
@@ -137,7 +137,7 @@ class Habit{
   //* Functions
   void checkDailyReset() {
     DateTime now = DateTime.now();
-    bool isSameDay = _isSameTestDay(lastChecked);
+    bool isSameDay = _isSameDay(lastChecked, now);
 
     if (!isSameDay && !checked) {
       streak = 0;
