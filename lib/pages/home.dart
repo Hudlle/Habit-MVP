@@ -210,6 +210,9 @@ class _HabitCardState extends State<HabitCard> {
       margin: const EdgeInsets.only(bottom: 10),
       child: Container(
         padding: const EdgeInsets.all(15),
+        constraints: BoxConstraints(
+          minHeight: minHeightHabitCard,
+        ),
         child: Row(
           children: [
             SizedBox(
@@ -243,25 +246,28 @@ class _HabitCardState extends State<HabitCard> {
                       color: checkedStatus ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSecondaryContainer,
                     ),
                   ),
-                  const SizedBox(width: 10),
-                  FilledButton(
-                    onPressed:() {
-                      toggleCheckButton();
-                    },
-                    style: FilledButton.styleFrom(
-                      backgroundColor: checkedStatus ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.primary,
-                      iconColor: checkedStatus ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onPrimary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
+                  const SizedBox(width: 15),
+                  Visibility(
+                    visible: !checkedStatus,
+                    child: FilledButton(
+                      onPressed:() {
+                        toggleCheckButton();
+                      },
+                      style: FilledButton.styleFrom(
+                        backgroundColor: checkedStatus ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.primary,
+                        iconColor: checkedStatus ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onPrimary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        fixedSize: const Size(checkButtonSize, checkButtonSize),
                       ),
-                      fixedSize: const Size(checkButtonSize, checkButtonSize),
-                    ),
-                    child: Transform.scale(
-                      scale: 1.3,
-                      child: Icon(
-                        checkedStatus ? Icons.undo : Icons.check,
+                      child: Transform.scale(
+                        scale: 1.3,
+                        child: Icon(
+                          checkedStatus ? Icons.undo : Icons.check,
+                        )
                       )
-                    )
+                    ),
                   ),
                 ],
               ),

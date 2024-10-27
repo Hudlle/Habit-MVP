@@ -8,6 +8,7 @@ const defaultPagePadding = <double>[25,25,25,25];
 const double maxLengthHabitName = 30;
 const int shortDescriptionLength = 60;
 const double textFieldFontSize = 16;
+const double minHeightHabitCard = 100;
 
 //* Routes
 const String homeRoute = "/";

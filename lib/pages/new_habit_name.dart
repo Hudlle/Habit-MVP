@@ -129,16 +129,16 @@ class _NewHabitNameTextFieldState extends State<NewHabitNameTextField> {
           hintText: AppLocalizations.of(context)!.newHabitNameHint,
           hintStyle: TextStyle(color: Theme.of(context).hintColor),
           enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.blue),
+            borderSide: BorderSide(color: _borderCursorColor),
           ),
           focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.purple)
+            borderSide: BorderSide(color: _borderCursorColor)
           ),
           errorBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.orange)
+            borderSide: BorderSide(color: _borderCursorColor)
           ),
           focusedErrorBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.yellow)
+            borderSide: BorderSide(color: _borderCursorColor)
           ),
         ),
       ),
