@@ -11,14 +11,12 @@ import 'package:habit_mvp/model.dart';
 import 'package:habit_mvp/main.dart';
 
 class HabitCloseLook extends StatefulWidget {
-  const HabitCloseLook({
+  HabitCloseLook({
     super.key,
     required this.habit,
-    required this.dayStreakProvider
   });
 
-  final Habit habit;
-  final DayStreakProvider dayStreakProvider;
+  Habit habit;
 
   @override
   State<HabitCloseLook> createState() => _HabitCloseLookState();
@@ -35,7 +33,10 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
   }
 
   void toggleCheckButton() {
-    db.updateHabit(widget.habit);
+    Habit newHabit = db.updateHabit(widget.habit);
+    setState(() {
+      widget.habit = newHabit;
+    });
   }
 
   void onEdit() {
@@ -57,22 +58,34 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              FittedBox(
-                child: Text(
-                  widget.habit.streak.toString(),
-                  semanticsLabel: widget.habit.streak.toString(),
-                  style: GoogleFonts.notoSerif(
-                    textStyle: TextStyle(
-                      fontSize: 200,
-                      color: widget.habit.checked ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
-                    ),
-                  ),
-                ),
-              ),
               CustomText(
                 text: widget.habit.name,
                 textType: TextType.headline,
                 specialColor: widget.habit.checked ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
+              ),
+              LargeSpacer(),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface,
+                  borderRadius: BorderRadius.circular(30),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Text(
+                  "${widget.habit.streak.toString()} 🔥",
+                  style: GoogleFonts.notoSerif(
+                    textStyle: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ),
               LargeSpacer(),
               Row(

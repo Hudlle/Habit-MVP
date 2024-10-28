@@ -7,15 +7,15 @@ import 'package:habit_mvp/main.dart';
 import 'package:habit_mvp/model.dart';
 import 'package:habit_mvp/default_data.dart';
 import 'package:habit_mvp/default_widgets.dart';
-import 'package:habit_mvp/daystreak_provider.dart';
+// import 'package:habit_mvp/daystreak_provider.dart';
 
 class Home extends StatefulWidget {
-  const Home({
+  Home({
     super.key,
-    required this.dayStreakProvider,
+    required this.dayStreakCounter,
   });
 
-  final DayStreakProvider dayStreakProvider;
+  DayStreakCounter dayStreakCounter;
 
   @override
   State<Home> createState() => _HomeState();
@@ -42,7 +42,9 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       db.updateHabitsStatus();
-      db.updateDayStreakCounter();
+      setState(() {
+        widget.dayStreakCounter = db.updateDayStreakCounter();
+      });
       // widget.dayStreakProvider.updateHabitsAndDayStreak;
       log("REFRESHED");
     }
@@ -107,7 +109,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
                     children: [
                       //* DayStreakCounter Count
                       Text(
-                        db.getDayStreakCounter().count.toString(),
+                        widget.dayStreakCounter.count.toString(),
                         style: GoogleFonts.notoSerif(
                           textStyle: const TextStyle(
                             fontSize: 24,
@@ -145,14 +147,13 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
                                 onTap: () {
                                   Navigator.pushNamed(
                                     context,
-                                    arguments: [snapshot.data![index], widget.dayStreakProvider],
+                                    arguments: [snapshot.data![index]],
                                     habitCloseLookRoute,
                                   );
                                 },
                                 child: HabitCard(
                                   key: ValueKey(snapshot.data?[index].id),
                                   habit: snapshot.data![index],
-                                  dayStreakProvider: widget.dayStreakProvider,
                                 ),
                               );
                             }
@@ -177,11 +178,9 @@ class HabitCard extends StatefulWidget {
   const HabitCard({
     super.key,
     required this.habit,
-    required this.dayStreakProvider
   });
 
   final Habit habit;
-  final DayStreakProvider dayStreakProvider;
 
   @override
   State<HabitCard> createState() => _HabitCardState();
@@ -195,7 +194,6 @@ class _HabitCardState extends State<HabitCard> {
   }
 
   void handleCheck() {
-    // widget.dayStreakProvider.updateHabitAndDayStreak(widget.habit);
     db.updateHabit(widget.habit);
     db.updateDayStreakCounter();
   }
@@ -245,7 +243,7 @@ class _HabitCardState extends State<HabitCard> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    "🔥${widget.habit.streak}",
+                    "${widget.habit.streak} 🔥",
                     style: TextStyle(
                       fontSize: 20,
                       color: widget.habit.checked ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSecondaryContainer,

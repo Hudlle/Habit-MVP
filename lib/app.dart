@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habit_mvp/daystreak_provider.dart';
+import 'package:habit_mvp/main.dart';
 import 'package:habit_mvp/pages/language_settings.dart';
 import 'package:provider/provider.dart';
 import 'ui_util/color_themes.dart';
@@ -53,15 +54,12 @@ class HabitApp extends StatelessWidget {
                 initialRoute: homeRoute,
                 routes: {
                   homeRoute: (BuildContext context) {
-                    return Consumer<DayStreakProvider>(
-                      builder: (context, dayStreakProvider, child) {
-                        return Home(dayStreakProvider: dayStreakProvider,);
-                      }
-                    );
+                    DayStreakCounter dayStreakCounter = db.getDayStreakCounter();
+                    return Home(dayStreakCounter: dayStreakCounter);
                   },
                   habitCloseLookRoute: (BuildContext context) {
                     final arguments  = ModalRoute.of(context)!.settings.arguments as List;
-                    return HabitCloseLook(habit: arguments[0], dayStreakProvider: arguments[1]);
+                    return HabitCloseLook(habit: arguments[0]);
                   },
                   habitEditRoute: (BuildContext context) {
                     final habit = ModalRoute.of(context)!.settings.arguments as Habit;

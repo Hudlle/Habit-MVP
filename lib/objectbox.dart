@@ -47,11 +47,12 @@ class ObjectBox {
     log("Added Habit: ${newHabit.name}");
   }
 
-  void updateHabit(Habit habit) {
+  Habit updateHabit(Habit habit) {
     habit.toggleCheck();
     habitBox.put(habit);
     
     log("Updated: ${habit.name} auf ${habit.checked}");
+    return habit;
   }
 
   void removeHabit(Habit habit) {
@@ -96,10 +97,11 @@ class ObjectBox {
     return counters.first;
   }
 
-  void updateDayStreakCounter() {
+  DayStreakCounter updateDayStreakCounter() {
     DayStreakCounter dayStreakCounter = getDayStreakCounter();
     dayStreakCounter.update();
     dayStreakCounterBox.put(dayStreakCounter);
+    return dayStreakCounter;
   }
 
   //* User Settings
