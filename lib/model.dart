@@ -60,10 +60,11 @@ class DayStreakCounter{
 
   void checkDailyReset() {
     DateTime now = DateTime.now();
-    bool isSameDay = _isSameDay(lastUpdated, now);
+    bool isSameDay = _isSameTestDay(lastUpdated);
 
     if (!isSameDay && !updated) {
       count = 0;
+      log("Zurückgesetzt: DayStreakCounter");
     }
     if (!isSameDay) {
       updated = false;
@@ -82,17 +83,16 @@ class DayStreakCounter{
     if (checkedCount == totalHabitCount && updated == false) {
       count ++;
       updated = true;
-      log("DayStreakCounter erhöht");
+      log("DayStreakCounter erhöht auf $count");
     } else if (checkedCount != totalHabitCount && updated == true) {
       count --;
       updated = false;
-      log("DayStreakCounter verringert");
+      log("DayStreakCounter verringert auf $count");
     } else {
       updated = false;
-      log("DayStreakCounter gleich geblieben");
+      log("DayStreakCounter gleich geblieben bei $count");
     }
 
-    log("Count: $count");
     lastUpdated = DateTime.now();
   }
 
@@ -137,12 +137,13 @@ class Habit{
   //* Functions
   void checkDailyReset() {
     DateTime now = DateTime.now();
-    bool isSameDay = _isSameDay(lastChecked, now);
+    bool isSameDay = _isSameTestDay(lastChecked);
 
-    if (!isSameDay && !checked) {
+    if (!isSameDay && !checked) { // Wenn es ein anderer Tag ist und es unchecked ist, setzte streak auf 0 zurück
       streak = 0;
+      log("Zurückgesetzt: $name");
     } 
-    if (!isSameDay) {
+    if (!isSameDay) { // Wenn es NUR ein anderer Tag ist, setzte checked = false
       checked = false;
     }
 

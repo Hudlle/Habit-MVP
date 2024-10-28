@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'ui_util/theme_locale_provider.dart';
+// import "dart:developer";
 
 import 'objectbox.dart';
 import 'app.dart';
@@ -10,7 +11,9 @@ late ObjectBox db;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   db = await ObjectBox.create();
-  db.updateHabitsStatus();
+  // db.updateHabitsStatus();
+  // db.updateDayStreakCounter();
+  // log("Main Initializing");
 
   runApp(
     ChangeNotifierProvider(

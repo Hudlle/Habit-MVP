@@ -47,6 +47,18 @@ class ObjectBox {
     log("Added Habit: ${newHabit.name}");
   }
 
+  void updateHabit(Habit habit) {
+    habit.toggleCheck();
+    habitBox.put(habit);
+    
+    log("Updated: ${habit.name} auf ${habit.checked}");
+  }
+
+  void removeHabit(Habit habit) {
+    habitBox.remove(habit.id);
+    log("Removed Habit: ${habit.name}");
+  }
+
   Stream<List<Habit>> getSortedHabits() {
     final Stream<List<Habit>> notCheckedHabits = habitBox
       .query(Habit_.checked.equals(false))
@@ -74,23 +86,30 @@ class ObjectBox {
     for (var habit in habits) {
       habit.checkDailyReset();
       habitBox.put(habit);
+      log("Updated: ${habit.name} auf ${habit.checked}");
     }
   }
 
   //* Daystreak Counter
   DayStreakCounter getDayStreakCounter() {
-    final List<DayStreakCounter> counters = dayStreakCounterBox.getAll();
+    List<DayStreakCounter> counters = dayStreakCounterBox.getAll();
     return counters.first;
   }
 
+  void updateDayStreakCounter() {
+    DayStreakCounter dayStreakCounter = getDayStreakCounter();
+    dayStreakCounter.update();
+    dayStreakCounterBox.put(dayStreakCounter);
+  }
+
   //* User Settings
+  UserSettings getUserSettings() {
+    List<UserSettings> allUserSettings = userSettingsBox.getAll();
+    return allUserSettings.first;
+  }
+
   void clearUserSettings() {
     userSettingsBox.removeAll();
     log("User Settings cleared\nCount: ${userSettingsBox.getAll().length}");
-  }
-
-  UserSettings getUserSettings() {
-    final List<UserSettings> allUserSettings = userSettingsBox.getAll();
-    return allUserSettings.first;
   }
 }

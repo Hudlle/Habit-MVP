@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habit_mvp/daystreak_provider.dart';
 import 'package:habit_mvp/pages/language_settings.dart';
 import 'package:provider/provider.dart';
 import 'ui_util/color_themes.dart';
@@ -15,7 +16,6 @@ import 'pages/new_habit_name.dart';
 import 'pages/new_habit_detail.dart';
 import 'pages/how_to_goal.dart';
 import 'pages/settings.dart';
-import 'daystreak_provider.dart';
 
 class HabitApp extends StatelessWidget {
   const HabitApp({super.key});
@@ -26,8 +26,11 @@ class HabitApp extends StatelessWidget {
     TextTheme textTheme = createTextTheme(context, "Noto Serif", "Noto Serif");
     MaterialTheme theme = MaterialTheme(textTheme);
 
-    return ChangeNotifierProvider(
-      create: (context) => ThemeProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(create: (context) => DayStreakProvider())
+      ],
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {
           return Consumer<LocaleProvider>(
@@ -50,9 +53,10 @@ class HabitApp extends StatelessWidget {
                 initialRoute: homeRoute,
                 routes: {
                   homeRoute: (BuildContext context) {
-                    return ChangeNotifierProvider(
-                      create: (context) => DayStreakProvider(),
-                      child: Home()
+                    return Consumer<DayStreakProvider>(
+                      builder: (context, dayStreakProvider, child) {
+                        return Home(dayStreakProvider: dayStreakProvider,);
+                      }
                     );
                   },
                   habitCloseLookRoute: (BuildContext context) {

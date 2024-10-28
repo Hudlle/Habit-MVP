@@ -8,12 +8,14 @@ import 'package:habit_mvp/model.dart';
 import 'package:habit_mvp/default_data.dart';
 import 'package:habit_mvp/default_widgets.dart';
 import 'package:habit_mvp/daystreak_provider.dart';
-import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({
     super.key,
+    required this.dayStreakProvider,
   });
+
+  final DayStreakProvider dayStreakProvider;
 
   @override
   State<Home> createState() => _HomeState();
@@ -24,7 +26,9 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
-    // Provider.of<DayStreakProvider>(context, listen: false).updateHabits();
+    db.updateHabitsStatus();
+    db.updateDayStreakCounter();
+    log("INITIATED HOME");
     super.initState();
   }
 
@@ -36,11 +40,11 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    log("state: $state");
     if (state == AppLifecycleState.resumed) {
-      Provider.of<DayStreakProvider>(context, listen: false).updateDayStreak();
-      db.updateHabitsStatus;
-      log("UPDATED");
+      db.updateHabitsStatus();
+      db.updateDayStreakCounter();
+      // widget.dayStreakProvider.updateHabitsAndDayStreak;
+      log("REFRESHED");
     }
   }
     
@@ -61,117 +65,106 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
       }
     }
 
-    return ChangeNotifierProvider(
-      create: (context) => DayStreakProvider(),
-      child: Scaffold(
-        appBar: AppBar(
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.settings),
-              onPressed: () {
-                Navigator.pushNamed(context, settingsRoute);
-              },
-            )
-          ],
-        ),
-        body: Container(
-          color: Theme.of(context).colorScheme.surface,
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(defaultPagePadding[0], defaultPagePadding[1], defaultPagePadding[2], defaultPagePadding[3]),
-            child: Center(
-              child: Column(
-                children: [
-                  CustomText(
-                    text: getHomeWelcome(),
-                    textType: TextType.headline,
-                    centerAlignToggle: true,
+    return Scaffold(
+      appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.pushNamed(context, settingsRoute);
+            },
+          )
+        ],
+      ),
+      body: Container(
+        color: Theme.of(context).colorScheme.surface,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(defaultPagePadding[0], defaultPagePadding[1], defaultPagePadding[2], defaultPagePadding[3]),
+          child: Center(
+            child: Column(
+              children: [
+                CustomText(
+                  text: getHomeWelcome(),
+                  textType: TextType.headline,
+                  centerAlignToggle: true,
+                ),
+                LargeSpacer(),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surface,
+                    borderRadius: BorderRadius.circular(30),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 8,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
-                  LargeSpacer(),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surface,
-                      borderRadius: BorderRadius.circular(30),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 8,
-                          offset: const Offset(0, 4),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      //* DayStreakCounter Count
+                      Text(
+                        db.getDayStreakCounter().count.toString(),
+                        style: GoogleFonts.notoSerif(
+                          textStyle: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        //* DayStreakCounter Count
-                        Consumer<DayStreakProvider>(
-                          builder: (context, dayStreakProvider, child) {
-                            return Text(
-                              dayStreakProvider.dayStreakCount.toString(),
-                              style: GoogleFonts.notoSerif(
-                                textStyle: const TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
+                      ),
+                      SizedBox(width: 10),
+                      CustomText(
+                        text: AppLocalizations.of(context)!.daystreak,
+                        textType: TextType.title,
+                      ),
+                    ],
+                  ),
+                ),
+                const LargeSpacer(),
+                Expanded(
+                  child: StreamBuilder<List<Habit>>(
+                    stream: db.getSortedHabits(),
+                    builder: (context, snapshot) {
+                      if (snapshot.data?.isNotEmpty ?? false) {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: snapshot.hasData ? snapshot.data!.length + 1 : 1,
+                          itemBuilder: (context, index) {
+                            if (index == snapshot.data?.length) {
+                              return Column(
+                                children: [
+                                  LargeSpacer(),
+                                  AddHabitIB()
+                                ],
+                              );
+                            } else {
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    arguments: [snapshot.data![index], widget.dayStreakProvider],
+                                    habitCloseLookRoute,
+                                  );
+                                },
+                                child: HabitCard(
+                                  key: ValueKey(snapshot.data?[index].id),
+                                  habit: snapshot.data![index],
+                                  dayStreakProvider: widget.dayStreakProvider,
                                 ),
-                              ),
-                            );
+                              );
+                            }
                           },
-                        ),
-                        SizedBox(width: 10),
-                        CustomText(
-                          text: AppLocalizations.of(context)!.daystreak,
-                          textType: TextType.title,
-                        ),
-                      ],
-                    ),
+                        );
+                      } else {
+                        return const AddHabitIB();
+                      }
+                    },
                   ),
-                  const LargeSpacer(),
-                  Expanded(
-                    child: StreamBuilder<List<Habit>>(
-                      stream: db.getSortedHabits(),
-                      builder: (context, snapshot) {
-                        if (snapshot.data?.isNotEmpty ?? false) {
-                          return ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: snapshot.hasData ? snapshot.data!.length + 1 : 1,
-                            itemBuilder: (context, index) {
-                              if (index == snapshot.data?.length) {
-                                return Column(
-                                  children: [
-                                    LargeSpacer(),
-                                    AddHabitIB()
-                                  ],
-                                );
-                              } else {
-                                return Consumer<DayStreakProvider>(
-                                  builder: (context, dayStreakProvider, child) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        Navigator.pushNamed(
-                                          context,
-                                          arguments: [snapshot.data![index], dayStreakProvider],
-                                          habitCloseLookRoute,
-                                        );
-                                      },
-                                      child: HabitCard(
-                                        key: ValueKey(snapshot.data?[index].id),
-                                        habit: snapshot.data![index],
-                                        dayStreakProvider: dayStreakProvider,
-                                      ),
-                                    );
-                                  }
-                                );
-                              }
-                            },
-                          );
-                        } else {
-                          return const AddHabitIB();
-                        }
-                      },
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -202,7 +195,9 @@ class _HabitCardState extends State<HabitCard> {
   }
 
   void handleCheck() {
-    widget.dayStreakProvider.updateHabitAndDayStreak(widget.habit);
+    // widget.dayStreakProvider.updateHabitAndDayStreak(widget.habit);
+    db.updateHabit(widget.habit);
+    db.updateDayStreakCounter();
   }
 
   @override

@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:developer';
+
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:habit_mvp/daystreak_provider.dart';
@@ -24,19 +25,17 @@ class HabitCloseLook extends StatefulWidget {
 }
 
 class _HabitCloseLookState extends State<HabitCloseLook> {
-  late bool checkedStatus;
     
   @override
   void initState() {
-    checkedStatus = widget.habit.checked;
+    db.updateHabitsStatus();
+    db.updateDayStreakCounter();
+    log("INITIATED CLOSE LOOK");
     super.initState();
   }
 
   void toggleCheckButton() {
-    bool newCheckedStatus = widget.dayStreakProvider.updateHabitAndDayStreak(widget.habit);
-    setState(() {
-      checkedStatus = newCheckedStatus;
-    });
+    db.updateHabit(widget.habit);
   }
 
   void onEdit() {
@@ -45,12 +44,6 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
       arguments: widget.habit,
       habitEditRoute,
     );
-  }
-
-  void deleteHabit(BuildContext context, Habit habit) {
-    db.habitBox.remove(habit.id);
-    log("${habit.name} löschen, aber sofort!");
-    Navigator.pop(context);
   }
 
   @override
@@ -71,7 +64,7 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
                   style: GoogleFonts.notoSerif(
                     textStyle: TextStyle(
                       fontSize: 200,
-                      color: checkedStatus ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
+                      color: widget.habit.checked ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                 ),
@@ -79,7 +72,7 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
               CustomText(
                 text: widget.habit.name,
                 textType: TextType.headline,
-                specialColor: checkedStatus ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
+                specialColor: widget.habit.checked ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
               ),
               LargeSpacer(),
               Row(
@@ -137,7 +130,7 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
                             ),
                             child: IconButton(
                               icon: Icon(
-                                checkedStatus ? Icons.undo : Icons.check,
+                                widget.habit.checked ? Icons.undo : Icons.check,
                                 color: Theme.of(context).colorScheme.onPrimary,
                               ),
                               onPressed:() {
@@ -159,7 +152,8 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
               SmallSpacer(),
               GestureDetector(
                 onTap: () {
-                  deleteHabit(context, widget.habit);
+                  db.removeHabit(widget.habit);
+                  Navigator.pop(context);
                 },
                 child: Card.outlined(
                   shape: OutlineInputBorder(

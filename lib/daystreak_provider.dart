@@ -15,22 +15,27 @@ class DayStreakProvider with ChangeNotifier {
     _dayStreakCounter = db.getDayStreakCounter();
   }
 
-  void _updateDayStreak() {
-    _dayStreakCounter = db.getDayStreakCounter();
-    _dayStreakCounter.update();
-    db.dayStreakCounterBox.put(_dayStreakCounter);
-  }
+//* Doppelt mit objectbox.dart
+  // void _updateDayStreak() {
+  //   _dayStreakCounter = db.getDayStreakCounter();
+  //   _dayStreakCounter.update();
+  //   db.dayStreakCounterBox.put(_dayStreakCounter);
+  // }
 
-  bool updateHabitAndDayStreak(Habit habit) {
-    habit.toggleCheck();
-    db.habitBox.put(habit);
-    _updateDayStreak();
-    notifyListeners();
-    return habit.checked;
-  }
+  // void _updateHabit(Habit habit) {
+  //   habit.toggleCheck();
+  //   db.habitBox.put(habit);
+  // }
 
-  void updateHabits() {
-    db.updateHabitsStatus();
-    notifyListeners();
-  }
+  // void updateHabitAndDayStreak(Habit habit) {
+  //   _updateHabit(habit);
+  //   _updateDayStreak();
+  //   notifyListeners();
+  // }
+
+  // void updateHabitsAndDayStreak() {
+  //   db.updateHabitsStatus();
+  //   _updateDayStreak();
+  //   notifyListeners();
+  // }
 }
