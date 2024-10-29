@@ -7,7 +7,6 @@ import 'package:habit_mvp/main.dart';
 import 'package:habit_mvp/model.dart';
 import 'package:habit_mvp/default_data.dart';
 import 'package:habit_mvp/default_widgets.dart';
-// import 'package:habit_mvp/daystreak_provider.dart';
 
 // ignore: must_be_immutable
 class Home extends StatefulWidget {
@@ -196,6 +195,7 @@ class _HabitCardState extends State<HabitCard> {
 
   @override
   Widget build(BuildContext context) {
+
     String getShortDescription(String habitDescription) {
       if (habitDescription.length > shortDescriptionLength) {
         String shortDescription = habitDescription.substring(0, shortDescriptionLength);
