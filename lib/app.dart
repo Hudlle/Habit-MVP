@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habit_mvp/flames_provider.dart';
 import 'package:habit_mvp/pages/language_settings.dart';
 import 'package:provider/provider.dart';
 import 'ui_util/color_themes.dart';
@@ -25,8 +26,11 @@ class HabitApp extends StatelessWidget {
     TextTheme textTheme = createTextTheme(context, "Noto Serif", "Noto Serif");
     MaterialTheme theme = MaterialTheme(textTheme);
 
-    return ChangeNotifierProvider(
-      create: (context) => ThemeProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(create: (context) => FlamesProvider())
+      ],
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {
           return Consumer<LocaleProvider>(
@@ -49,11 +53,12 @@ class HabitApp extends StatelessWidget {
                 initialRoute: homeRoute,
                 routes: {
                   homeRoute: (BuildContext context) {
+                    // Flames flames = ob.getFlames();
                     return Home();
                   },
                   habitCloseLookRoute: (BuildContext context) {
-                    final arguments  = ModalRoute.of(context)!.settings.arguments as List; //TODO Refactor
-                    return HabitCloseLook(habit: arguments[0]);
+                    final habit = ModalRoute.of(context)!.settings.arguments as Habit;
+                    return HabitCloseLook(habit: habit);
                   },
                   habitEditRoute: (BuildContext context) {
                     final habit = ModalRoute.of(context)!.settings.arguments as Habit;

@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:habit_mvp/flames_provider.dart';
 
 import 'package:habit_mvp/main.dart';
 import 'package:habit_mvp/model.dart';
 import 'package:habit_mvp/default_data.dart';
 import 'package:habit_mvp/default_widgets.dart';
+import 'package:provider/provider.dart';
 
-// ignore: must_be_immutable
 class Home extends StatefulWidget {
   const Home({
     super.key,
@@ -23,7 +24,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
-    ob.updateHabitsStatus();
+    ob.refreshHabitsStatus();
     log("INITIATED HOME");
     super.initState();
   }
@@ -104,18 +105,22 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       //* DayStreakCounter Count
-                      Text(
-                        "Coming Soon", // TODO Implement flames count to ui
-                        style: GoogleFonts.notoSerif(
-                          textStyle: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                      Consumer<FlamesProvider>(
+                        builder: (context, flamesProvider, child) {
+                          return Text(
+                            "   ${flamesProvider.flames} 🔥", 
+                            style: GoogleFonts.notoSerif(
+                              textStyle: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          );
+                        }
                       ),
                       SizedBox(width: 10),
                       CustomText(
-                        text: AppLocalizations.of(context)!.daystreak,
+                        text: "",
                         textType: TextType.title,
                       ),
                     ],
@@ -143,7 +148,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
                                 onTap: () {
                                   Navigator.pushNamed(
                                     context,
-                                    arguments: [snapshot.data![index]],
+                                    arguments: snapshot.data![index],
                                     habitCloseLookRoute,
                                   );
                                 },
@@ -189,8 +194,8 @@ class _HabitCardState extends State<HabitCard> {
     super.initState();
   }
 
-  void handleCheck() {
-    ob.updateHabit(widget.habit);
+  void handleCheck(BuildContext context) {
+    Provider.of<FlamesProvider>(context, listen: false).updateHabitAndFlames(widget.habit);
   }
 
   @override
@@ -250,7 +255,7 @@ class _HabitCardState extends State<HabitCard> {
                     visible: !widget.habit.checked,
                     child: FilledButton(
                       onPressed:() {
-                        handleCheck();
+                        handleCheck(context);
                       },
                       style: FilledButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,

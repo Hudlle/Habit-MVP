@@ -6,8 +6,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:habit_mvp/default_data.dart';
 import 'package:habit_mvp/default_widgets.dart';
+import 'package:habit_mvp/flames_provider.dart';
 import 'package:habit_mvp/model.dart';
 import 'package:habit_mvp/main.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class HabitCloseLook extends StatefulWidget {
@@ -26,13 +28,13 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
     
   @override
   void initState() {
-    ob.updateHabitsStatus();
+    ob.refreshHabitsStatus();
     log("INITIATED CLOSE LOOK");
     super.initState();
   }
 
-  void toggleCheckButton() {
-    Habit newHabit = ob.updateHabit(widget.habit);
+  void toggleCheckButton(BuildContext context) {
+    Habit newHabit = Provider.of<FlamesProvider>(context, listen: false).updateHabitAndFlames(widget.habit);
     setState(() {
       widget.habit = newHabit;
     });
@@ -146,7 +148,7 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
                                 color: Theme.of(context).colorScheme.onPrimary,
                               ),
                               onPressed:() {
-                                toggleCheckButton();
+                                toggleCheckButton(context);
                               },
                             ),
                           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habit_mvp/flames_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:habit_mvp/ui_util/theme_locale_provider.dart';
@@ -61,6 +62,18 @@ class Settings extends StatelessWidget {
                   ob.clearUserSettings();
                 },
                 child: Text("Clear User Settings"),
+              ),
+              ElevatedButton(
+                onPressed:() {
+                  ob.removeAllHabits();
+                },
+                child: Text("Remove All Habits"),
+              ),
+              ElevatedButton(
+                onPressed:() {
+                  Provider.of<FlamesProvider>(context, listen: false).resetFlames();
+                },
+                child: Text("Reset Flames To 0"),
               ),
             ],
           ),

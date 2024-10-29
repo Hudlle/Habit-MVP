@@ -22,7 +22,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(1, 5124398390309505016),
       name: 'Habit',
-      lastPropertyId: const obx_int.IdUid(8, 6949370414103273680),
+      lastPropertyId: const obx_int.IdUid(9, 6032707207139033931),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -54,7 +54,14 @@ final _entities = <obx_int.ModelEntity>[
             id: const obx_int.IdUid(7, 239594852941344809),
             name: 'lastChecked',
             type: 10,
-            flags: 0)
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(9, 6032707207139033931),
+            name: 'flamesId',
+            type: 11,
+            flags: 520,
+            indexId: const obx_int.IdUid(2, 1880330948544529158),
+            relationTarget: 'Flames')
       ],
       relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[]),
@@ -81,7 +88,29 @@ final _entities = <obx_int.ModelEntity>[
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
-      backlinks: <obx_int.ModelBacklink>[])
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(5, 3468389726770743757),
+      name: 'Flames',
+      lastPropertyId: const obx_int.IdUid(2, 7893018180176263494),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 7629435127221689789),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 7893018180176263494),
+            name: 'flames',
+            type: 6,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[
+        obx_int.ModelBacklink(
+            name: 'habits', srcEntity: 'Habit', srcField: 'flames')
+      ])
 ];
 
 /// Shortcut for [obx.Store.new] that passes [getObjectBoxModel] and for Flutter
@@ -119,8 +148,8 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(4, 7703370628805739742),
-      lastIndexId: const obx_int.IdUid(1, 8292585228963820127),
+      lastEntityId: const obx_int.IdUid(5, 3468389726770743757),
+      lastIndexId: const obx_int.IdUid(2, 1880330948544529158),
       lastRelationId: const obx_int.IdUid(0, 0),
       lastSequenceId: const obx_int.IdUid(0, 0),
       retiredEntityUids: const [2792962975620706389, 5087108227991498369],
@@ -144,7 +173,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
   final bindings = <Type, obx_int.EntityDefinition>{
     Habit: obx_int.EntityDefinition<Habit>(
         model: _entities[0],
-        toOneRelations: (Habit object) => [],
+        toOneRelations: (Habit object) => [object.flames],
         toManyRelations: (Habit object) => {},
         getId: (Habit object) => object.id,
         setId: (Habit object, int id) {
@@ -153,13 +182,14 @@ obx_int.ModelDefinition getObjectBoxModel() {
         objectToFB: (Habit object, fb.Builder fbb) {
           final nameOffset = fbb.writeString(object.name);
           final descriptionOffset = fbb.writeString(object.description);
-          fbb.startTable(9);
+          fbb.startTable(10);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, nameOffset);
           fbb.addOffset(2, descriptionOffset);
           fbb.addInt64(3, object.streak);
           fbb.addBool(4, object.checked);
           fbb.addInt64(6, object.lastChecked.millisecondsSinceEpoch);
+          fbb.addInt64(8, object.flames.targetId);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -181,7 +211,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
               const fb.BoolReader().vTableGet(buffer, rootOffset, 12, false);
           final object = Habit(nameParam, descriptionParam, lastCheckedParam,
               id: idParam, streak: streakParam, checked: checkedParam);
-
+          object.flames.targetId =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 20, 0);
+          object.flames.attach(store);
           return object;
         }),
     UserSettings: obx_int.EntityDefinition<UserSettings>(
@@ -214,6 +246,40 @@ obx_int.ModelDefinition getObjectBoxModel() {
               id: idParam, isDarkMode: isDarkModeParam);
 
           return object;
+        }),
+    Flames: obx_int.EntityDefinition<Flames>(
+        model: _entities[2],
+        toOneRelations: (Flames object) => [],
+        toManyRelations: (Flames object) => {
+              obx_int.RelInfo<Habit>.toOneBacklink(
+                      9, object.id, (Habit srcObject) => srcObject.flames):
+                  object.habits
+            },
+        getId: (Flames object) => object.id,
+        setId: (Flames object, int id) {
+          object.id = id;
+        },
+        objectToFB: (Flames object, fb.Builder fbb) {
+          fbb.startTable(3);
+          fbb.addInt64(0, object.id);
+          fbb.addInt64(1, object.flames);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final idParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final flamesParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0);
+          final object = Flames(id: idParam, flames: flamesParam);
+          obx_int.InternalToManyAccess.setRelInfo<Flames>(
+              object.habits,
+              store,
+              obx_int.RelInfo<Habit>.toOneBacklink(
+                  9, object.id, (Habit srcObject) => srcObject.flames));
+          return object;
         })
   };
 
@@ -244,6 +310,10 @@ class Habit_ {
   /// See [Habit.lastChecked].
   static final lastChecked =
       obx.QueryDateProperty<Habit>(_entities[0].properties[5]);
+
+  /// See [Habit.flames].
+  static final flames =
+      obx.QueryRelationToOne<Habit, Flames>(_entities[0].properties[6]);
 }
 
 /// [UserSettings] entity fields to define ObjectBox queries.
@@ -259,4 +329,18 @@ class UserSettings_ {
   /// See [UserSettings.localeCode].
   static final localeCode =
       obx.QueryStringProperty<UserSettings>(_entities[1].properties[2]);
+}
+
+/// [Flames] entity fields to define ObjectBox queries.
+class Flames_ {
+  /// See [Flames.id].
+  static final id =
+      obx.QueryIntegerProperty<Flames>(_entities[2].properties[0]);
+
+  /// See [Flames.flames].
+  static final flames =
+      obx.QueryIntegerProperty<Flames>(_entities[2].properties[1]);
+
+  /// see [Flames.habits]
+  static final habits = obx.QueryBacklinkToMany<Habit, Flames>(Habit_.flames);
 }

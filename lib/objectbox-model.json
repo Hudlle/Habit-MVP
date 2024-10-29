@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:5124398390309505016",
-      "lastPropertyId": "8:6949370414103273680",
+      "lastPropertyId": "9:6032707207139033931",
       "name": "Habit",
       "properties": [
         {
@@ -38,6 +38,14 @@
           "id": "7:239594852941344809",
           "name": "lastChecked",
           "type": 10
+        },
+        {
+          "id": "9:6032707207139033931",
+          "name": "flamesId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "2:1880330948544529158",
+          "relationTarget": "Flames"
         }
       ],
       "relations": []
@@ -65,10 +73,29 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "5:3468389726770743757",
+      "lastPropertyId": "2:7893018180176263494",
+      "name": "Flames",
+      "properties": [
+        {
+          "id": "1:7629435127221689789",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7893018180176263494",
+          "name": "flames",
+          "type": 6
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "4:7703370628805739742",
-  "lastIndexId": "1:8292585228963820127",
+  "lastEntityId": "5:3468389726770743757",
+  "lastIndexId": "2:1880330948544529158",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,

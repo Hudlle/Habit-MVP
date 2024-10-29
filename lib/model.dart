@@ -29,6 +29,32 @@ class UserSettings {
 }
 
 @Entity()
+class Flames {
+  @Id()
+  int id;
+
+  int flames;
+
+  Flames({
+    this.id = 0,
+    this.flames = 0,
+  });
+
+  @Backlink("flames")
+  final habits = ToMany<Habit>();
+
+  void updateFlames(bool checked) {
+    if(checked) {
+      flames ++;
+      log("Flames erhöht auf $flames");
+    } else {
+      flames --;
+      log("Flames verringert auf $flames");
+    }
+  }
+}
+
+@Entity()
 class Habit{
   @Id()
   int id;
@@ -51,7 +77,7 @@ class Habit{
     });
 
   //* Relation
-  //TODO Add relation to flames counter
+  final flames = ToOne<Flames>();
 
   //* Functions
   bool toggleCheck() {

@@ -11,18 +11,25 @@ class ObjectBox {
   late final Store store;
 
   late final Box<Habit> habitBox;
+  late final Box<Flames> flamesBox;
   late final Box<UserSettings> userSettingsBox;
 
   ObjectBox._create(this.store) {
     habitBox = Box<Habit>(store);
+    flamesBox = Box<Flames>(store);
     userSettingsBox = Box<UserSettings>(store);
 
-    // TODO Initialize flames counter
+    // Initialize flames 
+    if (flamesBox.isEmpty()) {
+      flamesBox.put(Flames());
+      log("Initialized: Flames");
+    }
 
     // Initialize User Settings
     if (userSettingsBox.isEmpty()) {
       Locale userLocale = Locale(Platform.localeName);
       userSettingsBox.put(UserSettings(userLocale.languageCode));
+      log("Initialized: User Settings");
     }
   }
 
@@ -34,22 +41,33 @@ class ObjectBox {
   void addHabit(String habitName, String habitDescription) {
     DateTime initalDateTime = DateTime.now();
     Habit newHabit = Habit(habitName, habitDescription, initalDateTime);
-    habitBox.put(newHabit);
+    Flames flames = getFlames();
+    flames.habits.add(newHabit);
+    flamesBox.put(flames);
 
     log("Added Habit: ${newHabit.name}");
   }
 
-  Habit updateHabit(Habit habit) {
+  void updateHabit(Habit habit) {
     habit.toggleCheck();
     habitBox.put(habit);
     
     log("Updated: ${habit.name} auf ${habit.checked}");
+  }
+
+  Habit updateHabitAndFlames(Habit habit) {
+    updateHabit(habit);
+    updateFlames(habit.checked);
     return habit;
   }
 
-  void removeHabit(Habit habit) {
-    habitBox.remove(habit.id);
-    log("Removed Habit: ${habit.name}");
+  void refreshHabitsStatus() {
+    final habits = habitBox.getAll();
+    for (var habit in habits) {
+      habit.checkDailyReset();
+      habitBox.put(habit);
+      log("Updated: ${habit.name} auf ${habit.checked}");
+    }
   }
 
   Stream<List<Habit>> getSortedHabits() {
@@ -74,13 +92,33 @@ class ObjectBox {
     );
   }
 
-  void updateHabitsStatus() {
-    final habits = habitBox.getAll();
-    for (var habit in habits) {
-      habit.checkDailyReset();
-      habitBox.put(habit);
-      log("Updated: ${habit.name} auf ${habit.checked}");
-    }
+  void removeHabit(Habit habit) {
+    habitBox.remove(habit.id);
+    log("Removed Habit: ${habit.name}");
+  }
+
+  void removeAllHabits() {
+    habitBox.removeAll();
+    log("Removed all Habits");
+  }
+
+  //* Flames
+  Flames getFlames() {
+    List<Flames> allFlames = flamesBox.getAll();
+    return allFlames.first;
+  }
+
+  void updateFlames(bool checked) {
+    Flames flames = getFlames();
+    flames.updateFlames(checked);
+    flamesBox.put(flames);
+  }
+
+  void resetFlames() {
+    Flames flames = getFlames();
+    flames.flames = 0;
+    flamesBox.put(flames);
+    log("Zurückgesetzt: Flames auf ${flames.flames}");
   }
 
   //* User Settings
