@@ -3,13 +3,13 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:habit_mvp/daystreak_provider.dart';
 
 import 'package:habit_mvp/default_data.dart';
 import 'package:habit_mvp/default_widgets.dart';
 import 'package:habit_mvp/model.dart';
 import 'package:habit_mvp/main.dart';
 
+// ignore: must_be_immutable
 class HabitCloseLook extends StatefulWidget {
   HabitCloseLook({
     super.key,
@@ -27,7 +27,6 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
   @override
   void initState() {
     db.updateHabitsStatus();
-    db.updateDayStreakCounter();
     log("INITIATED CLOSE LOOK");
     super.initState();
   }

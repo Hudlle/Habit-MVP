@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:habit_mvp/daystreak_provider.dart';
-import 'package:habit_mvp/main.dart';
 import 'package:habit_mvp/pages/language_settings.dart';
 import 'package:provider/provider.dart';
 import 'ui_util/color_themes.dart';
@@ -27,11 +25,8 @@ class HabitApp extends StatelessWidget {
     TextTheme textTheme = createTextTheme(context, "Noto Serif", "Noto Serif");
     MaterialTheme theme = MaterialTheme(textTheme);
 
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => ThemeProvider()),
-        ChangeNotifierProvider(create: (context) => DayStreakProvider())
-      ],
+    return ChangeNotifierProvider(
+      create: (context) => ThemeProvider(),
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {
           return Consumer<LocaleProvider>(
@@ -54,11 +49,10 @@ class HabitApp extends StatelessWidget {
                 initialRoute: homeRoute,
                 routes: {
                   homeRoute: (BuildContext context) {
-                    DayStreakCounter dayStreakCounter = db.getDayStreakCounter();
-                    return Home(dayStreakCounter: dayStreakCounter);
+                    return Home();
                   },
                   habitCloseLookRoute: (BuildContext context) {
-                    final arguments  = ModalRoute.of(context)!.settings.arguments as List;
+                    final arguments  = ModalRoute.of(context)!.settings.arguments as List; //TODO Refactor
                     return HabitCloseLook(habit: arguments[0]);
                   },
                   habitEditRoute: (BuildContext context) {

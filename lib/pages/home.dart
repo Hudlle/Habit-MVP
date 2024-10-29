@@ -9,13 +9,11 @@ import 'package:habit_mvp/default_data.dart';
 import 'package:habit_mvp/default_widgets.dart';
 // import 'package:habit_mvp/daystreak_provider.dart';
 
+// ignore: must_be_immutable
 class Home extends StatefulWidget {
-  Home({
+  const Home({
     super.key,
-    required this.dayStreakCounter,
   });
-
-  DayStreakCounter dayStreakCounter;
 
   @override
   State<Home> createState() => _HomeState();
@@ -27,7 +25,6 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
   void initState() {
     WidgetsBinding.instance.addObserver(this);
     db.updateHabitsStatus();
-    db.updateDayStreakCounter();
     log("INITIATED HOME");
     super.initState();
   }
@@ -41,12 +38,12 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      db.updateHabitsStatus();
-      setState(() {
-        widget.dayStreakCounter = db.updateDayStreakCounter();
-      });
-      // widget.dayStreakProvider.updateHabitsAndDayStreak;
-      log("REFRESHED");
+      Navigator.pushNamedAndRemoveUntil(
+        context, 
+        homeRoute,
+        (Route<dynamic> route) => false,
+      );
+      log("REFRESHING");
     }
   }
     
@@ -109,7 +106,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
                     children: [
                       //* DayStreakCounter Count
                       Text(
-                        widget.dayStreakCounter.count.toString(),
+                        "Coming Soon", // TODO Implement flames count to ui
                         style: GoogleFonts.notoSerif(
                           textStyle: const TextStyle(
                             fontSize: 24,
@@ -195,7 +192,6 @@ class _HabitCardState extends State<HabitCard> {
 
   void handleCheck() {
     db.updateHabit(widget.habit);
-    db.updateDayStreakCounter();
   }
 
   @override

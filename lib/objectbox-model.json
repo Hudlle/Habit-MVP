@@ -38,43 +38,6 @@
           "id": "7:239594852941344809",
           "name": "lastChecked",
           "type": 10
-        },
-        {
-          "id": "8:6949370414103273680",
-          "name": "dayStreakCounterId",
-          "type": 11,
-          "flags": 520,
-          "indexId": "1:8292585228963820127",
-          "relationTarget": "DayStreakCounter"
-        }
-      ],
-      "relations": []
-    },
-    {
-      "id": "3:5087108227991498369",
-      "lastPropertyId": "5:5398120625478593145",
-      "name": "DayStreakCounter",
-      "properties": [
-        {
-          "id": "1:2028968676938064357",
-          "name": "id",
-          "type": 6,
-          "flags": 1
-        },
-        {
-          "id": "2:7247327071934980800",
-          "name": "count",
-          "type": 6
-        },
-        {
-          "id": "3:5170222834347141701",
-          "name": "updated",
-          "type": 1
-        },
-        {
-          "id": "5:5398120625478593145",
-          "name": "lastUpdated",
-          "type": 10
         }
       ],
       "relations": []
@@ -111,14 +74,22 @@
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [
-    2792962975620706389
+    2792962975620706389,
+    5087108227991498369
   ],
-  "retiredIndexUids": [],
+  "retiredIndexUids": [
+    8292585228963820127
+  ],
   "retiredPropertyUids": [
     2736417746403495448,
     128407861724487823,
     4175324024939664385,
-    629970220138052795
+    629970220138052795,
+    6949370414103273680,
+    2028968676938064357,
+    7247327071934980800,
+    5170222834347141701,
+    5398120625478593145
   ],
   "retiredRelationUids": [],
   "version": 1

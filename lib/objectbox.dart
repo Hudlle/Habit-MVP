@@ -11,18 +11,13 @@ class ObjectBox {
   late final Store store;
 
   late final Box<Habit> habitBox;
-  late final Box<DayStreakCounter> dayStreakCounterBox;
   late final Box<UserSettings> userSettingsBox;
 
   ObjectBox._create(this.store) {
     habitBox = Box<Habit>(store);
-    dayStreakCounterBox = Box<DayStreakCounter>(store);
     userSettingsBox = Box<UserSettings>(store);
 
-    // Initialize DayStreakCounter
-    if (dayStreakCounterBox.isEmpty()) {
-      dayStreakCounterBox.put(DayStreakCounter(DateTime.now()));
-    }
+    // TODO Initialize flames counter
 
     // Initialize User Settings
     if (userSettingsBox.isEmpty()) {
@@ -39,11 +34,8 @@ class ObjectBox {
   void addHabit(String habitName, String habitDescription) {
     DateTime initalDateTime = DateTime.now();
     Habit newHabit = Habit(habitName, habitDescription, initalDateTime);
-    DayStreakCounter dayStreakCounter = getDayStreakCounter();
+    habitBox.put(newHabit);
 
-    dayStreakCounter.habits.add(newHabit);
-    dayStreakCounterBox.put(dayStreakCounter);
-    
     log("Added Habit: ${newHabit.name}");
   }
 
@@ -89,19 +81,6 @@ class ObjectBox {
       habitBox.put(habit);
       log("Updated: ${habit.name} auf ${habit.checked}");
     }
-  }
-
-  //* Daystreak Counter
-  DayStreakCounter getDayStreakCounter() {
-    List<DayStreakCounter> counters = dayStreakCounterBox.getAll();
-    return counters.first;
-  }
-
-  DayStreakCounter updateDayStreakCounter() {
-    DayStreakCounter dayStreakCounter = getDayStreakCounter();
-    dayStreakCounter.update();
-    dayStreakCounterBox.put(dayStreakCounter);
-    return dayStreakCounter;
   }
 
   //* User Settings
