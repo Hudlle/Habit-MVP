@@ -51,4 +51,15 @@ class LocaleProvider with ChangeNotifier {
     _locale = userSettings.locale;
     notifyListeners();
    }
+
+   String getLocaleFullName(Locale locale) {
+    switch (locale.languageCode) {
+      case 'en':
+        return 'English';
+      case 'de':
+        return 'Deutsch';
+      default:
+        return locale.languageCode;
+      }
+    }
 }

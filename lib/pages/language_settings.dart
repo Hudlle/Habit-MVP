@@ -4,8 +4,6 @@ import 'package:habit_mvp/default_widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:habit_mvp/ui_util/theme_locale_provider.dart';
-import 'package:habit_mvp/main.dart';
-import 'package:habit_mvp/model.dart';
 
 class LanguageSettings extends StatefulWidget {
   const LanguageSettings({super.key});
@@ -15,16 +13,6 @@ class LanguageSettings extends StatefulWidget {
 }
 
 class _LanguageSettingsState extends State<LanguageSettings> {
-  String getLocaleFullName(Locale locale) {
-  switch (locale.languageCode) {
-    case 'en':
-      return 'English';
-    case 'de':
-      return 'Deutsch';
-    default:
-      return locale.languageCode;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,18 +38,18 @@ class _LanguageSettingsState extends State<LanguageSettings> {
               Consumer<LocaleProvider>(
                 builder: (context, localeProvider, child) {
                   return ListView.builder(
-                    itemCount: AppLocalizations.supportedLocales.length,
                     shrinkWrap: true,
+                    itemCount: AppLocalizations.supportedLocales.length,
                     itemBuilder:(context, index) {
                       Locale indexLocale = AppLocalizations.supportedLocales[index];
-                      String language = getLocaleFullName(indexLocale);
-                      UserSettings userSettings = db.getUserSettings();
                       bool isActive;
-                      if (userSettings.locale == indexLocale) {
+                      if (localeProvider.locale == indexLocale) {
                         isActive = true;
                       } else {
                         isActive = false;
                       }
+              
+                      String language = localeProvider.getLocaleFullName(indexLocale);
                       return GestureDetector(
                         onTap: () {
                           localeProvider.changeLocale(indexLocale);
