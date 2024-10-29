@@ -104,7 +104,7 @@ class _NewHabitDetailTextFieldState extends State<NewHabitDetailTextField> {
   void _submitForm(String newHabitName) {
     if(_formKey.currentState!.validate()){
       String newhabitDescription = "${_controller.text} pro Tag";
-      db.addHabit(newHabitName, newhabitDescription);
+      ob.addHabit(newHabitName, newhabitDescription);
       Navigator.pushNamedAndRemoveUntil(
         context, 
         homeRoute,

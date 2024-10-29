@@ -15,7 +15,7 @@ class ThemeProvider with ChangeNotifier {
   bool get isDarkMode => _isDarkMode;
 
   void _initializeTheme() {
-    userSettings = db.getUserSettings();
+    userSettings = ob.getUserSettings();
     _themeMode = userSettings.getThemeMode();
     _isDarkMode = userSettings.isDarkMode;
   }
@@ -23,7 +23,7 @@ class ThemeProvider with ChangeNotifier {
   void switchTheme() {
     _isDarkMode = !_isDarkMode;
     userSettings.isDarkMode = _isDarkMode;
-    db.userSettingsBox.put(userSettings);
+    ob.userSettingsBox.put(userSettings);
     _themeMode = userSettings.getThemeMode();
     notifyListeners();
   }
@@ -40,14 +40,14 @@ class LocaleProvider with ChangeNotifier {
    Locale get locale => _locale;
 
    void _initializeLocale() {
-    userSettings = db.getUserSettings();
+    userSettings = ob.getUserSettings();
     _locale = userSettings.locale;
    }
 
    void changeLocale(Locale newLocale) {
-    userSettings = db.getUserSettings();
+    userSettings = ob.getUserSettings();
     userSettings.changeLocale(newLocale);
-    db.userSettingsBox.put(userSettings);
+    ob.userSettingsBox.put(userSettings);
     _locale = userSettings.locale;
     notifyListeners();
    }

@@ -5,11 +5,11 @@ import 'ui_util/theme_locale_provider.dart';
 import 'objectbox.dart';
 import 'app.dart';
 
-late ObjectBox db;
+late ObjectBox ob;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  db = await ObjectBox.create();
+  ob = await ObjectBox.create();
   
   runApp(
     ChangeNotifierProvider(

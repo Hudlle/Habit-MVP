@@ -58,7 +58,7 @@ class Settings extends StatelessWidget {
               const SmallSpacer(),
               ElevatedButton(
                 onPressed:() {
-                  db.clearUserSettings();
+                  ob.clearUserSettings();
                 },
                 child: Text("Clear User Settings"),
               ),

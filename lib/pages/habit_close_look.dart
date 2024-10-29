@@ -26,13 +26,13 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
     
   @override
   void initState() {
-    db.updateHabitsStatus();
+    ob.updateHabitsStatus();
     log("INITIATED CLOSE LOOK");
     super.initState();
   }
 
   void toggleCheckButton() {
-    Habit newHabit = db.updateHabit(widget.habit);
+    Habit newHabit = ob.updateHabit(widget.habit);
     setState(() {
       widget.habit = newHabit;
     });
@@ -164,7 +164,7 @@ class _HabitCloseLookState extends State<HabitCloseLook> {
               SmallSpacer(),
               GestureDetector(
                 onTap: () {
-                  db.removeHabit(widget.habit);
+                  ob.removeHabit(widget.habit);
                   Navigator.pop(context);
                 },
                 child: Card.outlined(

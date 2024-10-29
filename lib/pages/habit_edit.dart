@@ -104,7 +104,7 @@ class _HabitEditNameTextFieldState extends State<HabitEditNameTextField> {
 
     if(_validateInput(newName)){
       widget.habit.editName(newName);
-      db.habitBox.put(widget.habit);
+      ob.habitBox.put(widget.habit);
     } else {
       setState(() {
         _borderCursorColor = Theme.of(context).colorScheme.error;
@@ -198,7 +198,7 @@ class _HabitEditDescriptionTextFieldState extends State<HabitEditDescriptionText
 
     if(_validateInput(newDescription)){
       widget.habit.editDescription(newDescription);
-      db.habitBox.put(widget.habit);
+      ob.habitBox.put(widget.habit);
     } else {
       setState(() {
         _borderCursorColor = Theme.of(context).colorScheme.error;

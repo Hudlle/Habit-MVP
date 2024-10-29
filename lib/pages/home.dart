@@ -23,7 +23,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
-    db.updateHabitsStatus();
+    ob.updateHabitsStatus();
     log("INITIATED HOME");
     super.initState();
   }
@@ -124,7 +124,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
                 const LargeSpacer(),
                 Expanded(
                   child: StreamBuilder<List<Habit>>(
-                    stream: db.getSortedHabits(),
+                    stream: ob.getSortedHabits(),
                     builder: (context, snapshot) {
                       if (snapshot.data?.isNotEmpty ?? false) {
                         return ListView.builder(
@@ -190,7 +190,7 @@ class _HabitCardState extends State<HabitCard> {
   }
 
   void handleCheck() {
-    db.updateHabit(widget.habit);
+    ob.updateHabit(widget.habit);
   }
 
   @override
