@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "905334354857",
+    "project_id": "habit-mvp",
+    "storage_bucket": "habit-mvp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:905334354857:android:6c832fde91d0c951e74ab8",
+        "android_client_info": {
+          "package_name": "com.example.habit_mvp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBx3sxPm_NHqG8H6RLJtasYikpmn8eZjoQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
