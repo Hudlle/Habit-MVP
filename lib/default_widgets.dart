@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:developer';
-
 import 'default_data.dart';
 
 //* Outsourced Widgets
@@ -65,45 +63,6 @@ class CustomText extends StatelessWidget {
   }
 }
 
-// Elevated Button for submitting user input, possible usecase in settings section
-class DataSubmitEB extends StatelessWidget {
-  const DataSubmitEB({
-    super.key,
-    required this.origin,
-    required this.route,
-    required this.label,
-  });
-
-  final String origin;
-  final String route;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: SizedBox(
-            height: submitButtonHeight,
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamedAndRemoveUntil(
-                  context, 
-                  route,
-                  (Route<dynamic> route) => false,
-                );
-                log(label);
-              },
-              child: Text(label)
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-// A card used for routing in the settings section of the app
 class SettingsCard extends StatelessWidget {
   const SettingsCard({
     super.key,

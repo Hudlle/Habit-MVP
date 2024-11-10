@@ -1,6 +1,64 @@
 {
   "@@locale": "en",
 
+  "signupWelcome": "Hi 🖖",
+  "@signupWelcome": {
+    "description": "Friendly greeting at the sign-up screen"
+  },
+  "signupSubtitle": "Create an account to get started!",
+  "@signupSubtitle": {
+    "description": "Encouragement message to create an account"
+  },
+  "signupSubmitButton": "Let's get started!",
+  "@signupSubmitButton": {
+    "description": "Button label to submit sign-up form"
+  },
+  "signupWithGoogle": "Sign up with Google",
+  "@signupWithGoogle": {
+    "description": "Button text for signing up with Google account"
+  },
+  "alreadyRegistered": "Already have an account?",
+  "@alreadyRegistered": {
+    "description": "Prompt for users who already have an account"
+  },
+  "loginAppeal": "Log in.",
+  "@loginAppeal": {
+    "description": "Encouragement to log in instead of signing up"
+  },
+  "signupSuccessful": "It worked! Successfully created your account!",
+  "@signupSuccessful" : {
+    "description": "Feedback for successful signup"
+  },
+
+  "loginWelcome": "Welcome back ✌️",
+  "@loginWelcome": {
+    "description": "Friendly greeting message on the login screen"
+  },
+  "loginSubtitle": "Log in to continue!",
+  "@loginSubtitle": {
+    "description": "Encouragement message to log in"
+  },
+  "loginSubmitButton": "Here we go again.",
+  "@loginSubmitButton": {
+    "description": "Button label to submit login form"
+  },
+  "loginWithGoogle": "Log in with Google",
+  "@loginWithGoogle": {
+    "description": "Button text for logging in with Google account"
+  },
+  "notRegistered": "Don't have an account?",
+  "@notRegistered": {
+    "description": "Prompt for users who don't have an account yet"
+  },
+  "signupAppeal": "Sign up.",
+  "@signupAppeal": {
+    "description": "Encouragement to sign up instead of logging in"
+  },
+  "loginSuccessful": "It worked! You're logged in!",
+  "@loginSuccessful": {
+    "description": "Feedback for successful login"
+  },
+
   "homeWelcomeMorning": "What did you do this morning?",
   "@homeWelcomeMorning": {
     "description": "Greeting message in the morning on the home page"
@@ -99,6 +157,26 @@
   "@name": {
     "description": "Label for the name of the habit"
   },
+  "username": "Username",
+  "@username": {
+    "description": "Field label for entering username"
+  },
+  "usernameOrEmail": "Username or Email",
+  "@usernameOrEmail": {
+    "description": "Field label for entering either username or email"
+  },
+  "email": "Email",
+  "@email": {
+    "description": "Field label for entering email address"
+  },
+  "password": "Password",
+  "@password": {
+    "description": "Field label for entering password"
+  },
+  "repeatPassword": "Repeat Password",
+  "@repeatPassword": {
+    "description": "Field label for confirming password entry"
+  },
   "dangerZone": "Danger Zone",
   "@dangerZone": {
     "description": "Label for section that warns users of critical actions"
@@ -106,6 +184,10 @@
   "save": "Save",
   "@save": {
     "description": "Button label to save settings"
+  },
+  "orLabel": "Or",
+  "@orLabel": {
+    "description": "Label for options alternative to sign-up"
   },
   "deleteHabit": "Delete habit",
   "@deleteHabit": {

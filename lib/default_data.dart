@@ -11,7 +11,10 @@ const double textFieldFontSize = 16;
 const double minHeightHabitCard = 100;
 
 //* Routes
-const String homeRoute = "/";
+const String loginRoute = "/login";
+const String signupRoute = "/signup";
+const String checkUserRoute = "/";
+const String homeRoute = "/home";
 const String habitCloseLookRoute = "/habit_close_look";
 const String habitEditRoute = "/habit_edit";
 const String newHabitNameRoute = "/new_habit_name";

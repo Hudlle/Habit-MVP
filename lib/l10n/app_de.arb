@@ -1,5 +1,21 @@
 {
     "@@locale": "de",
+
+    "signupWelcome": "Hi 🖖",
+    "signupSubtitle": "Erstelle ein Konto, dann legen wir los!",
+    "signupSubmitButton": "Ran an den Speck!",
+    "signupWithGoogle": "Mit Google registrieren",
+    "alreadyRegistered": "Du hast schon ein Konto?",
+    "loginAppeal": "Logg Dich ein.",
+    "signupSuccessful" : "Erfolgreich registriert!",
+    
+    "loginWelcome": "Willkommen zurück ✌️",
+    "loginSubtitle": "Logg Dich ein, dann machen wir weiter!",
+    "loginSubmitButton": "Here we go again.",
+    "loginWithGoogle": "Mit Google anmelden",
+    "notRegistered": "Du hast noch kein Konto?",
+    "signupAppeal": "Erstelle eins.",
+    "loginSuccessful" : "Erfolgreich eingelogt!",
     
     "homeWelcomeMorning": "Was hast du heute Morgen gemacht?",
     "homeWelcomeAfternoon": "Was hast du heute Nachmittag gemacht?",
@@ -29,8 +45,14 @@
     "chooseLanguage" : "Wähle deine Sprache",
     
     "name": "Name",
+    "username": "Nutzername",
+    "email": "Email",
+    "usernameOrEmail": "Username or Email",
+    "password": "Passwort",
+    "repeatPassword": "Passwort wiederholen",
     "dangerZone": "Gefahrenzone",
     "save": "Speichern",
+    "orLabel": "Oder",
     "deleteHabit": "Gewohnheit löschen"
   }
   

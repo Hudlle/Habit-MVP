@@ -1,12 +1,16 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:habit_mvp/api/authentication_service.dart';
 import 'package:habit_mvp/flames_provider.dart';
 import 'package:habit_mvp/pages/language_settings.dart';
+import 'package:habit_mvp/pages/login_page.dart';
+import 'package:habit_mvp/pages/signup_page.dart';
 import 'package:provider/provider.dart';
 import 'ui_util/color_themes.dart';
 import 'ui_util/text_theme.dart';
 import 'model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import 'ui_util/theme_locale_provider.dart';
 import 'default_data.dart';
 import 'pages/home.dart';
@@ -50,32 +54,63 @@ class HabitApp extends StatelessWidget {
                 locale: localeProvider.locale,
 
                 //* Routing
-                initialRoute: homeRoute,
+                initialRoute: checkUserRoute,
                 routes: {
-                  homeRoute: (BuildContext context) {
-                    // Flames flames = ob.getFlames();
-                    return Home();
-                  },
-                  habitCloseLookRoute: (BuildContext context) {
+                  loginRoute: (context) => Login(),
+                  signupRoute: (context) => Signup(),
+                  checkUserRoute: (context) => CheckUser(),
+                  
+                  homeRoute: (context) => Home(),
+                  habitCloseLookRoute: (context) {
                     final habit = ModalRoute.of(context)!.settings.arguments as Habit;
                     return HabitCloseLook(habit: habit);
                   },
-                  habitEditRoute: (BuildContext context) {
+                  habitEditRoute: (context) {
                     final habit = ModalRoute.of(context)!.settings.arguments as Habit;
                     return HabitEdit(habit: habit);
                   },
-                  newHabitNameRoute: (BuildContext context) => const NewHabitName(),
-                  newHabitDetailRoute: (BuildContext context) => const NewHabitDetail(),
-                  howToGoalRoute: (BuildContext context) => const HowToGoal(),
+                  newHabitNameRoute: (context) => const NewHabitName(),
+                  newHabitDetailRoute: (context) => const NewHabitDetail(),
+                  howToGoalRoute: (context) => const HowToGoal(),
 
-                  settingsRoute: (BuildContext context) => const Settings(),
-                  languageSettingsRoute: (BuildContext context) => const LanguageSettings(),
+                  settingsRoute: (context) => const Settings(),
+                  languageSettingsRoute: (context) => const LanguageSettings(),
                 },
               );
             }
           );
         },
       ),
+    );
+  }
+}
+
+class CheckUser extends StatefulWidget {
+  const CheckUser({super.key});
+
+  @override
+  State<CheckUser> createState() => _CheckUserState();
+}
+
+class _CheckUserState extends State<CheckUser> {
+  @override
+  void initState() {
+    super.initState();
+    AuthService.isLoggedIn().then((value) {
+      if (value) {
+        Navigator.pushReplacementNamed(context, homeRoute);
+      } else {
+        Navigator.pushReplacementNamed(context, loginRoute);
+      }
+    },);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(),
+      )
     );
   }
 }
