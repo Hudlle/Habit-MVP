@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habit_mvp/api/authentication_service.dart';
 import 'package:habit_mvp/flames_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -74,6 +75,20 @@ class Settings extends StatelessWidget {
                   Provider.of<FlamesProvider>(context, listen: false).resetFlames();
                 },
                 child: Text("Reset Flames To 0"),
+              ),
+              ElevatedButton(
+                onPressed:() {
+                  AuthService.logout();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Logout Successful"))
+                  );
+                  Navigator.pushNamedAndRemoveUntil(
+                    context, 
+                    loginRoute,
+                    (Route<dynamic> route) => false,
+                  );
+                },
+                child: Text("Logout"),
               ),
             ],
           ),

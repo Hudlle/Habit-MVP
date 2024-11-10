@@ -22,7 +22,7 @@ class _SignupState extends State<Signup> {
     TextEditingController repeatPasswordController = TextEditingController();
 
     void submitSignup() async {
-      await AuthService.createAccountWithEmail(emailController.text, passwordController.text).then((value) {
+      await AuthService.createAccountWithEmail(usernameController.text, emailController.text, passwordController.text).then((value) {
         if (value == "signup successful") {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(AppLocalizations.of(context)!.signupSuccessful))

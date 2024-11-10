@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:habit_mvp/api/authentication_service.dart';
 import 'package:habit_mvp/flames_provider.dart';
 
 import 'package:habit_mvp/main.dart';
@@ -54,13 +55,13 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
       final hour = DateTime.now().hour;
 
       if (hour >= 5 && hour < 12) {
-        return AppLocalizations.of(context)!.homeWelcomeMorning;
+        return  "${AuthService.getUsername()}, ${AppLocalizations.of(context)!.homeWelcomeMorning}";
       } else if (hour >= 12 && hour < 18) {
-        return AppLocalizations.of(context)!.homeWelcomeAfternoon;
+        return "${AuthService.getUsername()}, ${AppLocalizations.of(context)!.homeWelcomeAfternoon}";
       } else if (hour >= 18 && hour < 22) {
-        return AppLocalizations.of(context)!.homeWelcomeEvening;
+        return "${AuthService.getUsername()}, ${AppLocalizations.of(context)!.homeWelcomeEvening}";
       } else {
-        return AppLocalizations.of(context)!.homeWelcomeNight;
+        return  "${AuthService.getUsername()}, ${AppLocalizations.of(context)!.homeWelcomeNight}";
       }
     }
 
