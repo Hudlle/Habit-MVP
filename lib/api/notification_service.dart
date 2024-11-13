@@ -1,13 +1,14 @@
 import 'dart:developer';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:habit_mvp/app.dart';
+import 'package:habit_mvp/default_data.dart';
 
 class NotificationService {
   static final _firebaseMessaging = FirebaseMessaging.instance;
   static final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = 
     FlutterLocalNotificationsPlugin();
 
-  // request notification permission
   static Future init() async {
     await _firebaseMessaging.requestPermission(
       alert: true,
@@ -19,29 +20,23 @@ class NotificationService {
       sound: true,
     );
 
-    // get device fcm token
     final token = await _firebaseMessaging.getToken();
     log("fcm token: $token");
   }
 
-  // init local notifications
   static Future localNotificationsInit() async {
     try {
-      // android init settings; icon = notification icon
       const AndroidInitializationSettings initializationSettingsAndroid = 
         AndroidInitializationSettings("@mipmap/notification_icon");
 
-      // ios init settings
       const DarwinInitializationSettings initializationSettingsDarwin = 
         DarwinInitializationSettings();
 
-      // all init settings
       const InitializationSettings initializationSettings = InitializationSettings(
         android: initializationSettingsAndroid,
         iOS: initializationSettingsDarwin,
       );
 
-      // request notification permissions for android 13 or above
       final androidPlugin = _flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>();
@@ -50,7 +45,6 @@ class NotificationService {
         await androidPlugin.requestNotificationsPermission();
       }
 
-      // Initialize with notification settings and handle potential tap actions
       await _flutterLocalNotificationsPlugin.initialize(
         initializationSettings,
         onDidReceiveNotificationResponse: onNotificationTap,
@@ -62,8 +56,24 @@ class NotificationService {
     }
   }
 
-  // on tap local notification in foreground
   static void onNotificationTap(NotificationResponse notificationResponse) {
     log("Notification tapped: ${notificationResponse.payload}");
+  }
+
+  // Background state
+  static Future firebaseBackgroundMessage(RemoteMessage message) async {
+    if (message.notification != null) {
+      log("Some notification received in background ...");
+    }
+  }
+
+  static void onOpenedBackgroundMessage() {
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      if (message.notification != null) {
+        log("Tapped background notification");
+        //TODO: need to implement habit routing with notification data payload after implementation of firestore user documents and notification entity
+        navigatorKey.currentState!.pushNamed(settingsRoute);
+      }
+    });
   }
 }
