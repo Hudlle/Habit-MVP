@@ -6,14 +6,14 @@ import 'package:habit_mvp/default_data.dart';
 import 'package:habit_mvp/default_widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class Signup extends StatefulWidget {
-  const Signup({super.key});
+class SignupPage extends StatefulWidget {
+  const SignupPage({super.key});
 
   @override
-  State<Signup> createState() => _SignupState();
+  State<SignupPage> createState() => _SignupPageState();
 }
 
-class _SignupState extends State<Signup> {
+class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     TextEditingController usernameController = TextEditingController();

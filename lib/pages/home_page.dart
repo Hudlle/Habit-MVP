@@ -11,16 +11,16 @@ import 'package:habit_mvp/default_data.dart';
 import 'package:habit_mvp/default_widgets.dart';
 import 'package:provider/provider.dart';
 
-class Home extends StatefulWidget {
-  const Home({
+class HomePage extends StatefulWidget {
+  const HomePage({
     super.key,
   });
 
   @override
-  State<Home> createState() => _HomeState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomeState extends State<Home> with WidgetsBindingObserver{
+class _HomePageState extends State<HomePage> with WidgetsBindingObserver{
 
   @override
   void initState() {

@@ -5,14 +5,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:habit_mvp/ui_util/theme_locale_provider.dart';
 
-class LanguageSettings extends StatefulWidget {
-  const LanguageSettings({super.key});
+class LanguageSettingsPage extends StatefulWidget {
+  const LanguageSettingsPage({super.key});
 
   @override
-  State<LanguageSettings> createState() => _LanguageSettingsState();
+  State<LanguageSettingsPage> createState() => _LanguageSettingsPageState();
 }
 
-class _LanguageSettingsState extends State<LanguageSettings> {
+class _LanguageSettingsPageState extends State<LanguageSettingsPage> {
 
   @override
   Widget build(BuildContext context) {

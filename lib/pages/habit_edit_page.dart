@@ -6,8 +6,8 @@ import 'package:habit_mvp/model.dart';
 import 'package:habit_mvp/default_data.dart';
 import 'package:habit_mvp/default_widgets.dart';
 
-class HabitEdit extends StatefulWidget {
-  const HabitEdit({
+class HabitEditPage extends StatefulWidget {
+  const HabitEditPage({
     super.key,
     required this.habit
   });
@@ -15,10 +15,10 @@ class HabitEdit extends StatefulWidget {
   final Habit habit;
 
   @override
-  State<HabitEdit> createState() => _HabitEditState();
+  State<HabitEditPage> createState() => _HabitEditPageState();
 }
 
-class _HabitEditState extends State<HabitEdit> {
+class _HabitEditPageState extends State<HabitEditPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

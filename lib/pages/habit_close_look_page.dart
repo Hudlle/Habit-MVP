@@ -12,8 +12,8 @@ import 'package:habit_mvp/main.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
-class HabitCloseLook extends StatefulWidget {
-  HabitCloseLook({
+class HabitCloseLookPage extends StatefulWidget {
+  HabitCloseLookPage({
     super.key,
     required this.habit,
   });
@@ -21,10 +21,10 @@ class HabitCloseLook extends StatefulWidget {
   Habit habit;
 
   @override
-  State<HabitCloseLook> createState() => _HabitCloseLookState();
+  State<HabitCloseLookPage> createState() => _HabitCloseLookPageState();
 }
 
-class _HabitCloseLookState extends State<HabitCloseLook> {
+class _HabitCloseLookPageState extends State<HabitCloseLookPage> {
     
   @override
   void initState() {

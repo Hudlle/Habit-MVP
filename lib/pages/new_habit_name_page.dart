@@ -4,8 +4,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../default_data.dart';
 import '../default_widgets.dart';
 
-class NewHabitName extends StatelessWidget {
-  const NewHabitName({super.key});
+class NewHabitNamePage extends StatelessWidget {
+  const NewHabitNamePage({super.key});
 
   @override
   Widget build(BuildContext context) {

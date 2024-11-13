@@ -9,8 +9,8 @@ import 'package:habit_mvp/main.dart';
 import '../default_data.dart';
 import '../default_widgets.dart';
 
-class Settings extends StatelessWidget {
-  const Settings({super.key});
+class SettingsPage extends StatelessWidget {
+  const SettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -5,8 +5,8 @@ import '../main.dart';
 import '../default_data.dart';
 import '../default_widgets.dart';
 
-class NewHabitDetail extends StatelessWidget {
-  const NewHabitDetail({super.key});
+class NewHabitDetailPage extends StatelessWidget {
+  const NewHabitDetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {
