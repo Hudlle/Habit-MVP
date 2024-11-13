@@ -21,6 +21,8 @@ import 'pages/new_habit_detail_page.dart';
 import 'pages/how_to_goal_page.dart';
 import 'pages/settings_page.dart';
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 class HabitApp extends StatelessWidget {
   const HabitApp({super.key});
 
@@ -54,6 +56,7 @@ class HabitApp extends StatelessWidget {
                 locale: localeProvider.locale,
 
                 //* Routing
+                navigatorKey: navigatorKey,
                 initialRoute: checkUserRoute,
                 routes: {
                   loginRoute: (context) => LoginPage(),

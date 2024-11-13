@@ -4,8 +4,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../default_data.dart';
 import '../default_widgets.dart';
 
-class HowToGoal extends StatelessWidget {
-  const HowToGoal({super.key});
+class HowToGoalPage extends StatelessWidget {
+  const HowToGoalPage({super.key});
 
   @override
   Widget build(BuildContext context) {
