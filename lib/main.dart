@@ -1,5 +1,4 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:habit_mvp/api/notification_service.dart';
 import 'package:habit_mvp/firebase_options.dart';
@@ -20,8 +19,9 @@ Future<void> main() async {
 
   await NotificationService.init();
   await NotificationService.localNotificationsInit();
-  FirebaseMessaging.onBackgroundMessage(NotificationService.firebaseBackgroundMessage);
-  NotificationService.onOpenedBackgroundMessage();
+  NotificationService.receiveForegroundNotification();
+  NotificationService.onBackgroundNotificationTap();
+  NotificationService.receiveTerminatedNotification();
 
   runApp(
     ChangeNotifierProvider(

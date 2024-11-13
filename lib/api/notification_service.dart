@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -56,18 +57,50 @@ class NotificationService {
     }
   }
 
-  static void onNotificationTap(NotificationResponse notificationResponse) {
-    log("Notification tapped: ${notificationResponse.payload}");
+  // Foreground state
+  static void onNotificationTap(NotificationResponse response) {
+    //TODO: need to implement habit routing with notification data payload after implementation of firestore user documents and notification entity
+    navigatorKey.currentState!.pushNamed(settingsRoute);
+  }
+
+  static void receiveForegroundNotification() async {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification notification = message.notification!;
+      String payloadData = jsonEncode(message.data);
+      log("Foreground notification received");
+
+      if (message.notification != null) {
+        showNotification(
+          title: notification.title!,
+          body: notification.body!,
+          payload: payloadData
+        );
+      }
+    });
+  }
+
+  static Future showNotification({
+    required String title,
+    required String body,
+    required String payload,
+  }) async {
+    const AndroidNotificationDetails androidNotificationDetails =
+      AndroidNotificationDetails(
+        "your channel id", 
+        "your channel name",
+        channelDescription: "your channel description",
+        importance: Importance.max,
+        priority: Priority.high,
+        ticker: "ticker",
+      );
+    const NotificationDetails notificationDetails =
+      NotificationDetails(android: androidNotificationDetails);
+    
+    await _flutterLocalNotificationsPlugin.show(0, title, body, notificationDetails, payload: payload);
   }
 
   // Background state
-  static Future firebaseBackgroundMessage(RemoteMessage message) async {
-    if (message.notification != null) {
-      log("Some notification received in background ...");
-    }
-  }
-
-  static void onOpenedBackgroundMessage() {
+  static void onBackgroundNotificationTap() {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       if (message.notification != null) {
         log("Tapped background notification");
@@ -75,5 +108,18 @@ class NotificationService {
         navigatorKey.currentState!.pushNamed(settingsRoute);
       }
     });
+  }
+
+  // Terminated state
+  static Future receiveTerminatedNotification() async {
+    final RemoteMessage? message = await FirebaseMessaging.instance.getInitialMessage();
+
+    if (message != null) {
+      log("Terminated notification received");
+      Future.delayed(Duration(seconds: 1), () {
+        //TODO: need to implement habit routing with notification data payload after implementation of firestore user documents and notification entity
+        navigatorKey.currentState!.pushNamed(settingsRoute);
+      });
+    }
   }
 }
