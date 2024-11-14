@@ -118,7 +118,7 @@ class ObjectBox {
     habit.notifications.add(newNotification);
     habitBox.put(habit);
 
-    log("Added notification: Um ${newNotification.notificationTime}");
+    log("Added notification: ${newNotification.notificationTime}");
   }
 
   String _formatTimeOfDayToString(TimeOfDay timeOfDay) {
@@ -133,7 +133,7 @@ class ObjectBox {
       .query(Noti_.habit.equals(habit.id))
       .watch(triggerImmediately: true)
       .map((query) => query.find());
-      
+
     return habitNotifications;
   }
 
