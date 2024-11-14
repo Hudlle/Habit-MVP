@@ -33,11 +33,25 @@ class _HabitCloseLookPageState extends State<HabitCloseLookPage> {
     super.initState();
   }
 
-  void toggleCheckButton(BuildContext context) {
+  void toggleCheckButton(context) {
     Habit newHabit = Provider.of<FlamesProvider>(context, listen: false).updateHabitAndFlames(widget.habit);
     setState(() {
       widget.habit = newHabit;
     });
+  }
+
+  TimeOfDay notificationTime = TimeOfDay.now();
+  void createNotification(context) async{
+    final TimeOfDay? timeOfDay = await showTimePicker(
+      context: context,
+      initialTime: notificationTime,
+      initialEntryMode: TimePickerEntryMode.dial,
+    );
+    if (timeOfDay != null) {
+      setState(() {
+        notificationTime = timeOfDay;
+      });
+    }
   }
 
   void onEdit() {
@@ -158,6 +172,38 @@ class _HabitCloseLookPageState extends State<HabitCloseLookPage> {
                   ),
                 ],
               ),
+              const LargeSpacer(),
+              CustomText(
+                text: AppLocalizations.of(context)!.notifications,
+                textType: TextType.title,
+              ),
+              const SmallSpacer(),
+              Card(
+                child: ListTile(
+                  title: Text("${notificationTime.hour.toString().padLeft(2, "0")}:${notificationTime.minute.toString().padLeft(2, "0")}"),
+                  trailing: IconButton(
+                    onPressed: () {
+                      //TODO: create deleteNotification()
+                    },
+                    icon: Icon(Icons.close),
+                  ),
+                ),
+              ),
+              TextButton(
+                //TODO: Rewrite createNotification()
+                onPressed: () => createNotification(context),
+                child: Row(
+                  children: [
+                    Icon(Icons.add, color: Theme.of(context).colorScheme.primary),
+                    SizedBox(width: smallSpacing),
+                    CustomText(
+                      text: AppLocalizations.of(context)!.add, 
+                      textType: TextType.body,
+                      specialColor: Theme.of(context).colorScheme.primary,
+                    )
+                  ],
+                )
+              ),
               Expanded(child: Container()),
               CustomText(
                 text: AppLocalizations.of(context)!.dangerZone,
@@ -174,13 +220,9 @@ class _HabitCloseLookPageState extends State<HabitCloseLookPage> {
                     borderSide: BorderSide(color: Theme.of(context).colorScheme.onSurface),
                     borderRadius: BorderRadius.circular(cardBorderRadius),
                   ),
-                  child: Column(
-                    children: [
-                      ListTile(
-                        leading: Icon(Icons.delete),
-                        title: Text(AppLocalizations.of(context)!.deleteHabit),
-                      )
-                    ],
+                  child: ListTile(
+                    leading: Icon(Icons.delete),
+                    title: Text(AppLocalizations.of(context)!.deleteHabit),
                   )
                 ),
               ),

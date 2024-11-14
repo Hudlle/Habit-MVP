@@ -51,6 +51,7 @@
     "password": "Passwort",
     "repeatPassword": "Passwort wiederholen",
     "dangerZone": "Gefahrenzone",
+    "add": "Hinzufügen",
     "save": "Speichern",
     "orLabel": "Oder",
     "deleteHabit": "Gewohnheit löschen"

@@ -181,6 +181,10 @@
   "@dangerZone": {
     "description": "Label for section that warns users of critical actions"
   },
+  "add": "Add",
+  "@add" : {
+    "description": "Label for adding something"
+  },
   "save": "Save",
   "@save": {
     "description": "Button label to save settings"
