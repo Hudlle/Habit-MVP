@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:habit_mvp/api/authentication_service.dart';
+import 'package:habit_mvp/app.dart';
 import 'package:habit_mvp/flames_provider.dart';
 
 import 'package:habit_mvp/main.dart';
@@ -36,17 +37,17 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver{
     super.dispose();
   }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      Navigator.pushNamedAndRemoveUntil(
-        context, 
-        homeRoute,
-        (Route<dynamic> route) => false,
-      );
-      log("REFRESHING");
-    }
-  }
+  // @override
+  // void didChangeAppLifecycleState(AppLifecycleState state) {
+  //   if (state == AppLifecycleState.resumed) {
+  //     Navigator.pushNamedAndRemoveUntil(
+  //       context, 
+  //       homeRoute,
+  //       (Route<dynamic> route) => false,
+  //     );
+  //     log("REFRESHING");
+  //   }
+  // }
     
   @override
   Widget build(BuildContext context) {
@@ -147,10 +148,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver{
                             } else {
                               return GestureDetector(
                                 onTap: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    arguments: snapshot.data![index],
+                                  navigatorKey.currentState!.pushNamed(
                                     habitCloseLookRoute,
+                                    arguments: snapshot.data![index]
                                   );
                                 },
                                 child: HabitCard(

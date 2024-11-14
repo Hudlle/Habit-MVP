@@ -19,7 +19,10 @@ Future<void> main() async {
 
   await NotificationService.init();
   await NotificationService.localNotificationsInit();
-  
+  NotificationService.receiveForegroundNotification();
+  NotificationService.onBackgroundNotificationTap();
+  NotificationService.receiveTerminatedNotification();
+
   runApp(
     ChangeNotifierProvider(
       create: ((context) => LocaleProvider()),
