@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
-
 import 'model.dart';
 import 'objectbox.g.dart';
 import 'dart:developer';
@@ -11,11 +11,13 @@ class ObjectBox {
   late final Store store;
 
   late final Box<Habit> habitBox;
+  late final Box<Noti> notificationBox;
   late final Box<Flames> flamesBox;
   late final Box<UserSettings> userSettingsBox;
 
   ObjectBox._create(this.store) {
     habitBox = Box<Habit>(store);
+    notificationBox = Box<Noti>(store);
     flamesBox = Box<Flames>(store);
     userSettingsBox = Box<UserSettings>(store);
 
@@ -100,6 +102,44 @@ class ObjectBox {
   void removeAllHabits() {
     habitBox.removeAll();
     log("Removed all Habits");
+  }
+
+  //* Notfications
+  void addNotification(Habit habit, TimeOfDay timeOfDay) {
+    String notificationTitle = habit.name;
+    String notificationBody = habit.description;
+    String notificationTime = _formatTimeOfDayToString(timeOfDay);
+
+    Noti newNotification = Noti(
+      notificationTitle,
+      notificationBody,
+      notificationTime
+    );
+    habit.notifications.add(newNotification);
+    habitBox.put(habit);
+
+    log("Added notification: Um ${newNotification.notificationTime}");
+  }
+
+  String _formatTimeOfDayToString(TimeOfDay timeOfDay) {
+    final now = DateTime.now();
+    final dateTime = DateTime(now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
+    String formatted = DateFormat("HH:mm").format(dateTime);
+    return formatted;
+  }
+
+  Stream<List<Noti>> getHabitNotifications(Habit habit) {
+    final Stream<List<Noti>> habitNotifications = notificationBox
+      .query(Noti_.habit.equals(habit.id))
+      .watch(triggerImmediately: true)
+      .map((query) => query.find());
+      
+    return habitNotifications;
+  }
+
+  void removeNotification(Noti notification) {
+    notificationBox.remove(notification.id);
+    log("Removed notification: ${notification.notificationTime}");
   }
 
   //* Flames

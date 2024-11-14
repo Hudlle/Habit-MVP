@@ -106,7 +106,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver{
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      //* DayStreakCounter Count
                       Consumer<FlamesProvider>(
                         builder: (context, flamesProvider, child) {
                           return Text(

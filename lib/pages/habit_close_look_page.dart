@@ -40,17 +40,15 @@ class _HabitCloseLookPageState extends State<HabitCloseLookPage> {
     });
   }
 
-  TimeOfDay notificationTime = TimeOfDay.now();
   void createNotification(context) async{
     final TimeOfDay? timeOfDay = await showTimePicker(
       context: context,
-      initialTime: notificationTime,
+      initialTime: TimeOfDay.now(),
       initialEntryMode: TimePickerEntryMode.dial,
     );
+
     if (timeOfDay != null) {
-      setState(() {
-        notificationTime = timeOfDay;
-      });
+      ob.addNotification(widget.habit, timeOfDay);
     }
   }
 
@@ -178,19 +176,19 @@ class _HabitCloseLookPageState extends State<HabitCloseLookPage> {
                 textType: TextType.title,
               ),
               const SmallSpacer(),
-              Card(
-                child: ListTile(
-                  title: Text("${notificationTime.hour.toString().padLeft(2, "0")}:${notificationTime.minute.toString().padLeft(2, "0")}"),
-                  trailing: IconButton(
-                    onPressed: () {
-                      //TODO: create deleteNotification()
+              StreamBuilder<List<Noti>>(
+                stream: ob.getHabitNotifications(widget.habit),
+                builder: (context, snapshot) {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: snapshot.hasData ? snapshot.data!.length : 0,
+                    itemBuilder: (context, index) {
+                      return NotificationCard(notification: snapshot.data![index]);
                     },
-                    icon: Icon(Icons.close),
-                  ),
-                ),
+                  );
+                }
               ),
               TextButton(
-                //TODO: Rewrite createNotification()
                 onPressed: () => createNotification(context),
                 child: Row(
                   children: [
@@ -230,6 +228,30 @@ class _HabitCloseLookPageState extends State<HabitCloseLookPage> {
           ),
         )
       )
+    );
+  }
+}
+
+class NotificationCard extends StatelessWidget {
+  const NotificationCard({
+    super.key,
+    required this.notification,
+  });
+
+  final Noti notification;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: ListTile(
+        title: Text(notification.notificationTime),
+        trailing: IconButton(
+          onPressed: () {
+            ob.removeNotification(notification);
+          },
+          icon: Icon(Icons.close),
+        ),
+      ),
     );
   }
 }

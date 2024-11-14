@@ -3,58 +3,6 @@ import 'package:objectbox/objectbox.dart';
 import 'dart:developer';
 
 @Entity()
-class UserSettings {
-  @Id()
-  int id;
-
-  bool isDarkMode;
-  String localeCode;
-
-  UserSettings(
-    this.localeCode,
-  {
-    this.id = 0,
-    this.isDarkMode = true,
-  });
-
-  ThemeMode getThemeMode() {
-    return isDarkMode ? ThemeMode.dark : ThemeMode.light;
-  }
-
-  Locale get locale => Locale(localeCode);
-
-  void changeLocale(Locale newLocale) {
-    localeCode = newLocale.languageCode;
-  }
-}
-
-@Entity()
-class Flames {
-  @Id()
-  int id;
-
-  int flames;
-
-  Flames({
-    this.id = 0,
-    this.flames = 0,
-  });
-
-  @Backlink("flames")
-  final habits = ToMany<Habit>();
-
-  void updateFlames(bool checked) {
-    if(checked) {
-      flames ++;
-      log("Flames erhöht auf $flames");
-    } else {
-      flames --;
-      log("Flames verringert auf $flames");
-    }
-  }
-}
-
-@Entity()
 class Habit{
   @Id()
   int id;
@@ -77,6 +25,9 @@ class Habit{
     });
 
   //* Relation
+  @Backlink("habit")
+  final notifications = ToMany<Noti>();
+
   final flames = ToOne<Flames>();
 
   //* Functions
@@ -125,5 +76,76 @@ class Habit{
     Duration difference = now.difference(lastChecked);
 
     return difference.inSeconds < 5;
+  }
+}
+
+@Entity()
+class Noti {
+  @Id()
+  int id;
+  String title;
+  String body;
+  String notificationTime;
+
+  Noti(
+    this.title,
+    this.body,
+    this.notificationTime,
+  {
+    this.id = 0,
+  });
+
+  final habit = ToOne<Habit>();
+}
+
+@Entity()
+class Flames {
+  @Id()
+  int id;
+
+  int flames;
+
+  Flames({
+    this.id = 0,
+    this.flames = 0,
+  });
+
+  @Backlink("flames")
+  final habits = ToMany<Habit>();
+
+  void updateFlames(bool checked) {
+    if(checked) {
+      flames ++;
+      log("Flames erhöht auf $flames");
+    } else {
+      flames --;
+      log("Flames verringert auf $flames");
+    }
+  }
+}
+
+@Entity()
+class UserSettings {
+  @Id()
+  int id;
+
+  bool isDarkMode;
+  String localeCode;
+
+  UserSettings(
+    this.localeCode,
+  {
+    this.id = 0,
+    this.isDarkMode = true,
+  });
+
+  ThemeMode getThemeMode() {
+    return isDarkMode ? ThemeMode.dark : ThemeMode.light;
+  }
+
+  Locale get locale => Locale(localeCode);
+
+  void changeLocale(Locale newLocale) {
+    localeCode = newLocale.languageCode;
   }
 }

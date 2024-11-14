@@ -64,7 +64,10 @@ final _entities = <obx_int.ModelEntity>[
             relationTarget: 'Flames')
       ],
       relations: <obx_int.ModelRelation>[],
-      backlinks: <obx_int.ModelBacklink>[]),
+      backlinks: <obx_int.ModelBacklink>[
+        obx_int.ModelBacklink(
+            name: 'notifications', srcEntity: 'Noti', srcField: 'habit')
+      ]),
   obx_int.ModelEntity(
       id: const obx_int.IdUid(4, 7703370628805739742),
       name: 'UserSettings',
@@ -110,7 +113,43 @@ final _entities = <obx_int.ModelEntity>[
       backlinks: <obx_int.ModelBacklink>[
         obx_int.ModelBacklink(
             name: 'habits', srcEntity: 'Habit', srcField: 'flames')
-      ])
+      ]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(7, 97916875582895082),
+      name: 'Noti',
+      lastPropertyId: const obx_int.IdUid(6, 1160647007180173718),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 1482330492219254954),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 5996584503638591353),
+            name: 'title',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 719692264286726136),
+            name: 'body',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 5552768428740900863),
+            name: 'notificationTime',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(6, 1160647007180173718),
+            name: 'habitId',
+            type: 11,
+            flags: 520,
+            indexId: const obx_int.IdUid(5, 6100367867593498189),
+            relationTarget: 'Habit')
+      ],
+      relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[])
 ];
 
 /// Shortcut for [obx.Store.new] that passes [getObjectBoxModel] and for Flutter
@@ -148,12 +187,16 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(5, 3468389726770743757),
-      lastIndexId: const obx_int.IdUid(2, 1880330948544529158),
-      lastRelationId: const obx_int.IdUid(0, 0),
+      lastEntityId: const obx_int.IdUid(7, 97916875582895082),
+      lastIndexId: const obx_int.IdUid(5, 6100367867593498189),
+      lastRelationId: const obx_int.IdUid(1, 2635517406211560794),
       lastSequenceId: const obx_int.IdUid(0, 0),
-      retiredEntityUids: const [2792962975620706389, 5087108227991498369],
-      retiredIndexUids: const [8292585228963820127],
+      retiredEntityUids: const [
+        2792962975620706389,
+        5087108227991498369,
+        4990814244432181715
+      ],
+      retiredIndexUids: const [8292585228963820127, 6299715059468388470],
       retiredPropertyUids: const [
         2736417746403495448,
         128407861724487823,
@@ -163,9 +206,13 @@ obx_int.ModelDefinition getObjectBoxModel() {
         2028968676938064357,
         7247327071934980800,
         5170222834347141701,
-        5398120625478593145
+        5398120625478593145,
+        3409022249451945585,
+        3970308011056848547,
+        5266556269331392138,
+        231626534103152194
       ],
-      retiredRelationUids: const [],
+      retiredRelationUids: const [2635517406211560794],
       modelVersion: 5,
       modelVersionParserMinimum: 5,
       version: 1);
@@ -174,7 +221,11 @@ obx_int.ModelDefinition getObjectBoxModel() {
     Habit: obx_int.EntityDefinition<Habit>(
         model: _entities[0],
         toOneRelations: (Habit object) => [object.flames],
-        toManyRelations: (Habit object) => {},
+        toManyRelations: (Habit object) => {
+              obx_int.RelInfo<Noti>.toOneBacklink(
+                      6, object.id, (Noti srcObject) => srcObject.habit):
+                  object.notifications
+            },
         getId: (Habit object) => object.id,
         setId: (Habit object, int id) {
           object.id = id;
@@ -214,6 +265,11 @@ obx_int.ModelDefinition getObjectBoxModel() {
           object.flames.targetId =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 20, 0);
           object.flames.attach(store);
+          obx_int.InternalToManyAccess.setRelInfo<Habit>(
+              object.notifications,
+              store,
+              obx_int.RelInfo<Noti>.toOneBacklink(
+                  6, object.id, (Noti srcObject) => srcObject.habit));
           return object;
         }),
     UserSettings: obx_int.EntityDefinition<UserSettings>(
@@ -280,6 +336,47 @@ obx_int.ModelDefinition getObjectBoxModel() {
               obx_int.RelInfo<Habit>.toOneBacklink(
                   9, object.id, (Habit srcObject) => srcObject.flames));
           return object;
+        }),
+    Noti: obx_int.EntityDefinition<Noti>(
+        model: _entities[3],
+        toOneRelations: (Noti object) => [object.habit],
+        toManyRelations: (Noti object) => {},
+        getId: (Noti object) => object.id,
+        setId: (Noti object, int id) {
+          object.id = id;
+        },
+        objectToFB: (Noti object, fb.Builder fbb) {
+          final titleOffset = fbb.writeString(object.title);
+          final bodyOffset = fbb.writeString(object.body);
+          final notificationTimeOffset =
+              fbb.writeString(object.notificationTime);
+          fbb.startTable(7);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, titleOffset);
+          fbb.addOffset(2, bodyOffset);
+          fbb.addOffset(3, notificationTimeOffset);
+          fbb.addInt64(5, object.habit.targetId);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final titleParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final bodyParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 8, '');
+          final notificationTimeParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 10, '');
+          final idParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final object =
+              Noti(titleParam, bodyParam, notificationTimeParam, id: idParam);
+          object.habit.targetId =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0);
+          object.habit.attach(store);
+          return object;
         })
   };
 
@@ -314,6 +411,10 @@ class Habit_ {
   /// See [Habit.flames].
   static final flames =
       obx.QueryRelationToOne<Habit, Flames>(_entities[0].properties[6]);
+
+  /// see [Habit.notifications]
+  static final notifications =
+      obx.QueryBacklinkToMany<Noti, Habit>(Noti_.habit);
 }
 
 /// [UserSettings] entity fields to define ObjectBox queries.
@@ -343,4 +444,25 @@ class Flames_ {
 
   /// see [Flames.habits]
   static final habits = obx.QueryBacklinkToMany<Habit, Flames>(Habit_.flames);
+}
+
+/// [Noti] entity fields to define ObjectBox queries.
+class Noti_ {
+  /// See [Noti.id].
+  static final id = obx.QueryIntegerProperty<Noti>(_entities[3].properties[0]);
+
+  /// See [Noti.title].
+  static final title =
+      obx.QueryStringProperty<Noti>(_entities[3].properties[1]);
+
+  /// See [Noti.body].
+  static final body = obx.QueryStringProperty<Noti>(_entities[3].properties[2]);
+
+  /// See [Noti.notificationTime].
+  static final notificationTime =
+      obx.QueryStringProperty<Noti>(_entities[3].properties[3]);
+
+  /// See [Noti.habit].
+  static final habit =
+      obx.QueryRelationToOne<Noti, Habit>(_entities[3].properties[4]);
 }
