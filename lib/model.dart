@@ -4,10 +4,10 @@ import 'dart:developer';
 
 @Entity()
 class Habit{
-  @Id()
-  int id;
+  @Index()
+  String hid;
 
-  //* Variables
+  int id;
   String name;
   String description;
   int streak;
@@ -15,6 +15,7 @@ class Habit{
   DateTime lastChecked;
 
   Habit(
+    this.hid,
     this.name,
     this.description,
     this.lastChecked,
@@ -81,15 +82,14 @@ class Habit{
 
 @Entity()
 class Noti {
-  @Id()
+  @Index()
+  String nid;
+
   int id;
-  String title;
-  String body;
   String notificationTime;
 
   Noti(
-    this.title,
-    this.body,
+    this.nid,
     this.notificationTime,
   {
     this.id = 0,

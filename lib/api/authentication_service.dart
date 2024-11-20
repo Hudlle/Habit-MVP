@@ -1,40 +1,68 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:habit_mvp/api/firestore_service.dart';
+import 'package:habit_mvp/api/notification_service.dart';
+
+enum AuthFeedback {
+  signupSuccessful, 
+  signupFailed,
+  loginSuccessful,
+  loginFailed,
+}
 
 class AuthService {
+
   // create a new account
-  static Future<String> createAccountWithEmail(String username, String email, String password) async {
+  static Future<AuthFeedback> createAccountWithEmail(String username, String email, String password) async {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
       editUsername(username);
-      return "signup successful";
-    } on FirebaseAuthException catch (e) {
-      return e.message.toString();
+      FirestoreService.saveUserEmailSignup(username, email);
+      log("Signup successful with new uid: ${FirebaseAuth.instance.currentUser!.uid}");
+      return AuthFeedback.signupSuccessful;
     } catch (e) {
-      return e.toString();
+      log("E: Signup failed. Error log: $e");
+      return AuthFeedback.signupFailed;
     }
+  }
+
+  // handle fcm token
+  static Future handleFCMToken() async {
+    final fcmToken = await NotificationService.fcmToken;
+
+    if (! await isLoggedIn()) {
+      log("E: Unable to handle fcm token. User not authenticated.");
+      return;
+    }
+
+    FirestoreService.saveFCMToken(fcmToken!);
+
+    NotificationService.firebaseMessaging.onTokenRefresh.listen((event) async {
+      await FirestoreService.saveFCMToken(fcmToken);
+    });
   }
 
   // get display name
   static String getUsername() {
-    var user = FirebaseAuth.instance.currentUser;
-    return user?.displayName ?? "username";
+    return FirebaseAuth.instance.currentUser?.displayName ?? "username";
   }
 
   // edit display name
   static Future<String> editUsername(String username) async {
+    //TODO: Add udpate to firestore
     await FirebaseAuth.instance.currentUser!.updateDisplayName(username);
     return "username edit successful";
   }
 
   // login
-  static Future<String> loginWithEmail(String email, String password) async {
+  static Future<AuthFeedback> loginWithEmail(String email, String password) async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-      return "login successful";
-    } on FirebaseAuthException catch (e) {
-      return e.message.toString();
+      return AuthFeedback.loginSuccessful;
     } catch (e) {
-      return e.toString();
+      log("E: Login failed. Error log: $e");
+      return AuthFeedback.loginFailed;
     }
   }
 
@@ -45,7 +73,6 @@ class AuthService {
 
   // check whether the user is sign in or not
   static Future<bool> isLoggedIn() async {
-    var user = FirebaseAuth.instance.currentUser;
-    return user != null;
+    return FirebaseAuth.instance.currentUser != null;
   }
 }

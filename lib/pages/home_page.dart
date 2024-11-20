@@ -26,6 +26,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver{
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
+    AuthService.handleFCMToken();
     ob.refreshHabitsStatus();
     log("INITIATED HOME");
     super.initState();

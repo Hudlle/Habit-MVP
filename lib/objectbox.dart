@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:habit_mvp/api/firestore_service.dart';
 import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 import 'model.dart';
@@ -40,9 +41,10 @@ class ObjectBox {
   }
 
   //* Habits
-  void addHabit(String habitName, String habitDescription) {
+  void addHabit(String habitName, String habitDescription) async {
     DateTime initalDateTime = DateTime.now();
-    Habit newHabit = Habit(habitName, habitDescription, initalDateTime);
+    String hid = await FirestoreService.saveNewHabit(habitName, habitDescription);
+    Habit newHabit = Habit(hid, habitName, habitDescription, initalDateTime);
     Flames flames = getFlames();
     flames.habits.add(newHabit);
     flamesBox.put(flames);
@@ -95,6 +97,7 @@ class ObjectBox {
   }
 
   void removeHabit(Habit habit) {
+    FirestoreService.deleteHabit(habit.hid);
     habitBox.remove(habit.id);
     log("Removed Habit: ${habit.name}");
   }
@@ -105,16 +108,12 @@ class ObjectBox {
   }
 
   //* Notfications
-  void addNotification(Habit habit, TimeOfDay timeOfDay) {
-    String notificationTitle = habit.name;
-    String notificationBody = habit.description;
+  void addNotification(Habit habit, TimeOfDay timeOfDay) async {
     String notificationTime = _formatTimeOfDayToString(timeOfDay);
 
-    Noti newNotification = Noti(
-      notificationTitle,
-      notificationBody,
-      notificationTime
-    );
+    String nid = await FirestoreService.saveNewNotification(habit, notificationTime);
+    Noti newNotification = Noti(nid, notificationTime);
+
     habit.notifications.add(newNotification);
     habitBox.put(habit);
 
@@ -138,6 +137,7 @@ class ObjectBox {
   }
 
   void removeNotification(Noti notification) {
+    FirestoreService.deleteNotification(notification);
     notificationBox.remove(notification.id);
     log("Removed notification: ${notification.notificationTime}");
   }

@@ -6,12 +6,14 @@ import 'package:habit_mvp/app.dart';
 import 'package:habit_mvp/default_data.dart';
 
 class NotificationService {
-  static final _firebaseMessaging = FirebaseMessaging.instance;
+  static final firebaseMessaging = FirebaseMessaging.instance;
   static final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = 
     FlutterLocalNotificationsPlugin();
+  
+  static Future<String?> get fcmToken async => await firebaseMessaging.getToken();
 
   static Future init() async {
-    await _firebaseMessaging.requestPermission(
+    await firebaseMessaging.requestPermission(
       alert: true,
       criticalAlert: true,
       announcement: true,
@@ -20,9 +22,6 @@ class NotificationService {
       provisional: false,
       sound: true,
     );
-
-    final token = await _firebaseMessaging.getToken();
-    log("fcm token: $token");
   }
 
   static Future localNotificationsInit() async {

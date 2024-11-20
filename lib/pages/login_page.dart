@@ -21,7 +21,7 @@ class _LoginPageState extends State<LoginPage> {
 
     void submitLogin() async {
       await AuthService.loginWithEmail(emailController.text, passwordController.text).then((value) {
-        if (value == "login successful") {
+        if (value == AuthFeedback.loginSuccessful) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(AppLocalizations.of(context)!.loginSuccessful))
           );
@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                value,
+                value.toString(),
                 style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer)
               ),
               backgroundColor: Theme.of(context).colorScheme.errorContainer,

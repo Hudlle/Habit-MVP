@@ -23,7 +23,7 @@ class _SignupPageState extends State<SignupPage> {
 
     void submitSignup() async {
       await AuthService.createAccountWithEmail(usernameController.text, emailController.text, passwordController.text).then((value) {
-        if (value == "signup successful") {
+        if (value == AuthFeedback.signupSuccessful) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(AppLocalizations.of(context)!.signupSuccessful))
           );
@@ -32,7 +32,7 @@ class _SignupPageState extends State<SignupPage> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                value,
+                value.toString(),
                 style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer)
               ),
               backgroundColor: Theme.of(context).colorScheme.errorContainer,
