@@ -2,10 +2,6 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:habit_mvp/app.dart';
-import 'package:habit_mvp/default_data.dart';
-import 'package:habit_mvp/default_widgets.dart';
-import 'package:habit_mvp/model.dart';
 
 class FirestoreService {
 
@@ -14,12 +10,13 @@ class FirestoreService {
   static final usersRef = firestore.collection("users");
   static final notificationsRef = firestore.collection("notifications");
 
-  // user signup
+  // User signup
   static Future saveUserEmailSignup (String username, String email) async {
     User? user = FirebaseAuth.instance.currentUser;
     Map<String, dynamic> data = {
       "username" : username,
       "email" : email,
+      "flames" : 0,
     };
     try {
       await usersRef.doc(user!.uid).set(data);
@@ -29,7 +26,7 @@ class FirestoreService {
     }
   }
   
-  // fcm token
+  // FCM token
   static Future saveFCMToken (String fcmToken) async {
     User? user = FirebaseAuth.instance.currentUser;
     Map<String, dynamic> data = {
@@ -136,5 +133,17 @@ class FirestoreService {
     } catch (e) {
       log("Unable to delete notification with nid: $nid. Error log: $e");
     }
+  }
+
+  static Stream<int> getUserFlames() {
+    User? user = FirebaseAuth.instance.currentUser;
+    return FirebaseFirestore.instance
+      .collection('users')
+      .doc(user!.uid)
+      .snapshots()
+      .map((snapshot) {
+        final data = snapshot.data();
+        return data?['flames'] ?? 0; 
+      });
   }
 }

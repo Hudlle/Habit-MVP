@@ -63,12 +63,16 @@ class _HabitCloseLookPageState extends State<HabitCloseLookPage> {
     return StreamBuilder(
       stream: _habitStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
         if (snapshot.hasError) {
           return const Text("Something went wrong");
         }
 
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+        if (!snapshot.hasData || !snapshot.data!.exists) {
+          log("Unable to find data. Check if it exists.");
         }
 
         final habitData = snapshot.data;

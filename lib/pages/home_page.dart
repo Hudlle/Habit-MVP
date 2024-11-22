@@ -6,11 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:habit_mvp/api/authentication_service.dart';
 import 'package:habit_mvp/api/firestore_service.dart';
-import 'package:habit_mvp/flames_provider.dart';
-import 'package:habit_mvp/main.dart';
 import 'package:habit_mvp/default_data.dart';
 import 'package:habit_mvp/default_widgets.dart';
-import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -90,28 +87,28 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver{
                       ),
                     ],
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Consumer<FlamesProvider>(
-                        builder: (context, flamesProvider, child) {
-                          return Text(
-                            "   ${flamesProvider.flames} 🔥", 
-                            style: GoogleFonts.notoSerif(
-                              textStyle: const TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          );
+                  child: StreamBuilder<int>(
+                    stream: FirestoreService.getUserFlames(),
+                     builder:(context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return Center(child: CircularProgressIndicator());
                         }
-                      ),
-                      SizedBox(width: 10),
-                      CustomText(
-                        text: "",
-                        textType: TextType.title,
-                      ),
-                    ],
+
+                        if (snapshot.hasError) {
+                          return Text('Fehler: ${snapshot.error}'); 
+                        }
+
+                        final flames = snapshot.data ?? 0; // Fallback auf 0
+                        return Text(
+                          "  $flames 🔥",
+                          style: GoogleFonts.notoSerif(
+                            textStyle: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        );
+                     },
                   ),
                 ),
                 const LargeSpacer(),
@@ -142,13 +139,13 @@ class _HabitFirestoreStreamState extends State<HabitFirestoreStream> {
     return StreamBuilder<QuerySnapshot>(
       stream: _habitsStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        }
+
         if (snapshot.hasError) {
           //TODO: feat: add user friendly error message to l10n
           return const Text("Something went wrong");
-        }
-
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
         }
 
         return ListView.builder(

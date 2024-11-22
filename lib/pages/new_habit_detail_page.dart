@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:habit_mvp/api/firestore_service.dart';
 
 import '../main.dart';
 import '../default_data.dart';
@@ -104,7 +105,7 @@ class _NewHabitDetailTextFieldState extends State<NewHabitDetailTextField> {
   void _submitForm(String newHabitName) {
     if(_formKey.currentState!.validate()){
       String newhabitDescription = "${_controller.text} pro Tag";
-      ob.addHabit(newHabitName, newhabitDescription);
+      FirestoreService.saveNewHabit(newHabitName, newhabitDescription);
       Navigator.pushNamedAndRemoveUntil(
         context, 
         homeRoute,

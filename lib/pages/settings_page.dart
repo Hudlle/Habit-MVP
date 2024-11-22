@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:habit_mvp/api/authentication_service.dart';
-import 'package:habit_mvp/flames_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:habit_mvp/ui_util/theme_locale_provider.dart';
