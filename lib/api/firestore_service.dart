@@ -2,6 +2,9 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:habit_mvp/app.dart';
+import 'package:habit_mvp/default_data.dart';
+import 'package:habit_mvp/default_widgets.dart';
 import 'package:habit_mvp/model.dart';
 
 class FirestoreService {
@@ -47,6 +50,7 @@ class FirestoreService {
       "name" : habitName,
       "description" : habitDescription,
       "streak" : 0,
+      "checked" : false,
       "notifications" : [],
       "timestamp" : FieldValue.serverTimestamp()
     };
@@ -56,6 +60,35 @@ class FirestoreService {
       return habitRef.id;
     } catch (e) {
       log("E: Unable to save habit. Error log: $e");
+    }
+  }
+
+  static Future habitToggleCheck (String hid) async {
+    User? user = FirebaseAuth.instance.currentUser;
+    try {
+      DocumentReference habitRef =  usersRef.doc(user!.uid).collection("habits").doc(hid);
+      Map<String, dynamic> habitData = await habitRef.get().then(
+        (DocumentSnapshot doc) {
+          final data = doc.data() as Map<String, dynamic>;
+          return data;
+        }
+      );
+
+      bool checkedStatus = habitData["checked"];
+      int streakCount = habitData["streak"];
+
+      if (!checkedStatus) {
+        streakCount ++;
+        await habitRef.update({"checked" : !checkedStatus, "streak" : streakCount});
+        log("Updated ++");
+      } else {
+        streakCount --;
+        await habitRef.update({"checked" : !checkedStatus, "streak" : streakCount});
+        log("Updated --");
+      }
+      log("Habit hid: $hid checked status updated to ${!checkedStatus}");
+    } catch (e) {
+      log("E: Unable to update checked status of hid: $hid. Error log: $e");
     }
   }
 
@@ -70,39 +103,38 @@ class FirestoreService {
   }
 
   // Notifications
-  static Future saveNewNotification(Habit habit, String notificationTime) async {
+  static Future saveNewNotification(String hid, habitData, String notificationTime) async {
     User? user = FirebaseAuth.instance.currentUser;
     Map<String, dynamic> data = {
       "uid" : user!.uid,
-      "hid" : habit.hid,
-      "title" : habit.name,
-      "body" : habit.description,
+      "hid" : hid,
+      "title" : habitData["name"],
+      "body" : habitData["description"],
       "notification_time" : notificationTime,
       "timestamp" : FieldValue.serverTimestamp()
     };
     try {
       DocumentReference notificationRef = await notificationsRef.add(data);
-      await usersRef.doc(user.uid).collection("habits").doc(habit.hid).update({
+      await usersRef.doc(user.uid).collection("habits").doc(hid).update({
         "notifications" : FieldValue.arrayUnion([notificationRef.id])
       });
-      log("Notification saved to nid: ${notificationRef.id} and updated to hid: ${habit.hid}");
+      log("Notification saved to nid: ${notificationRef.id} and updated to hid: $hid");
       return notificationRef.id;
     } catch (e) {
       log("Unable to save notification. Error log: $e");
     }
   }
 
-  static Future deleteNotification(Noti notification) async {
+  static Future deleteNotification(String hid, String nid) async {
     User? user = FirebaseAuth.instance.currentUser;
     try {
-      String hid = notification.habit.target!.hid;
       await usersRef.doc(user!.uid).collection("habits").doc(hid).update({
-        "notifications" : FieldValue.arrayRemove([notification.nid])
+        "notifications" : FieldValue.arrayRemove([nid])
       });
-      await notificationsRef.doc(notification.nid).delete();
-      log("Notification with nid: ${notification.nid} deleted and hid: $hid updated");
+      await notificationsRef.doc(nid).delete();
+      log("Notification with nid: $nid deleted and hid: $hid updated");
     } catch (e) {
-      log("Unable to delete notification with nid: ${notification.nid}. Error log: $e");
+      log("Unable to delete notification with nid: $nid. Error log: $e");
     }
   }
 }

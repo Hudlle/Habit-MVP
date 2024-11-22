@@ -66,18 +66,6 @@ class SettingsPage extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed:() {
-                  ob.removeAllHabits();
-                },
-                child: Text("Remove All Habits"),
-              ),
-              ElevatedButton(
-                onPressed:() {
-                  Provider.of<FlamesProvider>(context, listen: false).resetFlames();
-                },
-                child: Text("Reset Flames To 0"),
-              ),
-              ElevatedButton(
-                onPressed:() {
                   AuthService.logout();
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text("Logout Successful"))

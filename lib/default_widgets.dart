@@ -149,3 +149,21 @@ class _SettingsToggleState extends State<SettingsToggle> {
     );
   }
 }
+
+class LocalHabit {
+  String hid;
+  String name;
+  String description;
+  int streak;
+  bool checked;
+  List notifications;
+
+  LocalHabit({
+    required this.hid,
+    required this.name,
+    required this.description,
+    required this.streak,
+    required this.checked,
+    required this.notifications
+  });
+}

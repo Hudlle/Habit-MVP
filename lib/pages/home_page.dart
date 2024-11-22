@@ -1,13 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:habit_mvp/api/authentication_service.dart';
-import 'package:habit_mvp/app.dart';
+import 'package:habit_mvp/api/firestore_service.dart';
 import 'package:habit_mvp/flames_provider.dart';
-
 import 'package:habit_mvp/main.dart';
-import 'package:habit_mvp/model.dart';
 import 'package:habit_mvp/default_data.dart';
 import 'package:habit_mvp/default_widgets.dart';
 import 'package:provider/provider.dart';
@@ -27,8 +27,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver{
   void initState() {
     WidgetsBinding.instance.addObserver(this);
     AuthService.handleFCMToken();
-    ob.refreshHabitsStatus();
-    log("INITIATED HOME");
     super.initState();
   }
 
@@ -37,18 +35,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver{
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
-
-  // @override
-  // void didChangeAppLifecycleState(AppLifecycleState state) {
-  //   if (state == AppLifecycleState.resumed) {
-  //     Navigator.pushNamedAndRemoveUntil(
-  //       context, 
-  //       homeRoute,
-  //       (Route<dynamic> route) => false,
-  //     );
-  //     log("REFRESHING");
-  //   }
-  // }
     
   @override
   Widget build(BuildContext context) {
@@ -57,13 +43,13 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver{
       final hour = DateTime.now().hour;
 
       if (hour >= 5 && hour < 12) {
-        return  "${AuthService.getUsername()}, ${AppLocalizations.of(context)!.homeWelcomeMorning}";
+        return  "Hi ${AuthService.getUsername()}! ${AppLocalizations.of(context)!.homeWelcomeMorning}";
       } else if (hour >= 12 && hour < 18) {
-        return "${AuthService.getUsername()}, ${AppLocalizations.of(context)!.homeWelcomeAfternoon}";
+        return "Hi ${AuthService.getUsername()}! ${AppLocalizations.of(context)!.homeWelcomeAfternoon}";
       } else if (hour >= 18 && hour < 22) {
-        return "${AuthService.getUsername()}, ${AppLocalizations.of(context)!.homeWelcomeEvening}";
+        return "Hi ${AuthService.getUsername()}! ${AppLocalizations.of(context)!.homeWelcomeEvening}";
       } else {
-        return  "${AuthService.getUsername()}, ${AppLocalizations.of(context)!.homeWelcomeNight}";
+        return  "Hi ${AuthService.getUsername()}! ${AppLocalizations.of(context)!.homeWelcomeNight}";
       }
     }
 
@@ -129,49 +115,69 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver{
                   ),
                 ),
                 const LargeSpacer(),
-                Expanded(
-                  child: StreamBuilder<List<Habit>>(
-                    stream: ob.getSortedHabits(),
-                    builder: (context, snapshot) {
-                      if (snapshot.data?.isNotEmpty ?? false) {
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: snapshot.hasData ? snapshot.data!.length + 1 : 1,
-                          itemBuilder: (context, index) {
-                            if (index == snapshot.data?.length) {
-                              return Column(
-                                children: [
-                                  LargeSpacer(),
-                                  AddHabitIB()
-                                ],
-                              );
-                            } else {
-                              return GestureDetector(
-                                onTap: () {
-                                  navigatorKey.currentState!.pushNamed(
-                                    habitCloseLookRoute,
-                                    arguments: snapshot.data![index]
-                                  );
-                                },
-                                child: HabitCard(
-                                  key: ValueKey(snapshot.data?[index].id),
-                                  habit: snapshot.data![index],
-                                ),
-                              );
-                            }
-                          },
-                        );
-                      } else {
-                        return const AddHabitIB();
-                      }
-                    },
-                  ),
-                ),
+                HabitFirestoreStream(),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+}
+class HabitFirestoreStream extends StatefulWidget {
+  const HabitFirestoreStream({
+    super.key
+  });
+
+  @override
+  State<HabitFirestoreStream> createState() => _HabitFirestoreStreamState();
+}
+
+class _HabitFirestoreStreamState extends State<HabitFirestoreStream> {
+  final String uid = FirebaseAuth.instance.currentUser!.uid;
+  late final Stream<QuerySnapshot> _habitsStream = FirebaseFirestore.instance.collection("users").doc(uid).collection("habits").snapshots();
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: _habitsStream,
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          //TODO: feat: add user friendly error message to l10n
+          return const Text("Something went wrong");
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        }
+
+        return ListView.builder(
+          shrinkWrap: true,
+          itemCount: snapshot.hasData ? snapshot.data!.size + 1 : 1,
+          itemBuilder: (context, index) {
+            List habits = snapshot.data!.docs;
+
+            if (index == habits.length) {
+              return Column(children: [LargeSpacer(), AddHabitIB()],);
+            } else {
+              LocalHabit habit = LocalHabit(
+                hid: habits[index].id,
+                name: habits[index]["name"],
+                description: habits[index]["description"],
+                streak: habits[index]["streak"],
+                checked: habits[index]["checked"],
+                notifications: habits[index]["notifications"],
+              );
+              return GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, habitCloseLookRoute, arguments: habit.hid);
+                },
+                child: HabitCard(habit: habit)
+              );
+            }
+          }
+        );
+      }
     );
   }
 }
@@ -182,7 +188,7 @@ class HabitCard extends StatefulWidget {
     required this.habit,
   });
 
-  final Habit habit;
+  final LocalHabit habit;
 
   @override
   State<HabitCard> createState() => _HabitCardState();
@@ -193,10 +199,6 @@ class _HabitCardState extends State<HabitCard> {
   @override
   void initState() {
     super.initState();
-  }
-
-  void handleCheck(BuildContext context) {
-    Provider.of<FlamesProvider>(context, listen: false).updateHabitAndFlames(widget.habit);
   }
 
   @override
@@ -256,7 +258,7 @@ class _HabitCardState extends State<HabitCard> {
                     visible: !widget.habit.checked,
                     child: FilledButton(
                       onPressed:() {
-                        handleCheck(context);
+                        FirestoreService.habitToggleCheck(widget.habit.hid);
                       },
                       style: FilledButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,

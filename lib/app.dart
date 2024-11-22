@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:habit_mvp/api/authentication_service.dart';
+import 'package:habit_mvp/default_widgets.dart';
 import 'package:habit_mvp/flames_provider.dart';
 import 'package:habit_mvp/pages/language_settings_page.dart';
 import 'package:habit_mvp/pages/login_page.dart';
@@ -65,8 +66,8 @@ class HabitApp extends StatelessWidget {
                   
                   homeRoute: (context) => HomePage(),
                   habitCloseLookRoute: (context) {
-                    final habit = ModalRoute.of(context)!.settings.arguments as Habit;
-                    return HabitCloseLookPage(habit: habit);
+                    final String hid = ModalRoute.of(context)!.settings.arguments as String;
+                    return HabitCloseLookPage(hid: hid);
                   },
                   habitEditRoute: (context) {
                     final habit = ModalRoute.of(context)!.settings.arguments as Habit;
