@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:objectbox/objectbox.dart';
-import 'dart:developer';
 
 @Entity()
 class UserSettings {

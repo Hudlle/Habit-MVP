@@ -70,6 +70,7 @@ class FirestoreService {
           return data;
         }
       );
+      DocumentReference flamesRef = usersRef.doc(user.uid);
 
       bool checkedStatus = habitData["checked"];
       int streakCount = habitData["streak"];
@@ -77,10 +78,12 @@ class FirestoreService {
       if (!checkedStatus) {
         streakCount ++;
         await habitRef.update({"checked" : !checkedStatus, "streak" : streakCount});
+        await flamesRef.update({"flames" : FieldValue.increment(1)});
         log("Updated ++");
       } else {
         streakCount --;
         await habitRef.update({"checked" : !checkedStatus, "streak" : streakCount});
+        await flamesRef.update({"flames" : FieldValue.increment(-1)});
         log("Updated --");
       }
       log("Habit hid: $hid checked status updated to ${!checkedStatus}");

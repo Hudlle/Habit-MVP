@@ -2,14 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:habit_mvp/api/authentication_service.dart';
-import 'package:habit_mvp/default_widgets.dart';
 import 'package:habit_mvp/pages/language_settings_page.dart';
 import 'package:habit_mvp/pages/login_page.dart';
 import 'package:habit_mvp/pages/signup_page.dart';
 import 'package:provider/provider.dart';
 import 'ui_util/color_themes.dart';
 import 'ui_util/text_theme.dart';
-import 'model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'ui_util/theme_locale_provider.dart';
 import 'default_data.dart';

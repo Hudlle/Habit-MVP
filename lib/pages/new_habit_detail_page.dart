@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:habit_mvp/api/firestore_service.dart';
-
-import '../main.dart';
-import '../default_data.dart';
-import '../default_widgets.dart';
+import 'package:habit_mvp/default_data.dart';
+import 'package:habit_mvp/default_widgets.dart';
 
 class NewHabitDetailPage extends StatelessWidget {
   const NewHabitDetailPage({super.key});
